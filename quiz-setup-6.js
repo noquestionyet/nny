@@ -336,6 +336,49 @@ function activateScript(activeStatus) {
                 el.style.display = 'none';
             }
         })
+        //if we want the next button
+        const nextButton = document.querySelectorAll('[nny-quiz="next"]');
+        if (nextButton) {
+            nextButton.forEach((el) => {
+                el.addEventListener('click', () => {
+                    nextQuestion(totalQuestions);
+                });
+            });
+        } else {
+            document.querySelectorAll('.w-radio').forEach((el) => {
+                el.addEventListener('click', () => {
+                    nextQuestion(totalQuestions);
+                });
+            });
+        }
+    
+        //if we want the previous button
+        const previousButton = document.querySelectorAll('[nny-quiz="previous"]');
+        if (previousButton) {
+            previousButton[0].style.display = 'none';
+            previousButton.forEach((el) => {
+                el.addEventListener('click', () => {
+                    previousQuestion(totalQuestions);
+                });
+            });
+        }
+    
+        //hide the points
+        const points = document.querySelectorAll('[nny-quiz="points"]');
+        if (points) {
+            Array.from(points).forEach((el) => {
+                el.style.display = 'none';
+            });
+        };
+    
+        //show total questions
+        const totalQuestions = list.children.length;
+        const totalQuestionsText = document.querySelectorAll('[nny-quiz="total-questions"]');
+        if (totalQuestionsText) {
+            Array.from(totalQuestionsText).forEach((el) => {
+                el.innerHTML = totalQuestions;
+            })
+        }
     
     } else {}
 }
@@ -387,49 +430,4 @@ onload = (event) => {
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     getMemberStatus(currentUserId);
     turnOffNativeForm();
-
-
-    //if we want the next button
-    const nextButton = document.querySelectorAll('[nny-quiz="next"]');
-    if (nextButton) {
-        nextButton.forEach((el) => {
-            el.addEventListener('click', () => {
-                nextQuestion(totalQuestions);
-            });
-        });
-    } else {
-        document.querySelectorAll('.w-radio').forEach((el) => {
-            el.addEventListener('click', () => {
-                nextQuestion(totalQuestions);
-            });
-        });
-    }
-
-    //if we want the previous button
-    const previousButton = document.querySelectorAll('[nny-quiz="previous"]');
-    if (previousButton) {
-        previousButton[0].style.display = 'none';
-        previousButton.forEach((el) => {
-            el.addEventListener('click', () => {
-                previousQuestion(totalQuestions);
-            });
-        });
-    }
-
-    //hide the points
-    const points = document.querySelectorAll('[nny-quiz="points"]');
-    if (points) {
-        Array.from(points).forEach((el) => {
-            el.style.display = 'none';
-        });
-    };
-
-    //show total questions
-    const totalQuestions = list.children.length;
-    const totalQuestionsText = document.querySelectorAll('[nny-quiz="total-questions"]');
-    if (totalQuestionsText) {
-        Array.from(totalQuestionsText).forEach((el) => {
-            el.innerHTML = totalQuestions;
-        })
-    }
 }
