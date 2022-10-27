@@ -314,7 +314,6 @@ function showLeaderboard() {
 function activateScript(activeStatus) {
 
     if (activeStatus == true) {
-        console.log(scriptWorks);
         //setting main variables and create first question
         const list = document.querySelector('[nny-quiz="list"]');
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
