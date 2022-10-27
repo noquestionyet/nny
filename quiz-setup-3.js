@@ -352,7 +352,7 @@ function activateScript(activeStatus) {
 //checking the subscription status in the db
 function getMemberStatus(currentUserId) {
     const url =
-        `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member/${currentMemberId}`;
+        `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member/${currentUserId}`;
     fetch(url, {
             method: 'GET',
             headers: {
