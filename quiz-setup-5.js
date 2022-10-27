@@ -336,14 +336,7 @@ function activateScript(activeStatus) {
                 el.style.display = 'none';
             }
         })
-        //show total questions
-        const totalQuestions = list.children.length;
-        const totalQuestionsText = document.querySelectorAll('[nny-quiz="total-questions"]');
-        if (totalQuestionsText) {
-            Array.from(totalQuestionsText).forEach((el) => {
-                el.innerHTML = totalQuestions;
-            })
-        }
+    
     } else {}
 }
 
@@ -430,4 +423,13 @@ onload = (event) => {
             el.style.display = 'none';
         });
     };
+
+    //show total questions
+    const totalQuestions = list.children.length;
+    const totalQuestionsText = document.querySelectorAll('[nny-quiz="total-questions"]');
+    if (totalQuestionsText) {
+        Array.from(totalQuestionsText).forEach((el) => {
+            el.innerHTML = totalQuestions;
+        })
+    }
 }
