@@ -314,6 +314,7 @@ function showLeaderboard() {
 function activateScript(activeStatus) {
 
     if (activeStatus == true) {
+        console.log('current user is active');
         //setting main variables and create first question
         const list = document.querySelector('[nny-quiz="list"]');
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
@@ -380,7 +381,7 @@ function activateScript(activeStatus) {
             })
         }
     
-    } else {}
+    } else {console.log('current user is not active');}
 }
 
 
