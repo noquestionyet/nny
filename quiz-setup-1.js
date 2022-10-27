@@ -1,4 +1,46 @@
+/* attributes are used
+-- required
+1. nny-quiz="list" - list of questions
+2. nny-quiz="finish" - final screen
+3. nny-quiz="form" - the actual form
+
+--required for the db
+1. nny-quiz="user-name" - name to db
+2. nny-quiz="user-email" - email to db
+3. nny-quiz="sumbit" - submit btn
+
+
+-- optional
+1. nny-quiz="next" - next button
+2. nny-quiz="total-questions" - total amount of questions
+3. nny-quiz="current-question" - current question
+4. nny-quiz="progress-bar" - progress bar
+5. nny-quiz="points" - points for each question
+6. nny-quiz="form-error" - display error
+7. nny-quiz="right-answers" - total amount of right answers
+8. nny-quiz="result" - main div with the result collection
+9. nny-quiz="result-item" - collection item with the result
+10. nny-quiz="result-points" - number of final points
+11. nny-quiz="result-total-right-answers" - number of final right answers
+
+--leaderboard
+
+1. nny-quiz="leaderboard" - container for the leaderboard
+2. nny-quiz="leaderboard-item" - container for the leaderboard item
+3. nny-quiz="leaderboard-name" - name from the db
+4. nny-quiz="leaderboard-score" - final points from the db
+5. nny-quiz="current-participant" - current user item
+6. nny-quiz="leaderboard-position" - position number
+
+
+
+
+
+
+*/
+
 //turn off native webflow forms
+function turnOffNativeForm(){
 const quizForm = document.querySelector('[nny-quiz="form"]');
 quizForm.addEventListener("submit", handlerCallback, true);
 
@@ -6,7 +48,7 @@ function handlerCallback(event) {
     event.preventDefault();
     event.stopPropagation();
 }
-
+}
 //update progress
 let gameOver = false;
 //show current question number
@@ -390,4 +432,5 @@ function getMemberStatus(currentUserId) {
 onload = (event) => {
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     getMemberStatus(currentUserId);
+    turnOffNativeForm;
 }
