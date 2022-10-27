@@ -40,14 +40,14 @@
 */
 
 //turn off native webflow forms
-function turnOffNativeForm(){
-const quizForm = document.querySelector('[nny-quiz="form"]');
-quizForm.addEventListener("submit", handlerCallback, true);
+function turnOffNativeForm() {
+    const quizForm = document.querySelector('[nny-quiz="form"]');
+    quizForm.addEventListener("submit", handlerCallback, true);
 
-function handlerCallback(event) {
-    event.preventDefault();
-    event.stopPropagation();
-}
+    function handlerCallback(event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
 }
 //update progress
 let gameOver = false;
@@ -268,7 +268,7 @@ function showLeaderboard() {
         .then((data) => {
             const leaderboardParent = document.querySelector('[nny-quiz="leaderboard"]');
             const leaderboardClass = leaderboardParent.className;
-            const newParent  = document.createElement('div');
+            const newParent = document.createElement('div');
             newParent.className = leaderboardClass;
             document.body.appendChild(newParent);
             const leaderboardPositionTemplate = document.querySelector('[nny-quiz="leaderboard-position"]').outerHTML;
@@ -277,35 +277,33 @@ function showLeaderboard() {
             const leaderboardItemTemplate = document.querySelector('[nny-quiz="leaderboard-item"]').outerHTML;
             let loopTime;
             if (data.length < 11) {
-              loopTime = data.length;
-            }
-            else {
-              loopTime = 11;
+                loopTime = data.length;
+            } else {
+                loopTime = 11;
             }
             for (let i = 1; i < loopTime; i++) {
-              let leaderboardPosition = document.querySelector('[nny-quiz="leaderboard-position"]');
-              if (i < 10){
-                leaderboardPosition.innerHTML = `0${i}`;
-              }
-              else {
-                leaderboardPosition.innerHTML = i;
-              }
-              let leaderboardPositionDiv = leaderboardPosition.outerHTML;
-              
-              let leaderboardName = document.querySelector('[nny-quiz="leaderboard-name"]');
-              leaderboardName.classList.add('clone');
-              leaderboardName.innerHTML = data[i].Name;
-              let leaderboardNameDiv = leaderboardName.outerHTML;
+                let leaderboardPosition = document.querySelector('[nny-quiz="leaderboard-position"]');
+                if (i < 10) {
+                    leaderboardPosition.innerHTML = `0${i}`;
+                } else {
+                    leaderboardPosition.innerHTML = i;
+                }
+                let leaderboardPositionDiv = leaderboardPosition.outerHTML;
 
-              let leaderboardScore = document.querySelector('[nny-quiz="leaderboard-score"]');
-              leaderboardScore.innerHTML = data[i].Total_points;
-              let leaderboardScoreDiv = leaderboardScore.outerHTML;
-              
-              let leaderboardItem = leaderboardItemTemplate.replace(leaderboardPositionTemplate, leaderboardPositionDiv).replace(leaderboardNameTemplate, leaderboardNameDiv).replace(leaderboardScoreTemplate, leaderboardScoreDiv);;
-              newParent.innerHTML += leaderboardItem;
+                let leaderboardName = document.querySelector('[nny-quiz="leaderboard-name"]');
+                leaderboardName.classList.add('clone');
+                leaderboardName.innerHTML = data[i].Name;
+                let leaderboardNameDiv = leaderboardName.outerHTML;
+
+                let leaderboardScore = document.querySelector('[nny-quiz="leaderboard-score"]');
+                leaderboardScore.innerHTML = data[i].Total_points;
+                let leaderboardScoreDiv = leaderboardScore.outerHTML;
+
+                let leaderboardItem = leaderboardItemTemplate.replace(leaderboardPositionTemplate, leaderboardPositionDiv).replace(leaderboardNameTemplate, leaderboardNameDiv).replace(leaderboardScoreTemplate, leaderboardScoreDiv);;
+                newParent.innerHTML += leaderboardItem;
             };
             leaderboardParent.remove();
-        
+
         })
         .catch((error) => {
             showError(error.message);
@@ -349,42 +347,6 @@ function activateScript(activeStatus) {
         }
     } else {}
 }
-
-
-//if we want the next button
-const nextButton = document.querySelectorAll('[nny-quiz="next"]');
-if (nextButton) {
-    nextButton.forEach((el) => {
-        el.addEventListener('click', () => {
-            nextQuestion(totalQuestions);
-        });
-    });
-} else {
-    document.querySelectorAll('.w-radio').forEach((el) => {
-        el.addEventListener('click', () => {
-            nextQuestion(totalQuestions);
-        });
-    });
-}
-
-//if we want the previous button
-const previousButton = document.querySelectorAll('[nny-quiz="previous"]');
-if (previousButton) {
-    previousButton[0].style.display = 'none';
-    previousButton.forEach((el) => {
-        el.addEventListener('click', () => {
-            previousQuestion(totalQuestions);
-        });
-    });
-}
-
-//hide the points
-const points = document.querySelectorAll('[nny-quiz="points"]');
-if (points) {
-    Array.from(points).forEach((el) => {
-        el.style.display = 'none';
-    });
-};
 
 
 //checking the subscription status in the db
@@ -432,5 +394,41 @@ function getMemberStatus(currentUserId) {
 onload = (event) => {
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     getMemberStatus(currentUserId);
-    turnOffNativeForm;
+    turnOffNativeForm();
+
+
+    //if we want the next button
+    const nextButton = document.querySelectorAll('[nny-quiz="next"]');
+    if (nextButton) {
+        nextButton.forEach((el) => {
+            el.addEventListener('click', () => {
+                nextQuestion(totalQuestions);
+            });
+        });
+    } else {
+        document.querySelectorAll('.w-radio').forEach((el) => {
+            el.addEventListener('click', () => {
+                nextQuestion(totalQuestions);
+            });
+        });
+    }
+
+    //if we want the previous button
+    const previousButton = document.querySelectorAll('[nny-quiz="previous"]');
+    if (previousButton) {
+        previousButton[0].style.display = 'none';
+        previousButton.forEach((el) => {
+            el.addEventListener('click', () => {
+                previousQuestion(totalQuestions);
+            });
+        });
+    }
+
+    //hide the points
+    const points = document.querySelectorAll('[nny-quiz="points"]');
+    if (points) {
+        Array.from(points).forEach((el) => {
+            el.style.display = 'none';
+        });
+    };
 }
