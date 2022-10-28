@@ -32,6 +32,11 @@
 5. nny-quiz="current-participant" - current user item
 6. nny-quiz="leaderboard-position" - position number
 
+--splash
+1. nny-quiz="splash" - container for the splash
+2. nny-quiz="splash-start" - start button that lead to the quiz
+
+
 
 
 
@@ -49,6 +54,15 @@ function turnOffNativeForm() {
         event.stopPropagation();
     }
 }
+
+//hide splash screen
+function hideSplash(){
+    const quizForm = document.querySelector('[nny-quiz="form"]');
+    const splashScreen = document.querySelector('[nny-quiz="splash"]');
+    splashScreen.style.display = 'none';
+    quizForm.style.display = 'block';
+}
+
 //update progress
 let gameOver = false;
 //show current question number
@@ -215,7 +229,7 @@ function sendPoints() {
     const total_points_final = total_points_number.toString();
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
-    //const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
+    const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
 
     const final_data = {
         total_points: total_points_final,
@@ -253,8 +267,9 @@ function sendPoints() {
 
 //show the leaderboard
 function showLeaderboard() {
+    const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     const url =
-        'https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/participants';
+        `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member_current/${currentUserId}`;
     fetch(url, {
             method: 'GET',
         })
@@ -384,6 +399,17 @@ function activateScript(activeStatus) {
 
         if (document.querySelector('[nny-quiz="submit"]')) {
             document.querySelector('[nny-quiz="submit"]').addEventListener('click', sendPoints);
+        }
+
+        //if splash screen exists
+        const quizForm = document.querySelector('[nny-quiz="form"]');
+        const splashScreen = document.querySelector('[nny-quiz="splash"]');
+        if (splashScreen){
+            quizForm.style.display = none;
+        }
+
+        if (document.querySelector('[nny-quiz="splash-start"]')) {
+            document.querySelector('[nny-quiz="splash-start"]').addEventListener('click', hideSplash);
         }
     
     } else { console.log('the user is not active')
