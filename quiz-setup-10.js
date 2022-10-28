@@ -204,6 +204,7 @@ function showResult() {
 
 //sending the user results to the db
 function sendPoints() {
+    console.log('sendPoint is working')
     const allAnswers = Array.from(document.querySelectorAll('.nny-points'));
     let total_points = [];
     for (i = 0; i < allAnswers.length; i++) {
