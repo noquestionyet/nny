@@ -215,7 +215,7 @@ function sendPoints() {
     const total_points_final = total_points_number.toString();
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
-    const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
+    //const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
 
     const final_data = {
         total_points: total_points_final,
@@ -250,9 +250,6 @@ function sendPoints() {
             showResult();
         })
 };
-if (document.querySelector('[nny-quiz="submit"]')) {
-    document.querySelector('[nny-quiz="submit"]').addEventListener('click', sendPoints);
-}
 
 //show the leaderboard
 function showLeaderboard() {
@@ -383,6 +380,10 @@ function activateScript(activeStatus) {
             Array.from(totalQuestionsText).forEach((el) => {
                 el.innerHTML = totalQuestions;
             })
+        }
+
+        if (document.querySelector('[nny-quiz="submit"]')) {
+            document.querySelector('[nny-quiz="submit"]').addEventListener('click', sendPoints);
         }
     
     } else { console.log('the user is not active')
