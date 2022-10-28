@@ -215,9 +215,10 @@ function sendPoints() {
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
     const final_data = {
-        Total_points: total_points_final,
-        Name: user_name,
-        Email: user_email
+        total_points: total_points_final,
+        name: user_name,
+        email: user_email,
+        memberstack_id: currentUserId
     }
 
     console.log(final_data)
@@ -314,7 +315,6 @@ function showLeaderboard() {
 function activateScript(activeStatus) {
 
     if (activeStatus == true) {
-        console.log('current user is active');
         //setting main variables and create first question
         const list = document.querySelector('[nny-quiz="list"]');
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
@@ -381,7 +381,7 @@ function activateScript(activeStatus) {
             })
         }
     
-    } else {console.log('current user is not active');}
+    } else {}
 }
 
 
