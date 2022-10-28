@@ -215,6 +215,8 @@ function sendPoints() {
     const total_points_final = total_points_number.toString();
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
+    const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
+
     const final_data = {
         total_points: total_points_final,
         name: user_name,
