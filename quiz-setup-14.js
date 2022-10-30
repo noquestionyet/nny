@@ -60,7 +60,7 @@ function hideSplash(){
     const quizForm = document.querySelector('[nny-quiz="form"]');
     const splashScreen = document.querySelector('[nny-quiz="splash"]');
     splashScreen.style.display = 'none';
-    quizForm.style.display = 'block';
+    quizForm.style.display = 'flex';
 }
 
 //update progress
