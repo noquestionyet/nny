@@ -405,7 +405,7 @@ function activateScript(activeStatus) {
         const quizForm = document.querySelector('[nny-quiz="form"]');
         const splashScreen = document.querySelector('[nny-quiz="splash"]');
         if (splashScreen){
-            quizForm.style.display = none;
+            quizForm.style.display = 'none';
         }
 
         if (document.querySelector('[nny-quiz="splash-start"]')) {
