@@ -260,6 +260,7 @@ function sendPoints() {
             });
         })
         .catch((error) => {
+            console.log(showError);
             showError(error.message);
         })
         .finally(() => {
@@ -324,6 +325,7 @@ function showLeaderboard() {
 
         })
         .catch((error) => {
+            console.log(error);
             showError(error.message);
         })
 };
@@ -456,6 +458,7 @@ function getMemberStatus(currentUserId) {
 
         })
         .catch((error) => {
+            console.log(error);
             showError(error.message);
         })
 }
