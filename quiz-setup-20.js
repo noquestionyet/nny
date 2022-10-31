@@ -375,7 +375,7 @@ function activateScript(activeStatus) {
 
         //if we want the previous button
         const previousButton = document.querySelectorAll('[nny-quiz="previous"]');
-        if (previousButton.lenght != 0) {
+        if (previousButton.length != 0) {
             previousButton[0].style.display = 'none';
             previousButton.forEach((el) => {
                 el.addEventListener('click', () => {
