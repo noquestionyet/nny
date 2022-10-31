@@ -359,7 +359,7 @@ function activateScript(activeStatus) {
         })
         //if we want the next button
         const nextButton = document.querySelectorAll('[nny-quiz="next"]');
-        if (nextButton) {
+        if (nextButton.length != 0) {
             nextButton.forEach((el) => {
                 el.addEventListener('click', () => {
                     nextQuestion(totalQuestions);
@@ -375,10 +375,8 @@ function activateScript(activeStatus) {
 
         //if we want the previous button
         const previousButton = document.querySelectorAll('[nny-quiz="previous"]');
-        if (previousButton) {
-            if (previousButton[0]) {
-                previousButton[0].style.display = 'none';
-            }
+        if (previousButton.lenght != 0) {
+            previousButton[0].style.display = 'none';
             previousButton.forEach((el) => {
                 el.addEventListener('click', () => {
                     previousQuestion(totalQuestions);
