@@ -57,7 +57,7 @@ function turnOffNativeForm() {
 }
 
 //hide splash screen
-function hideSplash(){
+function hideSplash() {
     const quizForm = document.querySelector('[nny-quiz="form"]');
     const splashScreen = document.querySelector('[nny-quiz="splash"]');
     splashScreen.style.display = 'none';
@@ -372,18 +372,20 @@ function activateScript(activeStatus) {
                 });
             });
         }
-    
+
         //if we want the previous button
         const previousButton = document.querySelectorAll('[nny-quiz="previous"]');
         if (previousButton) {
-            previousButton[0].style.display = 'none';
+            if (previousButton[0]) {
+                previousButton[0].style.display = 'none';
+            }
             previousButton.forEach((el) => {
                 el.addEventListener('click', () => {
                     previousQuestion(totalQuestions);
                 });
             });
         }
-    
+
         //hide the points
         const points = document.querySelectorAll('[nny-quiz="points"]');
         if (points) {
@@ -391,7 +393,7 @@ function activateScript(activeStatus) {
                 el.style.display = 'none';
             });
         };
-    
+
         //show total questions
         const totalQuestions = list.children.length;
         const totalQuestionsText = document.querySelectorAll('[nny-quiz="total-questions"]');
@@ -408,16 +410,17 @@ function activateScript(activeStatus) {
         //if splash screen exists
         const quizForm = document.querySelector('[nny-quiz="form"]');
         const splashScreen = document.querySelector('[nny-quiz="splash"]');
-        if (splashScreen){
+        if (splashScreen) {
             quizForm.style.display = 'none';
         }
 
         if (document.querySelector('[nny-quiz="splash-start"]')) {
             document.querySelector('[nny-quiz="splash-start"]').addEventListener('click', hideSplash);
         }
-    
-    } else { console.log('the user is not active')
-}
+
+    } else {
+        console.log('the user is not active')
+    }
 }
 
 
