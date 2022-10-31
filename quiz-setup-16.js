@@ -16,12 +16,13 @@
 3. nny-quiz="current-question" - current question
 4. nny-quiz="progress-bar" - progress bar
 5. nny-quiz="points" - points for each question
-6. nny-quiz="form-error" - display error
-7. nny-quiz="right-answers" - total amount of right answers
-8. nny-quiz="result" - main div with the result collection
-9. nny-quiz="result-item" - collection item with the result
-10. nny-quiz="result-points" - number of final points
-11. nny-quiz="result-total-right-answers" - number of final right answers
+6. nny-quiz="state" - true/false state for each answer
+7. nny-quiz="form-error" - display error
+8. nny-quiz="right-answers" - total amount of right answers
+9. nny-quiz="result" - main div with the result collection
+10. nny-quiz="result-item" - collection item with the result
+11. nny-quiz="result-points" - number of final points
+12. nny-quiz="result-total-right-answers" - number of final right answers
 
 --leaderboard
 
@@ -33,7 +34,7 @@
 6. nny-quiz="leaderboard-position" - position number
 
 --splash
-1. nny-quiz="splash" - container for the splash
+1. nny-quiz="splash" - container for the splash, don't put it inside the form!
 2. nny-quiz="splash-start" - start button that lead to the quiz
 
 
@@ -162,7 +163,7 @@ document.querySelectorAll('input').forEach((el) => {
 //show error
 function showError(value) {
     if (value) {
-        const defaultError = document.querySelector('.w-form-fail');
+        /*const defaultError = document.querySelector('.w-form-fail');
         const customError = document.querySelector('[nny-quiz="form-error"]');
         if (defaultError) {
             defaultError.style.display = 'flex';
@@ -170,7 +171,8 @@ function showError(value) {
         } else {
             customError.style.display = 'flex';
             customError.innerHTML = value;
-        }
+        }*/
+        console.log(value)
 
     }
 }
