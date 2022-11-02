@@ -62,6 +62,7 @@ function hideSplash() {
     const splashScreen = document.querySelector('[nny-quiz="splash"]');
     splashScreen.style.display = 'none';
     quizForm.style.display = 'flex';
+    updateProgressBar(20);
 }
 
 //update progress
@@ -114,7 +115,7 @@ function nextQuestion(totalQuestions) {
         currentQuestion.style.display = 'none';
     }
     const totalAnsweredQuestions = document.querySelectorAll('.answered');
-    const progress = 100 * (totalAnsweredQuestions.length / totalQuestions);
+    const progress = 100 * ((totalAnsweredQuestions.length + 1) / totalQuestions);
     if (progress == 100) {
         gameOver = true;
     } else {
