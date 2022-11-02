@@ -174,6 +174,8 @@ document.querySelectorAll('input').forEach((el) => {
                     document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
                 }
             }
+            console.log(total_points);
+    console.log(allUserAnswers);
         }
     });
 });
@@ -232,6 +234,8 @@ function showResult() {
 
 //sending the user results to the db
 function sendPoints() {
+    console.log(total_points);
+    console.log(allUserAnswers);
     console.log('sendPoint is working')
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
