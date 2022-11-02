@@ -241,7 +241,7 @@ function sendPoints() {
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
 
-    const final_data = {
+   /* const final_data = {
         total_points: total_points,
         name: user_name,
         email: user_email,
@@ -274,7 +274,7 @@ function sendPoints() {
         })
         .finally(() => {
             showResult();
-        })
+        })*/
 };
 
 //show the leaderboard
