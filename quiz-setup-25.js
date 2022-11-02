@@ -242,8 +242,12 @@ function showResult() {
 function sendPoints() {
     console.log('sendPoint is working')
     const allAnswers = Array.from(document.querySelectorAll('.nny-points'));
-    const allTextAnswers = Array.from(document.querySelectorAll('.users_answer'));
-
+    const allTextAnswers = document.querySelectorAll('.users_answer');
+    let all_answers = [];
+    for (i = 0; i < allTextAnswers.length; i++) {
+      let currentTextAnswer = allTextAnswers[i].value;
+      all_answers.push(currentTextAnswer);
+    }
     let total_points = [];
     for (i = 0; i < allAnswers.length; i++) {
         let currentAnswer = Number(allAnswers[i].value);
@@ -259,7 +263,7 @@ function sendPoints() {
         total_points: total_points_final,
         name: user_name,
         email: user_email,
-        answers: allTextAnswers,
+        answers: all_answers,
         memberstack_id: currentUserId
     }
 
@@ -391,7 +395,11 @@ function activateScript(activeStatus) {
         } else {
             document.querySelectorAll('input[type="radio"]').forEach((el) => {
                 el.addEventListener('click', () => {
-                    nextQuestion(totalQuestions);
+                    setTimeout (
+                        function(){
+                            nextQuestion(totalQuestions);
+                        }, 100
+                    )
                 });
             });
         }
