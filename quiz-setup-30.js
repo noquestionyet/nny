@@ -62,13 +62,14 @@ function hideSplash() {
     const splashScreen = document.querySelector('[nny-quiz="splash"]');
     splashScreen.style.display = 'none';
     quizForm.style.display = 'flex';
-    updateProgressBar(20);
 }
 
 //update progress
 let gameOver = false;
 //show current question number
 function currentQuestionNumber(totalAnsweredQuestions, totalQuestions) {
+    console.log(`total points in current question numbera ${total_points}`);
+
     const totalAnsweredQuestionsText = document.querySelectorAll('[nny-quiz="current-question"]');
     if (totalAnsweredQuestionsText) {
         if (totalAnsweredQuestions.length != totalQuestions) {
@@ -85,6 +86,8 @@ function currentQuestionNumber(totalAnsweredQuestions, totalQuestions) {
 }
 //show progress bar
 function updateProgressBar(progress) {
+    console.log(`total points update progress ${total_points}`);
+
     const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
     if (progressBar) {
         progressBar.style.width = `${progress}%`;
@@ -95,6 +98,8 @@ function updateProgressBar(progress) {
 function nextQuestion(totalQuestions) {
     //delete this
     console.log('next question func fires')
+    console.log(`total points in next question ${total_points}`);
+
     const currentQuestion = document.querySelector('.current-question');
     if (gameOver == false) {
         const nextQuestion = currentQuestion.nextElementSibling;
@@ -175,7 +180,7 @@ document.querySelectorAll('input').forEach((el) => {
                 }
             }
             console.log(total_points);
-    console.log(allUserAnswers);
+            console.log(allUserAnswers);
         }
     });
 });
@@ -366,6 +371,8 @@ function activateScript(activeStatus) {
                 el.style.display = 'none';
             }
         })
+        updateProgressBar(20);
+
         //if we want the next button
         const nextButton = document.querySelectorAll('[nny-quiz="next"]');
         if (nextButton.length != 0) {
