@@ -149,9 +149,26 @@ document.querySelectorAll('input').forEach((el) => {
     el.addEventListener('click', function () {
         if (el.type == "radio") {
             const currentAnswerPoints = el.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
+            const currentAnswerLabel = el.parentElement.querySelector('.w-form-label').innerHTML;
+            const currentAnswerState = el.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
+            const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
             const currentQuestion = document.querySelector('.current-question');
             const currentAnswer = currentQuestion.querySelector('.nny-points');
-            currentAnswer.value = currentAnswerPoints;
+            const currentUserAnswer = currentQuestion.querySelector('.users_answer');
+
+            currentUserAnswer.value = currentAnswerLabel;
+
+            if (currentAnswerPoints){
+              currentAnswer.value = currentAnswerPoints;
+            }
+            else {
+                if (currentAnswerState == 'true') {
+                currentAnswer.value = answerPoints;
+                }
+                else {
+                    currentAnswer.value = 0;
+                }
+            }
             if (currentAnswer.value != 0) {
                 rightAnswersAmount = rightAnswersAmount + 1;
                 if (document.querySelector('[nny-quiz="right-answers"]')) {
@@ -225,6 +242,8 @@ function showResult() {
 function sendPoints() {
     console.log('sendPoint is working')
     const allAnswers = Array.from(document.querySelectorAll('.nny-points'));
+    const allTextAnswers = Array.from(document.querySelectorAll('.users_answer'));
+
     let total_points = [];
     for (i = 0; i < allAnswers.length; i++) {
         let currentAnswer = Number(allAnswers[i].value);
@@ -240,6 +259,7 @@ function sendPoints() {
         total_points: total_points_final,
         name: user_name,
         email: user_email,
+        answers: allTextAnswers,
         memberstack_id: currentUserId
     }
 
