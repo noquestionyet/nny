@@ -146,6 +146,7 @@ function previousQuestion(totalQuestions) {
 //copy the current answer points and put in the hidden input
 let rightAnswersAmount = 0;
 let allUserAnswers = [];
+let total_points = 0;
 document.querySelectorAll('input').forEach((el) => {
     el.addEventListener('click', function () {
         if (el.type == "radio") {
@@ -154,21 +155,20 @@ document.querySelectorAll('input').forEach((el) => {
             const currentAnswerState = el.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
             const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
             const currentQuestion = document.querySelector('.current-question');
-            const currentAnswer = currentQuestion.querySelector('.nny-points');
             allUserAnswers.push(currentAnswerLabel);
             console.log(allUserAnswers);
             if (currentAnswerPoints){
-              currentAnswer.value = currentAnswerPoints;
+              total_points += Number(currentAnswerPoints);
             }
             else {
                 if (currentAnswerState == 'true') {
-                currentAnswer.value = answerPoints;
+                    total_points += Number(answerPoints);
                 }
                 else {
-                    currentAnswer.value = 0;
+                    total_points += 0;
                 }
             }
-            if (currentAnswer.value != 0) {
+            if (currentAnswerState == 'true') {
                 rightAnswersAmount = rightAnswersAmount + 1;
                 if (document.querySelector('[nny-quiz="right-answers"]')) {
                     document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
@@ -198,13 +198,6 @@ function showError(value) {
 
 //show result in the amount of right answers
 function showResult() {
-    const allAnswers = Array.from(document.querySelectorAll('.nny-points'));
-    let total_points = [];
-    for (i = 0; i < allAnswers.length; i++) {
-        let currentAnswer = Number(allAnswers[i].value);
-        total_points.push(currentAnswer);
-    }
-    const total_points_number = total_points.reduce((a, b) => a + b, 0);
     const resultScreen = document.querySelector('[nny-quiz="result"]');
     if (resultScreen) {
         document.querySelector('[nny-quiz="finish"]').style.display = 'none';
@@ -214,7 +207,7 @@ function showResult() {
     const possiblePoints = document.querySelectorAll('[nny-quiz="result-points"]');
     if (possiblePoints) {
         for (i = 0; i < possiblePoints.length; i++) {
-            if (Number(possiblePoints[i].innerHTML) == total_points_number) {
+            if (Number(possiblePoints[i].innerHTML) == total_points) {
                 const resultItem = $(possiblePoints[i]).closest(document.querySelector('[nny-quiz="result-item"]'));
                 resultItem.css({
                     "display": "block"
@@ -240,20 +233,12 @@ function showResult() {
 //sending the user results to the db
 function sendPoints() {
     console.log('sendPoint is working')
-    const allAnswers = Array.from(document.querySelectorAll('.nny-points'));
-    let total_points = [];
-    for (i = 0; i < allAnswers.length; i++) {
-        let currentAnswer = Number(allAnswers[i].value);
-        total_points.push(currentAnswer);
-    }
-    const total_points_number = total_points.reduce((a, b) => a + b, 0);
-    const total_points_final = total_points_number.toString();
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
 
     const final_data = {
-        total_points: total_points_final,
+        total_points: total_points,
         name: user_name,
         email: user_email,
         answers: allUserAnswers,
