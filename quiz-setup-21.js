@@ -366,7 +366,7 @@ function activateScript(activeStatus) {
                 });
             });
         } else {
-            document.querySelectorAll('.w-radio').forEach((el) => {
+            document.querySelectorAll('input[type="radio"]').forEach((el) => {
                 el.addEventListener('click', () => {
                     nextQuestion(totalQuestions);
                 });
