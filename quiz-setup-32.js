@@ -56,6 +56,43 @@ function turnOffNativeForm() {
     }
 }
 
+//copy the current answer points and put in the hidden input
+let rightAnswersAmount = 0;
+let allUserAnswers = [];
+let total_points = 0;
+document.querySelectorAll('input').forEach((el) => {
+    el.addEventListener('click', function () {
+        if (el.type == "radio") {
+            const currentAnswerPoints = el.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
+            const currentAnswerLabel = el.parentElement.querySelector('.w-form-label').innerHTML;
+            const currentAnswerState = el.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
+            const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
+            const currentQuestion = document.querySelector('.current-question');
+            allUserAnswers.push(currentAnswerLabel);
+            console.log(allUserAnswers);
+            if (currentAnswerPoints){
+              total_points += Number(currentAnswerPoints);
+            }
+            else {
+                if (currentAnswerState == 'true') {
+                    total_points += Number(answerPoints);
+                }
+                else {
+                    total_points += 0;
+                }
+            }
+            if (currentAnswerState == 'true') {
+                rightAnswersAmount = rightAnswersAmount + 1;
+                if (document.querySelector('[nny-quiz="right-answers"]')) {
+                    document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
+                }
+            }
+            console.log(total_points);
+            console.log(allUserAnswers);
+        }
+    });
+});
+
 //hide splash screen
 function hideSplash() {
     const quizForm = document.querySelector('[nny-quiz="form"]');
@@ -146,44 +183,6 @@ function previousQuestion(totalQuestions) {
     currentQuestionNumber(totalAnsweredQuestions, totalQuestions);
     updateProgressBar(progress);
 }
-
-
-//copy the current answer points and put in the hidden input
-let rightAnswersAmount = 0;
-let allUserAnswers = [];
-const total_points = document.querySelector('#nny-points');
-document.querySelectorAll('input').forEach((el) => {
-    el.addEventListener('click', function () {
-        if (el.type == "radio") {
-            const currentAnswerPoints = el.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
-            const currentAnswerLabel = el.parentElement.querySelector('.w-form-label').innerHTML;
-            const currentAnswerState = el.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
-            const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
-            const currentQuestion = document.querySelector('.current-question');
-            allUserAnswers.push(currentAnswerLabel);
-            console.log(allUserAnswers);
-            if (currentAnswerPoints){
-              Number(total_points.innerHTML) += Number(currentAnswerPoints);
-            }
-            else {
-                if (currentAnswerState == 'true') {
-                    Number(total_points.innerHTML) += Number(answerPoints);
-                }
-                else {
-                    total_points += 0;
-                }
-            }
-            if (currentAnswerState == 'true') {
-                rightAnswersAmount = rightAnswersAmount + 1;
-                if (document.querySelector('[nny-quiz="right-answers"]')) {
-                    document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
-                }
-            }
-            console.log(total_points);
-            console.log(allUserAnswers);
-        }
-    });
-});
 
 
 //show error
