@@ -145,6 +145,7 @@ function previousQuestion(totalQuestions) {
 
 //copy the current answer points and put in the hidden input
 let rightAnswersAmount = 0;
+let allUserAnswers = [];
 document.querySelectorAll('input').forEach((el) => {
     el.addEventListener('click', function () {
         if (el.type == "radio") {
@@ -154,10 +155,8 @@ document.querySelectorAll('input').forEach((el) => {
             const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
             const currentQuestion = document.querySelector('.current-question');
             const currentAnswer = currentQuestion.querySelector('.nny-points');
-            const currentUserAnswer = currentQuestion.querySelector('.users_answer');
-
-            currentUserAnswer.value = currentAnswerLabel;
-
+            allUserAnswers.push(currentAnswerLabel);
+            console.log(allUserAnswers);
             if (currentAnswerPoints){
               currentAnswer.value = currentAnswerPoints;
             }
@@ -242,12 +241,6 @@ function showResult() {
 function sendPoints() {
     console.log('sendPoint is working')
     const allAnswers = Array.from(document.querySelectorAll('.nny-points'));
-    const allTextAnswers = document.querySelectorAll('.users_answer');
-    let all_answers = [];
-    for (i = 0; i < allTextAnswers.length; i++) {
-      let currentTextAnswer = allTextAnswers[i].value;
-      all_answers.push(currentTextAnswer);
-    }
     let total_points = [];
     for (i = 0; i < allAnswers.length; i++) {
         let currentAnswer = Number(allAnswers[i].value);
@@ -263,7 +256,7 @@ function sendPoints() {
         total_points: total_points_final,
         name: user_name,
         email: user_email,
-        answers: all_answers,
+        answers: allUserAnswers,
         memberstack_id: currentUserId
     }
 
