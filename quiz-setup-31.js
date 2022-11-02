@@ -151,7 +151,7 @@ function previousQuestion(totalQuestions) {
 //copy the current answer points and put in the hidden input
 let rightAnswersAmount = 0;
 let allUserAnswers = [];
-let total_points = 0;
+const total_points = document.querySelector('#nny-points');
 document.querySelectorAll('input').forEach((el) => {
     el.addEventListener('click', function () {
         if (el.type == "radio") {
@@ -163,11 +163,11 @@ document.querySelectorAll('input').forEach((el) => {
             allUserAnswers.push(currentAnswerLabel);
             console.log(allUserAnswers);
             if (currentAnswerPoints){
-              total_points += Number(currentAnswerPoints);
+              Number(total_points.innerHTML) += Number(currentAnswerPoints);
             }
             else {
                 if (currentAnswerState == 'true') {
-                    total_points += Number(answerPoints);
+                    Number(total_points.innerHTML) += Number(answerPoints);
                 }
                 else {
                     total_points += 0;
