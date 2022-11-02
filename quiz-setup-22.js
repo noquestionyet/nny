@@ -92,6 +92,8 @@ function updateProgressBar(progress) {
 
 // show next question
 function nextQuestion(totalQuestions) {
+    //delete this
+    console.log('next question func fires')
     const currentQuestion = document.querySelector('.current-question');
     if (gameOver == false) {
         const nextQuestion = currentQuestion.nextElementSibling;
