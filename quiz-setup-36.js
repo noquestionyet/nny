@@ -472,6 +472,7 @@ let total_points = [];
 document.querySelectorAll('input').forEach((el) => {
     el.addEventListener('click', function () {
         if (el.type == "radio") {
+            console.log('FUNCTION is firing')
             const currentAnswerPoints = el.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
             const currentAnswerLabel = el.parentElement.querySelector('.w-form-label').innerHTML;
             const currentAnswerState = el.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
