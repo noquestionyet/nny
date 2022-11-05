@@ -4,10 +4,13 @@
 2. nny-quiz="finish" - final screen
 3. nny-quiz="form" - the actual form
 
+
 --required for the db
 1. nny-quiz="user-name" - name to db
 2. nny-quiz="user-email" - email to db
 3. nny-quiz="sumbit" - submit btn
+4. nny-quiz="quiz-name" - name of the quiz
+
 
 
 -- optional
@@ -60,8 +63,11 @@ function turnOffNativeForm() {
 function hideSplash() {
     const quizForm = document.querySelector('[nny-quiz="form"]');
     const splashScreen = document.querySelector('[nny-quiz="splash"]');
+    const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
     splashScreen.style.display = 'none';
     quizForm.style.display = 'flex';
+    progressBar.style.display = 'flex';
+
 }
 
 //update progress
@@ -207,13 +213,16 @@ function sendPoints() {
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
+    const quizName = document.querySelector('nny-quiz="quiz-name"]');
+
 
    /* const final_data = {
         total_points: total_points,
         name: user_name,
         email: user_email,
         answers: allUserAnswers,
-        memberstack_id: currentUserId
+        member_uuid: currentUserId,
+        quiz_name: quizName
     }
 
     console.log(final_data)
@@ -247,8 +256,10 @@ function sendPoints() {
 //show the leaderboard
 function showLeaderboard() {
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
+    const quizName = document.querySelector('[nny-quiz="quiz-name"]');
+
     const url =
-        `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member_current/${currentUserId}`;
+        `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member_current/${currentUserId}/${quizName}`;
     fetch(url, {
             method: 'GET',
         })
@@ -315,6 +326,11 @@ function activateScript(activeStatus) {
         const list = document.querySelector('[nny-quiz="list"]');
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
         finalScreen.style.display = 'none';
+        const quizName = document.querySelector('[nny-quiz="quiz-name"]');
+        if (quizName) {
+            quizName.style.display = 'none';  
+        }
+
         const resultScreen = document.querySelector('[nny-quiz="result"]');
         if (resultScreen) {
             resultScreen.style.display = 'none';
@@ -390,8 +406,11 @@ function activateScript(activeStatus) {
         //if splash screen exists
         const quizForm = document.querySelector('[nny-quiz="form"]');
         const splashScreen = document.querySelector('[nny-quiz="splash"]');
+        const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
         if (splashScreen) {
             quizForm.style.display = 'none';
+            progressBar.style.display = 'none';
+
         }
 
         if (document.querySelector('[nny-quiz="splash-start"]')) {
@@ -449,7 +468,7 @@ function getMemberStatus(currentUserId) {
 //copy the current answer points and put in the hidden input
 let rightAnswersAmount = 0;
 let allUserAnswers = [];
-let total_points = 0;
+let total_points = [];
 document.querySelectorAll('input').forEach((el) => {
     el.addEventListener('click', function () {
         if (el.type == "radio") {
@@ -461,14 +480,14 @@ document.querySelectorAll('input').forEach((el) => {
             allUserAnswers.push(currentAnswerLabel);
             console.log(allUserAnswers);
             if (currentAnswerPoints){
-              total_points += Number(currentAnswerPoints);
+              total_points.push(Number(currentAnswerPoints));
             }
             else {
                 if (currentAnswerState == 'true') {
-                    total_points += Number(answerPoints);
+                    total_points.push(Number(currentAnswerPoints));
                 }
                 else {
-                    total_points += 0;
+                    total_points.push(0);
                 }
             }
             if (currentAnswerState == 'true') {
