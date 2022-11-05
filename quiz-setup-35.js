@@ -480,7 +480,9 @@ document.querySelectorAll('input').forEach((el) => {
             allUserAnswers.push(currentAnswerLabel);
             console.log(allUserAnswers);
             if (currentAnswerPoints){
+                console.log(currentAnswerPoints)
               total_points.push(Number(currentAnswerPoints));
+              console.log(total_points)
             }
             else {
                 if (currentAnswerState == 'true') {
