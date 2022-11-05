@@ -469,9 +469,9 @@ function getMemberStatus(currentUserId) {
 let rightAnswersAmount = 0;
 let allUserAnswers = [];
 let total_points = [];
-document.querySelectorAll('input').forEach((el) => {
-    el.addEventListener('click', function () {
-        if (el.type == "radio") {
+document.querySelectorAll('input[type="radio"]').forEach((el) => {
+    el.addEventListener('click', () => {
+
             console.log('FUNCTION is firing')
             const currentAnswerPoints = el.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
             const currentAnswerLabel = el.parentElement.querySelector('.w-form-label').innerHTML;
@@ -501,7 +501,6 @@ document.querySelectorAll('input').forEach((el) => {
             }
             console.log(total_points);
             console.log(allUserAnswers);
-        }
     });
 });
 
