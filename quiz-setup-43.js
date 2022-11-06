@@ -103,8 +103,8 @@ function updateProgressBar(progress) {
 // show next question
 function nextQuestion(totalQuestions) {
     //delete this
-    console.log('next question func fires')
-    console.log(`total points in next question ${total_points}`);
+    //console.log('next question func fires')
+    //console.log(`total points in next question ${total_points}`);
 
     const currentQuestion = document.querySelector('.current-question');
     if (gameOver == false) {
