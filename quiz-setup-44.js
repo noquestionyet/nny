@@ -74,7 +74,7 @@ function hideSplash() {
 let gameOver = false;
 //show current question number
 function currentQuestionNumber(totalAnsweredQuestions, totalQuestions) {
-    console.log(`total points in current question numbera ${total_points}`);
+    //console.log(`total points in current question numbera ${total_points}`);
 
     const totalAnsweredQuestionsText = document.querySelectorAll('[nny-quiz="current-question"]');
     if (totalAnsweredQuestionsText) {
