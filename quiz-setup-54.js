@@ -134,7 +134,12 @@ function nextQuestion(totalQuestions) {
     const currentAnswerLabel = checkedRadio.parentElement.querySelector('.w-form-label').innerHTML;
     const currentAnswerState = checkedRadio.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
     const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
-    allUserAnswers.innerHTML = allUserAnswers.innerHTML + ',' + currentAnswerLabel;
+    if (allUserAnswers.innerHTML = ''){
+        allUserAnswers.innerHTML = currentAnswerLabel;
+    }
+    else {
+        allUserAnswers.innerHTML = allUserAnswers.innerHTML + ',' + currentAnswerLabel;
+    }
     if (currentAnswerPoints) {
         total_points.innerHTML = Number(total_points.innerHTML) + Number(currentAnswerPoints);
     }
@@ -231,7 +236,7 @@ function showResult() {
 //sending the user results to the db
 function sendPoints() {
     const total_points = Number(document.querySelector('[nny-quiz="finalPoints"]').innerHTML);
-    const allUserAnswers = document.querySelector('[nny-quiz="finalAnswers"]');
+    const allUserAnswers = document.querySelector('[nny-quiz="finalAnswers"]').innerHTML;
     const allUserAnswersArray = allUserAnswers.split(",");
     console.log(allUserAnswersArray);
     console.log('sendPoint is working')
