@@ -132,6 +132,7 @@ function nextQuestion(totalQuestions) {
     } else {
         gameOver = false;
     }
+    console.log(document.querySelector('input[type=radio]:checked'));
     currentQuestionNumber(totalAnsweredQuestions, totalQuestions);
     updateProgressBar(progress);
 }
@@ -454,9 +455,6 @@ document.querySelectorAll('input[type="radio"]').forEach((el) => {
             
     });
 });
-console.log(total_points);
-            console.log(allUserAnswers);
-
 
     } else {
         console.log('the user is not active')
