@@ -134,7 +134,7 @@ function nextQuestion(totalQuestions) {
     const currentAnswerLabel = checkedRadio.parentElement.querySelector('.w-form-label').innerHTML;
     const currentAnswerState = checkedRadio.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
     const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
-    if (allUserAnswers.innerHTML = ''){
+    if (allUserAnswers.innerHTML = 'null'){
         allUserAnswers.innerHTML = currentAnswerLabel;
     }
     else {
@@ -386,6 +386,7 @@ function activateScript(activeStatus) {
         totalPointsElement.style.display = 'none';
         document.body.appendChild(totalPointsElement);
         const totalAnswersElement = document.createElement('div');
+        totalAnswersElement.innerHTML = 'null';
         totalAnswersElement.setAttribute('nny-quiz', 'finalAnswers');
         totalAnswersElement.style.display = 'none';
         document.body.appendChild(totalAnswersElement);
