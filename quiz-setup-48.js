@@ -102,10 +102,6 @@ function updateProgressBar(progress) {
 
 // show next question
 function nextQuestion(totalQuestions) {
-    //delete this
-    //console.log('next question func fires')
-    //console.log(`total points in next question ${total_points}`);
-
     const currentQuestion = document.querySelector('.current-question');
     if (gameOver == false) {
         const nextQuestion = currentQuestion.nextElementSibling;
@@ -132,11 +128,36 @@ function nextQuestion(totalQuestions) {
     } else {
         gameOver = false;
     }
-    const checkedRadio = document.querySelector('input[type=radio]:checked');
-    console.log(checkedRadio.parentElement.querySelector('.w-form-label').innerHTML)
 
-    currentQuestionNumber(totalAnsweredQuestions, totalQuestions);
-    updateProgressBar(progress);
+    //get the current answer value and points
+    let rightAnswersAmount = 0;
+    let allUserAnswers = [];
+    let total_points = 0;
+    const checkedRadio = document.querySelector('input[type=radio]:checked');
+    const currentAnswerPoints = checkedRadio.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
+    const currentAnswerLabel = checkedRadio.parentElement.querySelector('.w-form-label').innerHTML;
+    const currentAnswerState = checkedRadio.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
+    const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
+    allUserAnswers.push(currentAnswerLabel);
+    if (currentAnswerPoints) {
+        total_points += (Number(currentAnswerPoints);
+    }
+    else {
+        if (currentAnswerState == 'true') {
+            total_points += Number(currentAnswerPoints);
+        } else {
+            total_points += 0;
+        }
+    }
+    if (currentAnswerState == 'true') {
+        rightAnswersAmount = rightAnswersAmount + 1;
+        if (document.querySelector('[nny-quiz="right-answers"]')) {
+            document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
+        }
+    }
+console.log(total_points)
+currentQuestionNumber(totalAnsweredQuestions, totalQuestions);
+updateProgressBar(progress);
 }
 
 // show previous question
@@ -219,41 +240,41 @@ function sendPoints() {
     const quizName = document.querySelector('nny-quiz="quiz-name"]');
 
 
-   /* const final_data = {
-        total_points: total_points,
-        name: user_name,
-        email: user_email,
-        answers: allUserAnswers,
-        member_uuid: currentUserId,
-        quiz_name: quizName
-    }
+    /* const final_data = {
+         total_points: total_points,
+         name: user_name,
+         email: user_email,
+         answers: allUserAnswers,
+         member_uuid: currentUserId,
+         quiz_name: quizName
+     }
 
-    console.log(final_data)
-    const url =
-        'https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/create_participant';
-    fetch(url, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(final_data),
-        })
-        .then((response) => {
-            if (response.ok) {
-                return response.text();
-            }
-            return response.text().then((text) => {
-                throw new Error(text);
-            });
-        })
-        .catch((error) => {
-            console.log(showError);
-            showError(error.message);
-        })
-        .finally(() => {
-            showResult();
-        })*/
+     console.log(final_data)
+     const url =
+         'https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/create_participant';
+     fetch(url, {
+             method: 'POST',
+             headers: {
+                 Accept: 'application/json',
+                 'Content-Type': 'application/json',
+             },
+             body: JSON.stringify(final_data),
+         })
+         .then((response) => {
+             if (response.ok) {
+                 return response.text();
+             }
+             return response.text().then((text) => {
+                 throw new Error(text);
+             });
+         })
+         .catch((error) => {
+             console.log(showError);
+             showError(error.message);
+         })
+         .finally(() => {
+             showResult();
+         })*/
 };
 
 //show the leaderboard
@@ -315,7 +336,6 @@ function showLeaderboard() {
 
         })
         .catch((error) => {
-            console.log(error);
             showError(error.message);
         })
 };
@@ -331,7 +351,7 @@ function activateScript(activeStatus) {
         finalScreen.style.display = 'none';
         const quizName = document.querySelector('[nny-quiz="quiz-name"]');
         if (quizName) {
-            quizName.style.display = 'none';  
+            quizName.style.display = 'none';
         }
 
         const resultScreen = document.querySelector('[nny-quiz="result"]');
@@ -365,8 +385,8 @@ function activateScript(activeStatus) {
         } else {
             document.querySelectorAll('input[type="radio"]').forEach((el) => {
                 el.addEventListener('click', () => {
-                    setTimeout (
-                        function(){
+                    setTimeout(
+                        function () {
                             nextQuestion(totalQuestions);
                         }, 100
                     )
@@ -419,44 +439,6 @@ function activateScript(activeStatus) {
         if (document.querySelector('[nny-quiz="splash-start"]')) {
             document.querySelector('[nny-quiz="splash-start"]').addEventListener('click', hideSplash);
         }
-
-        //copy the current answer points and put in the hidden input
-        let rightAnswersAmount = 0;
-        let allUserAnswers = [];
-        let total_points = [];
-document.querySelectorAll('input[type="radio"]').forEach((el) => {
-    el.addEventListener('click', () => {
-
-            console.log('FUNCTION is firing')
-            const currentAnswerPoints = el.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
-            const currentAnswerLabel = el.parentElement.querySelector('.w-form-label').innerHTML;
-            const currentAnswerState = el.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
-            const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
-            const currentQuestion = document.querySelector('.current-question');
-            allUserAnswers.push(currentAnswerLabel);
-            //console.log(allUserAnswers);
-            if (currentAnswerPoints){
-                //console.log(currentAnswerPoints)
-              total_points.push(Number(currentAnswerPoints));
-              //console.log(total_points)
-            }
-            else {
-                if (currentAnswerState == 'true') {
-                    total_points.push(Number(currentAnswerPoints));
-                }
-                else {
-                    total_points.push(0);
-                }
-            }
-            if (currentAnswerState == 'true') {
-                rightAnswersAmount = rightAnswersAmount + 1;
-                if (document.querySelector('[nny-quiz="right-answers"]')) {
-                    document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
-                }
-            }
-            
-    });
-});
 
     } else {
         console.log('the user is not active')
