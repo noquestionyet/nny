@@ -231,7 +231,9 @@ function showResult() {
 //sending the user results to the db
 function sendPoints() {
     const total_points = Number(document.querySelector('[nny-quiz="finalPoints"]').innerHTML);
-    console.log(allUserAnswers);
+    const allUserAnswers = document.querySelector('[nny-quiz="finalAnswers"]');
+    const allUserAnswersArray = text.split(",");
+    console.log(allUserAnswersArray);
     console.log('sendPoint is working')
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
