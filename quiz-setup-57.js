@@ -237,7 +237,7 @@ function showResult() {
 function sendPoints() {
     const total_points = localStorage.getItem('totalPoints'); 
     const allUserAnswers = localStorage.getItem('allUserAnswers');
-    const allUserAnswersArray = JSON.parse(allUserAnswers);
+    const allUserAnswersArray = allUserAnswers.split(',');
     console.log(allUserAnswersArray);
     console.log('sendPoint is working')
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
