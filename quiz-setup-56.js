@@ -127,28 +127,29 @@ function nextQuestion(totalQuestions) {
 
     //get the current answer value and points
     let rightAnswersAmount = 0;
-    const total_points = document.querySelector('[nny-quiz="finalPoints"]');
-    const allUserAnswers = document.querySelector('[nny-quiz="finalAnswers"]');
+    const totalPoints = localStorage.getItem('totalPoints');
+    const allUserAnswers = localStorage.getItem('allUserAnswers');
     const checkedRadio = document.querySelector('input[type=radio]:checked');
     const currentAnswerPoints = checkedRadio.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
     const currentAnswerLabel = checkedRadio.parentElement.querySelector('.w-form-label').innerHTML;
     const currentAnswerState = checkedRadio.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
     const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
-    if (allUserAnswers.innerHTML = 'null'){
-        allUserAnswers.innerHTML = currentAnswerLabel;
+    if (allUserAnswers == ''){
+        localStorage.setItem('allUserAnswers', currentAnswerLabel);
     }
     else {
-        allUserAnswers.innerHTML = allUserAnswers.innerHTML + ',' + currentAnswerLabel;
+        const newAllUserAnswers = allUserAnswers + ',' + currentAnswerLabel;
+        localStorage.setItem('allUserAnswers', newAllUserAnswers);
     }
     if (currentAnswerPoints) {
-        total_points.innerHTML = Number(total_points.innerHTML) + Number(currentAnswerPoints);
+        const newTotalPoints = Number(totalPoints) + Number(currentAnswerPoints);
+        localStorage.setItem('totalPoints', newTotalPoints);
     }
     else {
         if (currentAnswerState == 'true') {
-            total_points.innerHTML = Number(total_points.innerHTML) + Number(currentAnswerPoints);
-        } else {
-            total_points.innerHTML = total_points.innerHTML;
-        }
+            const newTotalPoints = Number(totalPoints) + Number(currentAnswerPoints);
+            localStorage.setItem('totalPoints', newTotalPoints);
+        } 
     }
     if (currentAnswerState == 'true') {
         rightAnswersAmount = rightAnswersAmount + 1;
@@ -156,7 +157,6 @@ function nextQuestion(totalQuestions) {
             document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
         }
     }
-console.log(total_points);
 console.log(allUserAnswers)
 
 currentQuestionNumber(totalAnsweredQuestions, totalQuestions);
@@ -207,10 +207,10 @@ function showResult() {
     }
     //if we have points
     const possiblePoints = document.querySelectorAll('[nny-quiz="result-points"]');
-    const total_points = document.querySelector('[nny-quiz="finalPoints"]').innerHTML;
+    const totalPoints = localStorage.getItem('totalPoints');
     if (possiblePoints) {
         for (i = 0; i < possiblePoints.length; i++) {
-            if (Number(possiblePoints[i].innerHTML) == total_points) {
+            if (Number(possiblePoints[i].innerHTML) == totalPoints) {
                 const resultItem = $(possiblePoints[i]).closest(document.querySelector('[nny-quiz="result-item"]'));
                 resultItem.css({
                     "display": "block"
@@ -235,9 +235,9 @@ function showResult() {
 
 //sending the user results to the db
 function sendPoints() {
-    const total_points = Number(document.querySelector('[nny-quiz="finalPoints"]').innerHTML);
-    const allUserAnswers = document.querySelector('[nny-quiz="finalAnswers"]').innerHTML;
-    const allUserAnswersArray = allUserAnswers.split(",");
+    const total_points = localStorage.getItem('totalPoints'); 
+    const allUserAnswers = localStorage.getItem('allUserAnswers');
+    const allUserAnswersArray = JSON.parse(allUserAnswers);
     console.log(allUserAnswersArray);
     console.log('sendPoint is working')
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
@@ -380,16 +380,9 @@ function activateScript(activeStatus) {
         })
         updateProgressBar(20);
 
-        //create element to store total points and answers
-        const totalPointsElement = document.createElement('div');
-        totalPointsElement.setAttribute('nny-quiz', 'finalPoints');
-        totalPointsElement.style.display = 'none';
-        document.body.appendChild(totalPointsElement);
-        const totalAnswersElement = document.createElement('div');
-        totalAnswersElement.innerHTML = 'null';
-        totalAnswersElement.setAttribute('nny-quiz', 'finalAnswers');
-        totalAnswersElement.style.display = 'none';
-        document.body.appendChild(totalAnswersElement);
+        //create local storage keys to store total points and answers
+        const totalPointsElement = localStorage.setItem('totalPoints', ''); 
+        const totalAnswersElement = localStorage.setItem('allUserAnswers', ''); 
 
         //if we want the next button
         const nextButton = document.querySelectorAll('[nny-quiz="next"]');
