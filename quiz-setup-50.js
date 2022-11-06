@@ -132,7 +132,7 @@ function nextQuestion(totalQuestions) {
     //get the current answer value and points
     let rightAnswersAmount = 0;
     let allUserAnswers = [];
-    let total_points = 0;
+    const total_points = document.querySelector('[nny-quiz="finalPoints"]');
     const checkedRadio = document.querySelector('input[type=radio]:checked');
     const currentAnswerPoints = checkedRadio.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
     const currentAnswerLabel = checkedRadio.parentElement.querySelector('.w-form-label').innerHTML;
@@ -140,13 +140,13 @@ function nextQuestion(totalQuestions) {
     const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
     allUserAnswers.push(currentAnswerLabel);
     if (currentAnswerPoints) {
-        total_points += Number(currentAnswerPoints);
+        total_points.innerHTML = Number(total_points.innerHTML) + Number(currentAnswerPoints);
     }
     else {
         if (currentAnswerState == 'true') {
-            total_points += Number(currentAnswerPoints);
+            total_points.innerHTML = Number(total_points.innerHTML) + Number(currentAnswerPoints);
         } else {
-            total_points += 0;
+            total_points.innerHTML = total_points.innerHTML;
         }
     }
     if (currentAnswerState == 'true') {
@@ -374,6 +374,10 @@ function activateScript(activeStatus) {
         })
         updateProgressBar(20);
 
+        //create element to store total points and answers
+        const totalPointsElement = document.createElement('div');
+        totalPointsElement.setAttribute('nny-quiz', 'finalPoints');
+        document.body.appendChild(totalPointsElement);
         //if we want the next button
         const nextButton = document.querySelectorAll('[nny-quiz="next"]');
         if (nextButton.length != 0) {
