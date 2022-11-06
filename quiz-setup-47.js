@@ -132,7 +132,9 @@ function nextQuestion(totalQuestions) {
     } else {
         gameOver = false;
     }
-    console.log(document.querySelector('input[type=radio]:checked'));
+    const checkedRadio = document.querySelector('input[type=radio]:checked');
+    console.log(checkedRadio.parentElement.querySelector('.w-form-label').innerHTML)
+
     currentQuestionNumber(totalAnsweredQuestions, totalQuestions);
     updateProgressBar(progress);
 }
