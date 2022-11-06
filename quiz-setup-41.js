@@ -418,7 +418,9 @@ function activateScript(activeStatus) {
         }
 
         //copy the current answer points and put in the hidden input
-
+        let rightAnswersAmount = 0;
+        let allUserAnswers = [];
+        let total_points = [];
 document.querySelectorAll('input[type="radio"]').forEach((el) => {
     el.addEventListener('click', () => {
 
@@ -507,9 +509,6 @@ function getMemberStatus(currentUserId) {
 
 //loading page events
 onload = (event) => {
-    let rightAnswersAmount = 0;
-let allUserAnswers = [];
-let total_points = [];
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     getMemberStatus(currentUserId);
     turnOffNativeForm();
