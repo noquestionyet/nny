@@ -92,7 +92,7 @@ function currentQuestionNumber(totalAnsweredQuestions, totalQuestions) {
 }
 //show progress bar
 function updateProgressBar(progress) {
-    console.log(`total points update progress ${total_points}`);
+    //console.log(`total points update progress ${total_points}`);
 
     const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
     if (progressBar) {
