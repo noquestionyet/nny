@@ -431,11 +431,11 @@ document.querySelectorAll('input[type="radio"]').forEach((el) => {
             const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
             const currentQuestion = document.querySelector('.current-question');
             allUserAnswers.push(currentAnswerLabel);
-            console.log(allUserAnswers);
+            //console.log(allUserAnswers);
             if (currentAnswerPoints){
-                console.log(currentAnswerPoints)
+                //console.log(currentAnswerPoints)
               total_points.push(Number(currentAnswerPoints));
-              console.log(total_points)
+              //console.log(total_points)
             }
             else {
                 if (currentAnswerState == 'true') {
