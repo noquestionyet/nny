@@ -232,7 +232,7 @@ function showResult() {
 function sendPoints() {
     const total_points = Number(document.querySelector('[nny-quiz="finalPoints"]').innerHTML);
     const allUserAnswers = document.querySelector('[nny-quiz="finalAnswers"]');
-    const allUserAnswersArray = text.split(",");
+    const allUserAnswersArray = allUserAnswers.split(",");
     console.log(allUserAnswersArray);
     console.log('sendPoint is working')
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
