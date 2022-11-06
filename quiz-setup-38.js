@@ -417,9 +417,50 @@ function activateScript(activeStatus) {
             document.querySelector('[nny-quiz="splash-start"]').addEventListener('click', hideSplash);
         }
 
+        //copy the current answer points and put in the hidden input
+let rightAnswersAmount = 0;
+let allUserAnswers = [];
+let total_points = [];
+document.querySelectorAll('input[type="radio"]').forEach((el) => {
+    el.addEventListener('click', () => {
+
+            console.log('FUNCTION is firing')
+            const currentAnswerPoints = el.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
+            const currentAnswerLabel = el.parentElement.querySelector('.w-form-label').innerHTML;
+            const currentAnswerState = el.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
+            const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
+            const currentQuestion = document.querySelector('.current-question');
+            allUserAnswers.push(currentAnswerLabel);
+            console.log(allUserAnswers);
+            if (currentAnswerPoints){
+                console.log(currentAnswerPoints)
+              total_points.push(Number(currentAnswerPoints));
+              console.log(total_points)
+            }
+            else {
+                if (currentAnswerState == 'true') {
+                    total_points.push(Number(currentAnswerPoints));
+                }
+                else {
+                    total_points.push(0);
+                }
+            }
+            if (currentAnswerState == 'true') {
+                rightAnswersAmount = rightAnswersAmount + 1;
+                if (document.querySelector('[nny-quiz="right-answers"]')) {
+                    document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
+                }
+            }
+            console.log(total_points);
+            console.log(allUserAnswers);
+    });
+});
+
+
     } else {
         console.log('the user is not active')
     }
+
 }
 
 
@@ -465,44 +506,6 @@ function getMemberStatus(currentUserId) {
         })
 }
 
-//copy the current answer points and put in the hidden input
-let rightAnswersAmount = 0;
-let allUserAnswers = [];
-let total_points = [];
-document.querySelectorAll('input[type="radio"]').forEach((el) => {
-    el.addEventListener('click', () => {
-
-            console.log('FUNCTION is firing')
-            const currentAnswerPoints = el.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
-            const currentAnswerLabel = el.parentElement.querySelector('.w-form-label').innerHTML;
-            const currentAnswerState = el.parentElement.querySelector('[nny-quiz="state"]').innerHTML;
-            const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
-            const currentQuestion = document.querySelector('.current-question');
-            allUserAnswers.push(currentAnswerLabel);
-            console.log(allUserAnswers);
-            if (currentAnswerPoints){
-                console.log(currentAnswerPoints)
-              total_points.push(Number(currentAnswerPoints));
-              console.log(total_points)
-            }
-            else {
-                if (currentAnswerState == 'true') {
-                    total_points.push(Number(currentAnswerPoints));
-                }
-                else {
-                    total_points.push(0);
-                }
-            }
-            if (currentAnswerState == 'true') {
-                rightAnswersAmount = rightAnswersAmount + 1;
-                if (document.querySelector('[nny-quiz="right-answers"]')) {
-                    document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
-                }
-            }
-            console.log(total_points);
-            console.log(allUserAnswers);
-    });
-});
 
 //loading page events
 onload = (event) => {
