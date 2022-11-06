@@ -451,10 +451,11 @@ document.querySelectorAll('input[type="radio"]').forEach((el) => {
                     document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
                 }
             }
-            console.log(total_points);
-            console.log(allUserAnswers);
+            
     });
 });
+console.log(total_points);
+            console.log(allUserAnswers);
 
 
     } else {
