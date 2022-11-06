@@ -140,7 +140,7 @@ function nextQuestion(totalQuestions) {
     const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
     allUserAnswers.push(currentAnswerLabel);
     if (currentAnswerPoints) {
-        total_points += (Number(currentAnswerPoints);
+        total_points += Number(currentAnswerPoints);
     }
     else {
         if (currentAnswerState == 'true') {
