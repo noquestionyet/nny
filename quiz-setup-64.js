@@ -36,6 +36,7 @@
 5. nny-quiz="current-participant" - current user item
 6. nny-quiz="leaderboard-position" - position number
 7. nny-quiz="show-leaderboard" - button which shows the leaderboard
+8. nny-quiz="leaderboard-wrapper" - container for the leaderboard
 
 --splash
 1. nny-quiz="splash" - container for the splash, don't put it inside the form!
@@ -282,7 +283,7 @@ function sendPoints() {
 function showLeaderboard() {
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
-    const resultScreen = document.querySelector('[nny-quiz="result"]');
+    const resultScreen = document.querySelector('[nny-quiz="leaderboard-wrapper"]');
     const url =
         `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member_current/${currentUserId}/${quizName}`;
     fetch(url, {
