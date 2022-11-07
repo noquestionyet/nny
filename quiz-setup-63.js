@@ -301,7 +301,7 @@ function showLeaderboard() {
             const leaderboardClass = leaderboardParent.className;
             const newParent = document.createElement('div');
             newParent.className = leaderboardClass;
-            resultScreen.body.appendChild(newParent);
+            resultScreen.appendChild(newParent);
             const leaderboardPositionTemplate = document.querySelector('[nny-quiz="leaderboard-position"]').outerHTML;
             const leaderboardNameTemplate = document.querySelector('[nny-quiz="leaderboard-name"]').outerHTML;
             const leaderboardScoreTemplate = document.querySelector('[nny-quiz="leaderboard-score"]').outerHTML;
@@ -321,7 +321,7 @@ function showLeaderboard() {
                         const newCurrentParent = document.createElement('div');
                         newCurrentParent.className = leaderboardClass;
                         newCurrentParent.style.marginTop = "1.5rem";
-                        resultScreen.body.appendChild(newCurrentParent);
+                        resultScreen.appendChild(newCurrentParent);
                         let leaderboardPositionCurrent = document.querySelector('[nny-quiz="leaderboard-position"]');
                         leaderboardPositionCurrent.innerHTML = i + 1;
 
