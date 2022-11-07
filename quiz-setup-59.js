@@ -35,6 +35,7 @@
 4. nny-quiz="leaderboard-score" - final points from the db
 5. nny-quiz="current-participant" - current user item
 6. nny-quiz="leaderboard-position" - position number
+7. nny-quiz="show-leaderboard" - button which shows the leaderboard
 
 --splash
 1. nny-quiz="splash" - container for the splash, don't put it inside the form!
@@ -174,7 +175,7 @@ function previousQuestion(totalQuestions) {
 //show error
 function showError(value) {
     if (value) {
-        /*const defaultError = document.querySelector('.w-form-fail');
+        const defaultError = document.querySelector('.w-form-fail');
         const customError = document.querySelector('[nny-quiz="form-error"]');
         if (defaultError) {
             defaultError.style.display = 'flex';
@@ -182,8 +183,7 @@ function showError(value) {
         } else {
             customError.style.display = 'flex';
             customError.innerHTML = value;
-        }*/
-        console.log(value)
+        }
 
     }
 }
@@ -195,6 +195,12 @@ function showResult() {
         document.querySelector('[nny-quiz="finish"]').style.display = 'none';
         resultScreen.style.display = 'block';
     }
+    //if we have leaderboard
+    const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard"]');
+    if (leaderboardScreen) {
+        showLeaderboard();
+    }
+
     //if we have points
     const possiblePoints = document.querySelectorAll('[nny-quiz="result-points"]');
     const totalPoints = localStorage.getItem('totalPoints');
@@ -221,6 +227,9 @@ function showResult() {
             }
         }
     }
+    //remove the data from local storage
+    localStorage.removeItem('totalPoints');
+    localStorage.removeItem('allUserAnswers');
 }
 
 //sending the user results to the db
@@ -463,6 +472,10 @@ function activateScript(activeStatus) {
 
         if (document.querySelector('[nny-quiz="splash-start"]')) {
             document.querySelector('[nny-quiz="splash-start"]').addEventListener('click', hideSplash);
+        }
+
+        if (document.querySelector('[nny-quiz="show-leaderboard"]')) {
+            document.querySelector('[nny-quiz="show-leaderboard"]').addEventListener('click', showLeaderboard);
         }
 
     } else {
