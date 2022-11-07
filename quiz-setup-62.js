@@ -282,7 +282,7 @@ function sendPoints() {
 function showLeaderboard() {
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
-
+    const resultScreen = document.querySelector('[nny-quiz="result"]');
     const url =
         `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member_current/${currentUserId}/${quizName}`;
     fetch(url, {
@@ -301,7 +301,7 @@ function showLeaderboard() {
             const leaderboardClass = leaderboardParent.className;
             const newParent = document.createElement('div');
             newParent.className = leaderboardClass;
-            document.body.appendChild(newParent);
+            resultScreen.body.appendChild(newParent);
             const leaderboardPositionTemplate = document.querySelector('[nny-quiz="leaderboard-position"]').outerHTML;
             const leaderboardNameTemplate = document.querySelector('[nny-quiz="leaderboard-name"]').outerHTML;
             const leaderboardScoreTemplate = document.querySelector('[nny-quiz="leaderboard-score"]').outerHTML;
@@ -321,7 +321,7 @@ function showLeaderboard() {
                         const newCurrentParent = document.createElement('div');
                         newCurrentParent.className = leaderboardClass;
                         newCurrentParent.style.marginTop = "1.5rem";
-                        document.body.appendChild(newCurrentParent);
+                        resultScreen.body.appendChild(newCurrentParent);
                         let leaderboardPositionCurrent = document.querySelector('[nny-quiz="leaderboard-position"]');
                         leaderboardPositionCurrent.innerHTML = i + 1;
 
