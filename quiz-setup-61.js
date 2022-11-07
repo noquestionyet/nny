@@ -240,7 +240,7 @@ function sendPoints() {
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
-    const quizName = document.querySelector('[nny-quiz="quiz-name"]');
+    const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
     const final_data = {
         total_points: total_points,
         name: user_name,
@@ -281,7 +281,7 @@ function sendPoints() {
 //show the leaderboard
 function showLeaderboard() {
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
-    const quizName = document.querySelector('[nny-quiz="quiz-name"]');
+    const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
 
     const url =
         `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member_current/${currentUserId}/${quizName}`;
