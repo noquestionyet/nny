@@ -62,7 +62,9 @@ function hideSplash() {
     const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
     splashScreen.style.display = 'none';
     quizForm.style.display = 'flex';
-    progressBar.style.display = 'flex';
+    if (progressBar) {
+        progressBar.style.display = 'flex';
+    }
 
 }
 
