@@ -467,7 +467,9 @@ function activateScript(activeStatus) {
         const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
         if (splashScreen) {
             quizForm.style.display = 'none';
-            progressBar.style.display = 'none';
+            if (progressBar) {
+                progressBar.style.display = 'none';
+            }
 
         }
 
