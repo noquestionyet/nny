@@ -62,10 +62,14 @@ function hideSplash() {
     const quizForm = document.querySelector('[nny-quiz="form"]');
     const splashScreen = document.querySelector('[nny-quiz="splash"]');
     const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
+    const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
     splashScreen.style.display = 'none';
     quizForm.style.display = 'block';
     if (progressBar) {
         progressBar.style.display = 'block';
+    }
+    if (progressCircle) {
+        progressCircle.style.display = 'block';
     }
 
 }
@@ -102,7 +106,6 @@ function addProgressCircleScript(){
 
 //create progress circle using the script above
 function createProgressCircle() {
-    console.log('create bar function fires')
     const progressCircleIcon = document.querySelector('[nny-quiz="progress-circle-element"]');
     const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue("border-color");
     const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue("border-width").replace(/em|rem|px|ch|vw|vh|%/g,''));
@@ -129,7 +132,6 @@ function updateProgressBar(progress) {
         progressBar.style.width = `${progress}%`;
     }
     if (progressCircle) {
-        console.log(progressCircle)
         bar.animate(progress/100);
     }
 }
@@ -148,12 +150,20 @@ function nextQuestion(totalQuestions) {
         currentQuestion.classList.add('answered')
     } else {
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
+        const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
+        const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
         if (!document.querySelector('[nny-quiz="submit"]')) {
             showResult();
         }
 
         finalScreen.style.display = 'flex';
         currentQuestion.style.display = 'none';
+        if (progressBar) {
+            progressBar.style.display = 'none';
+        }
+        if (progressCircle) {
+            progressCircle.style.display = 'none';
+        }
     }
     const totalAnsweredQuestions = document.querySelectorAll('.answered');
     const progress = 100 * ((totalAnsweredQuestions.length + 1) / totalQuestions);
