@@ -20,6 +20,8 @@
 4. nny-quiz="progress-bar" - progress bar
 4.1. nny-quiz="progress-circle" -progress circle wrapper
 4.2. nny-quiz="progress-circle-element" - circle element that we use for styling the progress bar
+4.3. nny-quiz="progress-part" - partial progress
+4.4. nny-quiz="progress-part-element" - if the progress is partial, this is one of the elements
 5. nny-quiz="points" - points for each question
 6. nny-quiz="state" - true/false state for each answer
 7. nny-quiz="form-error" - display error
@@ -90,7 +92,15 @@ function currentQuestionNumber(totalAnsweredQuestions, totalQuestions) {
             })
         }
     }
-
+    //update the partial progress bar
+    const progressBarParts = document.querySelectorAll('[nny-quiz="progress-part-element"]');
+    if (progressBarParts) {
+        for (let i = 0; i < progressBarParts.length; i++) {
+            if (i < totalAnsweredQuestions) {
+                progressBarParts[i].classList.add('active');
+            }
+        }
+    }
 }
 
 //add script for the circle progress bar
@@ -506,6 +516,23 @@ function activateScript(activeStatus) {
             Array.from(totalQuestionsText).forEach((el) => {
                 el.innerHTML = totalQuestions;
             })
+        }
+
+        //if we have partial progress
+        const progressPartsWrapper = document.querySelector('[nny-quiz="progress-part"]');
+        if (progressPartsWrapper) {
+            const progressPart = document.querySelector('[nny-quiz="progress-part-element"]'); 
+            const progressPartClass = progressPart.className;
+            while (progressPartsWrapper.firstChild) {
+                progressPartsWrapper.firstChild.remove()
+            }
+            for (let i=0; i < totalQuestions; i++){
+                const newProgressPartElement = document.createElement("div");
+                newProgressPartElement.classList.add(progressPartClass);
+                newProgressPartElement.style.width = `${100/totalQuestions}%`;
+                progressPartsWrapper.appendChild(newProgressPartElement);
+            }
+            progressPartsWrapper.firstElementChild.classList.add('active');
         }
 
         if (document.querySelector('[nny-quiz="submit"]')) {
