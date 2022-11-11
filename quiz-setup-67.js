@@ -102,6 +102,7 @@ function addProgressCircleScript(){
 
 //create progress circle using the script above
 function createProgressCircle() {
+    console.log('create bar function fires')
     const progressCircleIcon = document.querySelector('[nny-quiz="progress-circle-element"]');
     const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue("border-color");
     const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue("border-width").replace(/em|rem|px|ch|vw|vh|%/g,''));
@@ -128,6 +129,7 @@ function updateProgressBar(progress) {
         progressBar.style.width = `${progress}%`;
     }
     if (progressCircle) {
+        console.log(progressCircle)
         bar.animate(progress/100);
     }
 }
