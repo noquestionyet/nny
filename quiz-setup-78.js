@@ -97,8 +97,7 @@ function currentQuestionNumber(totalAnsweredQuestions, totalQuestions) {
     if (progressBarParts) {
         for (let i = 0; i < progressBarParts.length; i++) {
             if (i < totalAnsweredQuestions.length){
-                console.log(progressBarParts[i])
-                progressBarParts[i].classList.add('active');
+                progressBarParts[i + 1].classList.add('active');
             }
         }
     }
@@ -163,6 +162,8 @@ function nextQuestion(totalQuestions) {
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
         const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
         const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
+        const progressPartial = document.querySelector('[nny-quiz="progress-part"]');
+
         if (!document.querySelector('[nny-quiz="submit"]')) {
             showResult();
         }
@@ -174,6 +175,9 @@ function nextQuestion(totalQuestions) {
         }
         if (progressCircle) {
             progressCircle.style.display = 'none';
+        }
+        if (progressPartial) {
+            progressPartial.style.display = 'none';
         }
     }
     const totalAnsweredQuestions = document.querySelectorAll('.answered');
