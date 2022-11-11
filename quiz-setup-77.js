@@ -95,13 +95,11 @@ function currentQuestionNumber(totalAnsweredQuestions, totalQuestions) {
     //update the partial progress bar
     const progressBarParts = document.querySelectorAll('[nny-quiz="progress-part-element"]');
     if (progressBarParts) {
-        console.log(progressBarParts)
         for (let i = 0; i < progressBarParts.length; i++) {
-            if (i < totalAnsweredQuestions){
-                totalAnsweredQuestions
+            if (i < totalAnsweredQuestions.length){
+                console.log(progressBarParts[i])
+                progressBarParts[i].classList.add('active');
             }
-            console.log(progressBarParts[i])
-            progressBarParts[i].classList.add('active');
         }
     }
 }
