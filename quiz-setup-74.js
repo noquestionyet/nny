@@ -529,7 +529,7 @@ function activateScript(activeStatus) {
             for (let i=0; i < totalQuestions; i++){
                 const newProgressPartElement = document.createElement("div");
                 newProgressPartElement.classList.add(progressPartClass);
-                newProgressPartElement.classList.setAttribute('nny-quiz','progress-part-element');
+                newProgressPartElement.setAttribute('nny-quiz','progress-part-element');
                 newProgressPartElement.style.width = `${100/totalQuestions}%`;
                 progressPartsWrapper.appendChild(newProgressPartElement);
             }
