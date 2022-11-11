@@ -18,6 +18,8 @@
 2. nny-quiz="total-questions" - total amount of questions
 3. nny-quiz="current-question" - current question
 4. nny-quiz="progress-bar" - progress bar
+4.1. nny-quiz="progress-circle" -progress circle wrapper
+4.2. nny-quiz="progress-circle-element" - circle element that we use for styling the progress bar
 5. nny-quiz="points" - points for each question
 6. nny-quiz="state" - true/false state for each answer
 7. nny-quiz="form-error" - display error
@@ -87,11 +89,46 @@ function currentQuestionNumber(totalAnsweredQuestions, totalQuestions) {
 
 }
 
+//add script for the circle progress bar
+function addProgressCircleScript(){
+    const circleProgressBarScript = document.createElement("script");
+    circleProgressBarScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.0.0/progressbar.min.js';
+    document.head.appendChild(circleProgressBarScript);
+    let bar;  
+    circleProgressBarScript.addEventListener('load', function() {
+        createProgressCircle();
+    });
+}
+
+//create progress circle using the script above
+function createProgressCircle() {
+    const progressCircleIcon = document.querySelector('[nny-quiz="progress-circle-element"]');
+    const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue("border-color");
+    const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue("border-width").replace(/em|rem|px|ch|vw|vh|%/g,''));
+    let progressCircleColor = progressCircleColorActive.replace(/rgb/i, "rgba");
+    progressCircleColor = progressCircleColor.replace(/\)/i,',0.3)');
+    document.querySelector('[nny-quiz="progress-circle-element"]').style.display = 'none';
+     bar = new ProgressBar.Circle('[nny-quiz="progress-circle"]', {
+        strokeWidth: progressCircleWidth,
+        easing: 'easeOut',
+        duration: 400,
+        color: progressCircleColorActive,
+        trailColor: progressCircleColor,
+        trailWidth: progressCircleWidth,
+        svgStyle: null
+      });    
+};
+
 //show progress bar
 function updateProgressBar(progress) {
     const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
+    const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
+
     if (progressBar) {
         progressBar.style.width = `${progress}%`;
+    }
+    if (progressCircle) {
+        bar.animate(progress/100);
     }
 }
 
@@ -405,6 +442,7 @@ function activateScript(activeStatus) {
                 el.style.display = 'none';
             }
         })
+        createProgressCircle();
         updateProgressBar(20);
 
         //create local storage keys to store total points and answers
@@ -536,4 +574,8 @@ onload = (event) => {
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     getMemberStatus(currentUserId);
     turnOffNativeForm();
+    const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
+    if (progressCircle) {
+        addProgressCircleScript();
+    }
 }
