@@ -444,7 +444,6 @@ function activateScript(activeStatus) {
                 el.style.display = 'none';
             }
         })
-        createProgressCircle();
         updateProgressBar(20);
 
         //create local storage keys to store total points and answers
