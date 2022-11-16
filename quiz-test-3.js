@@ -593,11 +593,7 @@ function getMemberStatus(currentUserId) {
 
 //loading page events
 onload = (event) => {
-    const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
-    getMemberStatus(currentUserId);
-    turnOffNativeForm();
-    //const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
-    //setting main variables and create first question
+        //setting main variables and create first question
 const list = document.querySelector('[nny-quiz="list"]');
 const finalScreen = document.querySelector('[nny-quiz="finish"]');
 finalScreen.style.display = 'none';
@@ -639,6 +635,10 @@ updateProgressBar(20);
 const totalPointsElement = localStorage.setItem('totalPoints', '');
 const totalAnswersElement = localStorage.setItem('allUserAnswers', '');
 
+    const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
+    getMemberStatus(currentUserId);
+    turnOffNativeForm();
+    //const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
     if (progressCircle) {
         addProgressCircleScript();
     }
