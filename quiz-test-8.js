@@ -48,6 +48,7 @@
 
 */
 
+
 "use strict";
 //turn off native webflow forms
 function turnOffNativeForm() {
@@ -631,7 +632,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     el.style.display = 'none';
                 }
             })
-            updateProgressBar(20);
+            
     
 
 //create local storage keys to store total points and answers
@@ -645,4 +646,5 @@ const totalAnswersElement = localStorage.setItem('allUserAnswers', '');
     if (progressCircle) {
         addProgressCircleScript();
     }
+    updateProgressBar(20);
 })
