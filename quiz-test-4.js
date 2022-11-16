@@ -59,6 +59,46 @@ function turnOffNativeForm() {
     }
 }
 
+        //setting main variables and create first question
+        const list = document.querySelector('[nny-quiz="list"]');
+        const finalScreen = document.querySelector('[nny-quiz="finish"]');
+        finalScreen.style.display = 'none';
+        const quizForm = document.querySelector('[nny-quiz="form"]');
+        const splashScreen = document.querySelector('[nny-quiz="splash"]');
+        const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
+        const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
+        const progressPartial = document.querySelector('[nny-quiz="progress-part"]');
+        const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard"]');
+        console.log(list)
+        console.log(finalScreen)
+        console.log(progressBar)
+        
+        const quizName = document.querySelector('[nny-quiz="quiz-name"]');
+        if (quizName) {
+            quizName.style.display = 'none';
+        }
+        
+        const resultScreen = document.querySelector('[nny-quiz="result"]');
+        if (resultScreen) {
+            resultScreen.style.display = 'none';
+        }
+        
+        const resultItems = document.querySelectorAll('[nny-quiz="result-item"]');
+        if (resultItems) {
+            resultItems.forEach((el) => {
+                el.style.display = 'none';
+            })
+        };
+        
+        list.firstElementChild.classList.add('current-question');
+        Array.from(list.children).forEach((el) => {
+            if (!el.classList.contains('current-question')) {
+                el.style.display = 'none';
+            }
+        })
+        updateProgressBar(20);
+
+        
 //hide splash screen
 function hideSplash() {
     //const quizForm = document.querySelector('[nny-quiz="form"]');
@@ -593,43 +633,6 @@ function getMemberStatus(currentUserId) {
 
 //loading page events
 onload = (event) => {
-        //setting main variables and create first question
-const list = document.querySelector('[nny-quiz="list"]');
-const finalScreen = document.querySelector('[nny-quiz="finish"]');
-finalScreen.style.display = 'none';
-const quizForm = document.querySelector('[nny-quiz="form"]');
-const splashScreen = document.querySelector('[nny-quiz="splash"]');
-const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
-const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
-const progressPartial = document.querySelector('[nny-quiz="progress-part"]');
-const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard"]');
-console.log(list)
-console.log(finalScreen)
-
-const quizName = document.querySelector('[nny-quiz="quiz-name"]');
-if (quizName) {
-    quizName.style.display = 'none';
-}
-
-const resultScreen = document.querySelector('[nny-quiz="result"]');
-if (resultScreen) {
-    resultScreen.style.display = 'none';
-}
-
-const resultItems = document.querySelectorAll('[nny-quiz="result-item"]');
-if (resultItems) {
-    resultItems.forEach((el) => {
-        el.style.display = 'none';
-    })
-};
-
-list.firstElementChild.classList.add('current-question');
-Array.from(list.children).forEach((el) => {
-    if (!el.classList.contains('current-question')) {
-        el.style.display = 'none';
-    }
-})
-updateProgressBar(20);
 
 //create local storage keys to store total points and answers
 const totalPointsElement = localStorage.setItem('totalPoints', '');
