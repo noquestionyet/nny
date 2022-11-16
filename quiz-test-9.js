@@ -594,7 +594,8 @@ function getMemberStatus(currentUserId) {
 }
 
 //loading page events
-document.addEventListener("DOMContentLoaded", () => {
+const loadVars = new Promise((resolve, reject) => {
+
             //setting main variables and create first question
             const list = document.querySelector('[nny-quiz="list"]');
             const finalScreen = document.querySelector('[nny-quiz="finish"]');
@@ -638,7 +639,16 @@ document.addEventListener("DOMContentLoaded", () => {
 //create local storage keys to store total points and answers
 const totalPointsElement = localStorage.setItem('totalPoints', '');
 const totalAnswersElement = localStorage.setItem('allUserAnswers', '');
+        })
 
+        loadVars.then(
+            (result) => { 
+                updateProgressBar(20);
+            },
+            (error) => { 
+               console.log(error);
+            }
+          );
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     getMemberStatus(currentUserId);
     turnOffNativeForm();
@@ -646,5 +656,4 @@ const totalAnswersElement = localStorage.setItem('allUserAnswers', '');
     if (progressCircle) {
         addProgressCircleScript();
     }
-    updateProgressBar(20);
-})
+    
