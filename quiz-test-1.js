@@ -69,7 +69,8 @@ const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
 const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
 const progressPartial = document.querySelector('[nny-quiz="progress-part"]');
 const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard"]');
-
+console.log(list)
+console.log(finalScreen)
 
 const quizName = document.querySelector('[nny-quiz="quiz-name"]');
 if (quizName) {
