@@ -48,6 +48,7 @@
 
 */
 
+"use strict";
 //turn off native webflow forms
 function turnOffNativeForm() {
     const quizForm = document.querySelector('[nny-quiz="form"]');
