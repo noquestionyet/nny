@@ -184,6 +184,7 @@ function nextQuestion(totalQuestions) {
     else {
         showResult('false');
     }
+}
     const totalAnsweredQuestions = document.querySelectorAll('.answered');
     const progress = 100 * ((totalAnsweredQuestions.length + 1) / totalQuestions);
     if (progress == 100) {
@@ -631,7 +632,7 @@ function getMemberStatus(currentUserId) {
 
 //loading page events
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", () => {
     const quizForm = document.querySelector('[nny-quiz="form"]');
 
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
@@ -640,5 +641,5 @@ document.addEventListener("DOMContentLoaded", function(){
     const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
     if (progressCircle) {
         addProgressCircleScript();
-    }
-});
+    };
+})
