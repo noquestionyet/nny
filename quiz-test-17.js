@@ -445,9 +445,9 @@ function showLeaderboard() {
 };
 
 //checking the status of the subscription and setting the main variables based on that
-function activateScript(activeStatus) {
+function activateScript(activeStatus, quizForm) {
     let userStatus = false;
-    const currentURL = window.location.hostname;
+    let currentURL = window.location.hostname;
     if (currentURL.includes("webflow.io")){
         userStatus = true;
     }
@@ -460,7 +460,7 @@ function activateScript(activeStatus) {
     if (userStatus == true){
         console.log('the user is active')
         //setting main variables and create first question
-        const list = document.querySelector('[nny-quiz="list"]');
+        //const list = document.querySelector('[nny-quiz="list"]');
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
         finalScreen.style.display = 'none';
         const quizName = document.querySelector('[nny-quiz="quiz-name"]');
@@ -589,7 +589,7 @@ function activateScript(activeStatus) {
 }
 
 //checking the subscription status in the db
-function getMemberStatus(currentUserId) {
+function getMemberStatus(currentUserId, quizForm) {
     const url =
         `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member/${currentUserId}`;
     fetch(url, {
@@ -608,8 +608,8 @@ function getMemberStatus(currentUserId) {
             });
         })
         .then((data) => {
-            const expirationDate = data.memberstack_expiration_date;
-            const currentDate = Math.floor(Date.now() / 1000);
+            let expirationDate = data.memberstack_expiration_date;
+            let currentDate = Math.floor(Date.now() / 1000);
             if (expirationDate) {
                 if (currentDate > expirationDate) {
                     activeStatus = false;
@@ -621,7 +621,7 @@ function getMemberStatus(currentUserId) {
                 activeStatus = true;
             }
 
-            activateScript(activeStatus);
+            activateScript(activeStatus, quizForm);
 
         })
         .catch((error) => {
@@ -634,8 +634,9 @@ function getMemberStatus(currentUserId) {
 
 document.addEventListener("DOMContentLoaded", () => {
     const quizForm = document.querySelector('[nny-quiz="form"]');
+    const list = document.querySelector('[nny-quiz="list"]');
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
-    getMemberStatus(currentUserId);
+    getMemberStatus(currentUserId, quizForm);
     turnOffNativeForm(quizForm);
     const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
     if (progressCircle) {
