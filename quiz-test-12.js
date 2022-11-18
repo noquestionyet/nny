@@ -634,6 +634,7 @@ function getMemberStatus(currentUserId) {
 
 document.addEventListener("DOMContentLoaded", () => {
     const quizForm = document.querySelector('[nny-quiz="form"]');
+    console.log(quizForm)
 
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     getMemberStatus(currentUserId);
