@@ -640,8 +640,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
-    myPromise.then(getMemberStatus(currentUserId))
-    turnOffNativeForm();
+    myPromise
+  .then(
+    //getMemberStatus(currentUserId);
+    turnOffNativeForm())
     const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
     if (progressCircle) {
         addProgressCircleScript();
