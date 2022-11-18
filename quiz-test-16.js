@@ -52,7 +52,7 @@ we would need final screen after the quiz
 */
 
 //turn off native webflow forms
-function turnOffNativeForm() {
+function turnOffNativeForm(quizForm) {
     //const quizForm = document.querySelector('[nny-quiz="form"]');
     quizForm.addEventListener("submit", handlerCallback, true);
 
@@ -633,17 +633,10 @@ function getMemberStatus(currentUserId) {
 //loading page events
 
 document.addEventListener("DOMContentLoaded", () => {
-    const myPromise = new Promise((resolve, reject) => {
-        const quizForm = document.querySelector('[nny-quiz="form"]');
-        console.log(quizForm)
-    });
-    
-
+    const quizForm = document.querySelector('[nny-quiz="form"]');
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
-    myPromise
-  .then(
-    //getMemberStatus(currentUserId);
-    turnOffNativeForm())
+    getMemberStatus(currentUserId);
+    turnOffNativeForm(quizForm);
     const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
     if (progressCircle) {
         addProgressCircleScript();
