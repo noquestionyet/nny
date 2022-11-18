@@ -53,7 +53,7 @@ we would need final screen after the quiz
 
 //turn off native webflow forms
 function turnOffNativeForm(quizForm) {
-    //const quizForm = document.querySelector('[nny-quiz="form"]');
+    const quizForm = document.querySelector('[nny-quiz="form"]');
     quizForm.addEventListener("submit", handlerCallback, true);
 
     function handlerCallback(event) {
@@ -445,7 +445,7 @@ function showLeaderboard() {
 };
 
 //checking the status of the subscription and setting the main variables based on that
-function activateScript(activeStatus, quizForm) {
+function activateScript(activeStatus) {
     let userStatus = false;
     let currentURL = window.location.hostname;
     if (currentURL.includes("webflow.io")){
@@ -460,7 +460,7 @@ function activateScript(activeStatus, quizForm) {
     if (userStatus == true){
         console.log('the user is active')
         //setting main variables and create first question
-        //const list = document.querySelector('[nny-quiz="list"]');
+        const list = document.querySelector('[nny-quiz="list"]');
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
         finalScreen.style.display = 'none';
         const quizName = document.querySelector('[nny-quiz="quiz-name"]');
@@ -563,7 +563,7 @@ function activateScript(activeStatus, quizForm) {
         }
 
         //if splash screen exists
-        //const quizForm = document.querySelector('[nny-quiz="form"]');
+        const quizForm = document.querySelector('[nny-quiz="form"]');
         const splashScreen = document.querySelector('[nny-quiz="splash"]');
         const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
         if (splashScreen) {
@@ -589,7 +589,7 @@ function activateScript(activeStatus, quizForm) {
 }
 
 //checking the subscription status in the db
-function getMemberStatus(currentUserId, quizForm) {
+function getMemberStatus(currentUserId) {
     const url =
         `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member/${currentUserId}`;
     fetch(url, {
@@ -621,7 +621,7 @@ function getMemberStatus(currentUserId, quizForm) {
                 activeStatus = true;
             }
 
-            activateScript(activeStatus, quizForm);
+            activateScript(activeStatus);
 
         })
         .catch((error) => {
@@ -633,10 +633,8 @@ function getMemberStatus(currentUserId, quizForm) {
 //loading page events
 
 document.addEventListener("DOMContentLoaded", () => {
-    const quizForm = document.querySelector('[nny-quiz="form"]');
-    const list = document.querySelector('[nny-quiz="list"]');
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
-    getMemberStatus(currentUserId, quizForm);
+    getMemberStatus(currentUserId);
     turnOffNativeForm(quizForm);
     const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
     if (progressCircle) {
