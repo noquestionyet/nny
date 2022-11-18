@@ -1,8 +1,11 @@
 /* attributes are used
 -- required
 1. nny-quiz="list" - list of questions
-2. nny-quiz="finish" - final screen
-3. nny-quiz="form" - the actual form
+2. nny-quiz="form" - the actual form
+we would need final screen after the quiz
+3. nny-quiz="finish" - final screen with the login form (send data to the db)
+4. nny-quiz="result" - final screen with the result
+
 
 
 --required for the db
@@ -48,11 +51,9 @@
 
 */
 
-
-"use strict";
 //turn off native webflow forms
 function turnOffNativeForm() {
-    const quizForm = document.querySelector('[nny-quiz="form"]');
+    //const quizForm = document.querySelector('[nny-quiz="form"]');
     quizForm.addEventListener("submit", handlerCallback, true);
 
     function handlerCallback(event) {
@@ -60,13 +61,13 @@ function turnOffNativeForm() {
         event.stopPropagation();
     }
 }
-        
+
 //hide splash screen
 function hideSplash() {
     //const quizForm = document.querySelector('[nny-quiz="form"]');
-    //const splashScreen = document.querySelector('[nny-quiz="splash"]');
-    //const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
-    //const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
+    const splashScreen = document.querySelector('[nny-quiz="splash"]');
+    const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
+    const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
     splashScreen.style.display = 'none';
     quizForm.style.display = 'block';
     if (progressBar) {
@@ -137,8 +138,8 @@ function createProgressCircle() {
 
 //show progress bar
 function updateProgressBar(progress) {
-    //const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
-   // const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
+    const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
+    const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
 
     if (progressBar) {
         progressBar.style.width = `${progress}%`;
@@ -161,15 +162,13 @@ function nextQuestion(totalQuestions) {
         }
         currentQuestion.classList.add('answered')
     } else {
-        //const finalScreen = document.querySelector('[nny-quiz="finish"]');
-        //const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
-        //const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
-        //const progressPartial = document.querySelector('[nny-quiz="progress-part"]');
+        const finalScreen = document.querySelector('[nny-quiz="finish"]');
+        const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
+        const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
+        const progressPartial = document.querySelector('[nny-quiz="progress-part"]');
 
-        if (!document.querySelector('[nny-quiz="submit"]')) {
-            showResult();
-        }
-
+        if (finalScreen) {
+        
         finalScreen.style.display = 'flex';
         currentQuestion.style.display = 'none';
         if (progressBar) {
@@ -181,6 +180,9 @@ function nextQuestion(totalQuestions) {
         if (progressPartial) {
             progressPartial.style.display = 'none';
         }
+    }
+    else {
+        showResult('false');
     }
     const totalAnsweredQuestions = document.querySelectorAll('.answered');
     const progress = 100 * ((totalAnsweredQuestions.length + 1) / totalQuestions);
@@ -258,16 +260,18 @@ function showError(value) {
 }
 
 //show result in the amount of right answers
-function showResult() {
-    //const resultScreen = document.querySelector('[nny-quiz="result"]');
+function showResult(sentToDb) {
+    const resultScreen = document.querySelector('[nny-quiz="result"]');
+    const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard"]');
     if (resultScreen) {
         document.querySelector('[nny-quiz="finish"]').style.display = 'none';
         resultScreen.style.display = 'block';
     }
     //if we have leaderboard
-    //const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard"]');
-    if (leaderboardScreen) {
-        showLeaderboard();
+    if(sentToDb == 'true') {
+         if (resultScreen.querySelector(leaderboardScreen)) {
+            showLeaderboard();
+        }
     }
 
     //if we have points
@@ -343,7 +347,7 @@ function sendPoints() {
             showError(error.message);
         })
         .finally(() => {
-            showResult();
+            showResult('true');
         })
 };
 
@@ -454,7 +458,39 @@ function activateScript(activeStatus) {
 
     if (userStatus == true){
         console.log('the user is active')
-    
+        //setting main variables and create first question
+        const list = document.querySelector('[nny-quiz="list"]');
+        const finalScreen = document.querySelector('[nny-quiz="finish"]');
+        finalScreen.style.display = 'none';
+        const quizName = document.querySelector('[nny-quiz="quiz-name"]');
+        if (quizName) {
+            quizName.style.display = 'none';
+        }
+
+        const resultScreen = document.querySelector('[nny-quiz="result"]');
+        if (resultScreen) {
+            resultScreen.style.display = 'none';
+        }
+
+        const resultItems = document.querySelectorAll('[nny-quiz="result-item"]');
+        if (resultItems) {
+            resultItems.forEach((el) => {
+                el.style.display = 'none';
+            })
+        };
+
+        list.firstElementChild.classList.add('current-question');
+        Array.from(list.children).forEach((el) => {
+            if (!el.classList.contains('current-question')) {
+                el.style.display = 'none';
+            }
+        })
+        updateProgressBar(20);
+
+        //create local storage keys to store total points and answers
+        const totalPointsElement = localStorage.setItem('totalPoints', '');
+        const totalAnswersElement = localStorage.setItem('allUserAnswers', '');
+
         //if we want the next button
         const nextButton = document.querySelectorAll('[nny-quiz="next"]');
         if (nextButton.length != 0) {
@@ -526,9 +562,9 @@ function activateScript(activeStatus) {
         }
 
         //if splash screen exists
-       // const quizForm = document.querySelector('[nny-quiz="form"]');
-        //const splashScreen = document.querySelector('[nny-quiz="splash"]');
-       // const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
+        //const quizForm = document.querySelector('[nny-quiz="form"]');
+        const splashScreen = document.querySelector('[nny-quiz="splash"]');
+        const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
         if (splashScreen) {
             quizForm.style.display = 'none';
             if (progressBar) {
@@ -594,66 +630,15 @@ function getMemberStatus(currentUserId) {
 }
 
 //loading page events
-const loadVars = new Promise((resolve, reject) => {
 
-            //setting main variables and create first question
-            const list = document.querySelector('[nny-quiz="list"]');
-            const finalScreen = document.querySelector('[nny-quiz="finish"]');
-            finalScreen.style.display = 'none';
-            const quizForm = document.querySelector('[nny-quiz="form"]');
-            const splashScreen = document.querySelector('[nny-quiz="splash"]');
-            const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
-            const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
-            const progressPartial = document.querySelector('[nny-quiz="progress-part"]');
-            const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard"]');
-            console.log(list)
-            console.log(finalScreen)
-            console.log(progressBar)
-            
-            const quizName = document.querySelector('[nny-quiz="quiz-name"]');
-            if (quizName) {
-                quizName.style.display = 'none';
-            }
-            
-            const resultScreen = document.querySelector('[nny-quiz="result"]');
-            if (resultScreen) {
-                resultScreen.style.display = 'none';
-            }
-            
-            const resultItems = document.querySelectorAll('[nny-quiz="result-item"]');
-            if (resultItems) {
-                resultItems.forEach((el) => {
-                    el.style.display = 'none';
-                })
-            };
-            
-            list.firstElementChild.classList.add('current-question');
-            Array.from(list.children).forEach((el) => {
-                if (!el.classList.contains('current-question')) {
-                    el.style.display = 'none';
-                }
-            })
-            
-    
+document.addEventListener("DOMContentLoaded", function(){
+    const quizForm = document.querySelector('[nny-quiz="form"]');
 
-//create local storage keys to store total points and answers
-const totalPointsElement = localStorage.setItem('totalPoints', '');
-const totalAnswersElement = localStorage.setItem('allUserAnswers', '');
-        })
-
-        loadVars.then(
-            (result) => { 
-                updateProgressBar(20);
-            },
-            (error) => { 
-               console.log(error);
-            }
-          );
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     getMemberStatus(currentUserId);
     turnOffNativeForm();
-    //const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
+    const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
     if (progressCircle) {
         addProgressCircleScript();
     }
-    
+});
