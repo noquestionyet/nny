@@ -630,7 +630,7 @@ function getMemberStatus(currentUserId) {
             let expirationDate = data.memberstack_expiration_date;
             let currentDate = Math.floor(Date.now() / 1000);
             let currentUserPriceId = data.price_id;
-            if (price_id == "prc_paid-plan-hrj0lut") {
+            if (currentUserPriceId == "prc_paid-plan-hrj0lut") {
               if (expirationDate) {
                   if (currentDate > expirationDate) {
                       activeStatus = false;
