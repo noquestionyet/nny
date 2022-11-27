@@ -1,8 +1,11 @@
 /* attributes are used
 -- required
 1. nny-quiz="list" - list of questions
-2. nny-quiz="finish" - final screen
-3. nny-quiz="form" - the actual form
+2. nny-quiz="form" - the actual form
+we would need final screen after the quiz
+3. nny-quiz="finish" - final screen with the login form (send data to the db)
+4. nny-quiz="result" - final screen with the result
+
 
 
 --required for the db
@@ -30,6 +33,8 @@
 10. nny-quiz="result-item" - collection item with the result
 11. nny-quiz="result-points" - number of final points
 12. nny-quiz="result-total-right-answers" - number of final right answers
+13. nny-quiz="start-over" - reload the page
+
 
 --leaderboard
 
@@ -59,9 +64,18 @@ function turnOffNativeForm() {
     }
 }
 
+//start again
+function startOver() {
+    window.location.reload();
+}
+
+if (document.querySelector('[nny-quiz="start-over"]')) {
+    document.querySelector('[nny-quiz="start-over"]').addEventListener('click', startOver);
+}
+
 //hide splash screen
 function hideSplash() {
-    const quizForm = document.querySelector('[nny-quiz="form"]');
+    //const quizForm = document.querySelector('[nny-quiz="form"]');
     const splashScreen = document.querySelector('[nny-quiz="splash"]');
     const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
     const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
@@ -164,10 +178,8 @@ function nextQuestion(totalQuestions) {
         const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
         const progressPartial = document.querySelector('[nny-quiz="progress-part"]');
 
-        if (!document.querySelector('[nny-quiz="submit"]')) {
-            showResult();
-        }
-
+        if (finalScreen) {
+        
         finalScreen.style.display = 'flex';
         currentQuestion.style.display = 'none';
         if (progressBar) {
@@ -180,6 +192,10 @@ function nextQuestion(totalQuestions) {
             progressPartial.style.display = 'none';
         }
     }
+    else {
+        showResult('false');
+    }
+}
     const totalAnsweredQuestions = document.querySelectorAll('.answered');
     const progress = 100 * ((totalAnsweredQuestions.length + 1) / totalQuestions);
     if (progress == 100) {
@@ -256,16 +272,18 @@ function showError(value) {
 }
 
 //show result in the amount of right answers
-function showResult() {
+function showResult(sentToDb) {
     const resultScreen = document.querySelector('[nny-quiz="result"]');
+    const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
     if (resultScreen) {
         document.querySelector('[nny-quiz="finish"]').style.display = 'none';
         resultScreen.style.display = 'block';
     }
     //if we have leaderboard
-    const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard"]');
-    if (leaderboardScreen) {
-        showLeaderboard();
+    if(sentToDb == 'true') {
+         if (resultScreen.querySelector(leaderboardScreen) && !resultScreen.querySelector(resultScreen)) {
+            showLeaderboard();
+        }
     }
 
     //if we have points
@@ -341,12 +359,13 @@ function sendPoints() {
             showError(error.message);
         })
         .finally(() => {
-            showResult();
+            showResult('true');
         })
 };
 
 //show the leaderboard
 function showLeaderboard() {
+    const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
     const resultScreen = document.querySelector('[nny-quiz="leaderboard-wrapper"]');
@@ -430,6 +449,8 @@ function showLeaderboard() {
                 newParent.innerHTML += leaderboardItem;
             };
             leaderboardParent.remove();
+            leaderboardScreen.style.display = 'flex';
+
 
         })
         .catch((error) => {
@@ -439,8 +460,18 @@ function showLeaderboard() {
 
 //checking the status of the subscription and setting the main variables based on that
 function activateScript(activeStatus) {
+    let userStatus = false;
+    let currentURL = window.location.hostname;
+    if (currentURL.includes("webflow.io")){
+        userStatus = true;
+    }
+    else {
+        if (activeStatus == true) {
+            userStatus = true;
+        }
+    }
 
-    if (activeStatus == true) {
+    if (userStatus == true){
         console.log('the user is active')
         //setting main variables and create first question
         const list = document.querySelector('[nny-quiz="list"]');
@@ -454,6 +485,11 @@ function activateScript(activeStatus) {
         const resultScreen = document.querySelector('[nny-quiz="result"]');
         if (resultScreen) {
             resultScreen.style.display = 'none';
+        }
+        
+        const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
+        if (leaderboardScreen) {
+            leaderboardScreen.style.display = 'none';
         }
 
         const resultItems = document.querySelectorAll('[nny-quiz="result-item"]');
@@ -591,17 +627,22 @@ function getMemberStatus(currentUserId) {
             });
         })
         .then((data) => {
-            const expirationDate = data.memberstack_expiration_date;
-            const currentDate = Math.floor(Date.now() / 1000);
-            if (expirationDate) {
-                if (currentDate > expirationDate) {
-                    activeStatus = false;
-                } else {
-                    activeStatus = true;
-                }
-
-            } else {
-                activeStatus = true;
+            let expirationDate = data.memberstack_expiration_date;
+            let currentDate = Math.floor(Date.now() / 1000);
+            let currentUserPriceId = data.price_id;
+            if (price_id == "prc_paid-plan-hrj0lut") {
+              if (expirationDate) {
+                  if (currentDate > expirationDate) {
+                      activeStatus = false;
+                  } else {
+                      activeStatus = true;
+                  }
+              } else {
+                  activeStatus = true;
+              }
+            }
+            else{
+                activeStatus = false;
             }
 
             activateScript(activeStatus);
@@ -614,12 +655,13 @@ function getMemberStatus(currentUserId) {
 }
 
 //loading page events
-onload = (event) => {
+
+document.addEventListener("DOMContentLoaded", () => {
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     getMemberStatus(currentUserId);
     turnOffNativeForm();
     const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
     if (progressCircle) {
         addProgressCircleScript();
-    }
-}
+    };
+})
