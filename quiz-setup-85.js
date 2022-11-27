@@ -69,10 +69,6 @@ function startOver() {
     window.location.reload();
 }
 
-if (document.querySelector('[nny-quiz="start-over"]')) {
-    document.querySelector('[nny-quiz="start-over"]').addEventListener('click', startOver);
-}
-
 //hide splash screen
 function hideSplash() {
     const quizForm = document.querySelector('[nny-quiz="form"]');
@@ -598,6 +594,10 @@ function activateScript(activeStatus) {
 
         if (document.querySelector('[nny-quiz="show-leaderboard"]')) {
             document.querySelector('[nny-quiz="show-leaderboard"]').addEventListener('click', showLeaderboard);
+        }
+
+        if (document.querySelector('[nny-quiz="start-over"]')) {
+            document.querySelector('[nny-quiz="start-over"]').addEventListener('click', startOver);
         }
 
     } else {
