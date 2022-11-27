@@ -281,7 +281,7 @@ function showResult(sentToDb) {
     }
     //if we have leaderboard
     if(sentToDb == 'true') {
-         if (resultScreen.querySelector(leaderboardScreen) && !resultScreen.querySelector(resultScreen)) {
+         if (leaderboardScreen && !resultScreen) {
             showLeaderboard();
         }
     }
