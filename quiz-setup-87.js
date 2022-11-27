@@ -28,7 +28,8 @@ we would need final screen after the quiz
 5. nny-quiz="points" - points for each question
 6. nny-quiz="state" - true/false state for each answer
 7. nny-quiz="form-error" - display error
-8. nny-quiz="right-answers" - total amount of right answers
+8. nny-quiz="right-answers" - all right answers in the cms
+8. nny-quiz="total-result-right-answers" - total amount of right answers
 9. nny-quiz="result" - main div with the result collection
 10. nny-quiz="result-item" - collection item with the result
 11. nny-quiz="result-points" - number of final points
@@ -292,9 +293,12 @@ function showResult(sentToDb) {
     }
     //if we have right answers
     const rightAnswersNumber = document.querySelectorAll('[nny-quiz="right-answers"]');
-    const rightAnswers = localStorage.getItem('rightAnswers');
+    const rightAnswersAmount = localStorage.getItem('rightAnswers');
+    const rightAnswerText = document.querySelector('[nny-quiz="total-result-right-answers"]');
+    if (rightAnswerText){
+        rightAnswerText.innerHTML = rightAnswersAmount;
+    }
     if (rightAnswersNumber) {
-        rightAnswersNumber.innerHTML = rightAnswers;
         for (i = 0; i < rightAnswersNumber.length; i++) {
             if (Number(rightAnswersNumber[i].innerHTML) == rightAnswersAmount) {
                 const resultItem = $(rightAnswersNumber[i]).closest(document.querySelector('[nny-quiz="result-item"]'));
@@ -307,6 +311,7 @@ function showResult(sentToDb) {
     //remove the data from local storage
     localStorage.removeItem('totalPoints');
     localStorage.removeItem('allUserAnswers');
+    localStorage.removeItem('rightAnswers');
 }
 
 //sending the user results to the db
