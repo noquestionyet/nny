@@ -75,7 +75,7 @@ if (document.querySelector('[nny-quiz="start-over"]')) {
 
 //hide splash screen
 function hideSplash() {
-    //const quizForm = document.querySelector('[nny-quiz="form"]');
+    const quizForm = document.querySelector('[nny-quiz="form"]');
     const splashScreen = document.querySelector('[nny-quiz="splash"]');
     const progressBar = document.querySelector('[nny-quiz="progress-bar"]');
     const progressCircle = document.querySelector('[nny-quiz="progress-circle"]');
