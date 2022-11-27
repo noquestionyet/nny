@@ -67,6 +67,10 @@ function turnOffNativeForm() {
 //start again
 function startOver() {
     window.location.reload();
+     //remove the data from local storage
+     localStorage.removeItem('totalPoints');
+     localStorage.removeItem('allUserAnswers');
+     localStorage.removeItem('rightAnswers');
 }
 
 //hide splash screen
@@ -308,10 +312,6 @@ function showResult(sentToDb) {
             }
         }
     }
-    //remove the data from local storage
-    localStorage.removeItem('totalPoints');
-    localStorage.removeItem('allUserAnswers');
-    localStorage.removeItem('rightAnswers');
 }
 
 //sending the user results to the db
@@ -447,8 +447,10 @@ function showLeaderboard() {
             };
             leaderboardParent.remove();
             leaderboardScreen.style.display = 'flex';
-
-
+             //remove the data from local storage
+            localStorage.removeItem('totalPoints');
+            localStorage.removeItem('allUserAnswers');
+            localStorage.removeItem('rightAnswers');
         })
         .catch((error) => {
             showError(error.message);
