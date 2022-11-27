@@ -363,6 +363,7 @@ function sendPoints() {
 //show the leaderboard
 function showLeaderboard() {
     const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
+    const result = document.querySelector('[nny-quiz="result"]');
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
     const resultScreen = document.querySelector('[nny-quiz="leaderboard-wrapper"]');
@@ -447,6 +448,7 @@ function showLeaderboard() {
             };
             leaderboardParent.remove();
             leaderboardScreen.style.display = 'flex';
+            result.style.display = 'none';
              //remove the data from local storage
             localStorage.removeItem('totalPoints');
             localStorage.removeItem('allUserAnswers');
