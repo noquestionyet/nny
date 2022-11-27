@@ -65,7 +65,6 @@ function turnOffNativeForm() {
 
 //start again
 function startOver() {
-    console.log('reload')
     window.location.reload();
 }
 
@@ -201,9 +200,9 @@ function nextQuestion(totalQuestions) {
     }
 
     //get the current answer value and points
-    let rightAnswersAmount = 0;
     const totalPoints = localStorage.getItem('totalPoints');
     const allUserAnswers = localStorage.getItem('allUserAnswers');
+    const rightAnswers = localStorage.getItem('rightAnswers');
     const checkedRadio = document.querySelector('input[type=radio]:checked');
     const currentAnswerPoints = checkedRadio.parentElement.querySelector('[nny-quiz="points"]').innerHTML;
     const currentAnswerLabel = checkedRadio.parentElement.querySelector('.w-form-label').innerHTML;
@@ -222,14 +221,10 @@ function nextQuestion(totalQuestions) {
         if (currentAnswerState == 'true') {
             const newTotalPoints = Number(totalPoints) + Number(currentAnswerPoints);
             localStorage.setItem('totalPoints', newTotalPoints);
+            localStorage.setItem('rightAnswers', (Number(rightAnswers) + 1));
         }
     }
-    if (currentAnswerState == 'true') {
-        rightAnswersAmount = rightAnswersAmount + 1;
-        if (document.querySelector('[nny-quiz="right-answers"]')) {
-            document.querySelector('[nny-quiz="right-answers"]').innerHTML = rightAnswersAmount;
-        }
-    }
+   
     currentQuestionNumber(totalAnsweredQuestions, totalQuestions);
     updateProgressBar(progress);
 }
@@ -297,7 +292,9 @@ function showResult(sentToDb) {
     }
     //if we have right answers
     const rightAnswersNumber = document.querySelectorAll('[nny-quiz="right-answers"]');
+    const rightAnswers = localStorage.getItem('rightAnswers');
     if (rightAnswersNumber) {
+        rightAnswersNumber.innerHTML = rightAnswers;
         for (i = 0; i < rightAnswersNumber.length; i++) {
             if (Number(rightAnswersNumber[i].innerHTML) == rightAnswersAmount) {
                 const resultItem = $(rightAnswersNumber[i]).closest(document.querySelector('[nny-quiz="result-item"]'));
