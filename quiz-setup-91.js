@@ -30,10 +30,11 @@ we would need final screen after the quiz
 7. nny-quiz="form-error" - display error
 8. nny-quiz="right-answers" - all right answers in the cms
 8. nny-quiz="total-result-right-answers" - total amount of right answers
-9. nny-quiz="result" - main div with the result collection
-10. nny-quiz="result-item" - collection item with the result
-11. nny-quiz="result-points" - number of final points
-12. nny-quiz="start-over" - reload the page
+9. nny-quiz="total-result-points" - total amount of points
+10. nny-quiz="result" - main div with the result collection
+11. nny-quiz="result-item" - collection item with the result
+12. nny-quiz="result-points" - number of final points
+13. nny-quiz="start-over" - reload the page
 
 
 --leaderboard
@@ -285,9 +286,14 @@ function showResult(sentToDb) {
     //if we have points
     const possiblePoints = document.querySelectorAll('[nny-quiz="result-points"]');
     const totalPoints = localStorage.getItem('totalPoints');
+    const possiblePointsNumber = document.querySelectorAll('[nny-quiz="total-result-points"]');
+    if (possiblePointsNumber){
+        possiblePointsNumber.innerHTML = totalPoints;
+    }
+
     if (possiblePoints) {
         for (i = 0; i < possiblePoints.length; i++) {
-            if (Number(possiblePoints[i].innerHTML) == totalPoints) {
+            if (Number(possiblePoints[i].innerHTML) == Number(totalPoints)) {
                 const resultItem = $(possiblePoints[i]).closest(document.querySelector('[nny-quiz="result-item"]'));
                 resultItem.css({
                     "display": "block"
@@ -304,7 +310,7 @@ function showResult(sentToDb) {
     }
     if (rightAnswersNumber) {
         for (i = 0; i < rightAnswersNumber.length; i++) {
-            if (Number(rightAnswersNumber[i].innerHTML) == rightAnswersAmount) {
+            if (Number(rightAnswersNumber[i].innerHTML) == Number(rightAnswersAmount)) {
                 const resultItem = $(rightAnswersNumber[i]).closest(document.querySelector('[nny-quiz="result-item"]'));
                 resultItem.css({
                     "display": "block"
