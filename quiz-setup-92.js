@@ -225,7 +225,7 @@ function nextQuestion(totalQuestions) {
         localStorage.setItem('totalPoints', newTotalPoints);
     } else {
         if (currentAnswerState == 'true') {
-            const newTotalPoints = Number(totalPoints) + Number(currentAnswerPoints);
+            const newTotalPoints = Number(totalPoints) + Number(answerPoints);
             localStorage.setItem('totalPoints', newTotalPoints);
             localStorage.setItem('rightAnswers', (Number(rightAnswers) + 1));
         }
