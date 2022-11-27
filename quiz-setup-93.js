@@ -286,7 +286,7 @@ function showResult(sentToDb) {
     //if we have points
     const possiblePoints = document.querySelectorAll('[nny-quiz="result-points"]');
     const totalPoints = localStorage.getItem('totalPoints');
-    const possiblePointsNumber = document.querySelectorAll('[nny-quiz="total-result-points"]');
+    const possiblePointsNumber = document.querySelector('[nny-quiz="total-result-points"]');
     if (possiblePointsNumber){
         possiblePointsNumber.innerHTML = totalPoints;
     }
