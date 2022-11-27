@@ -65,6 +65,7 @@ function turnOffNativeForm() {
 
 //start again
 function startOver() {
+    console.log('reload')
     window.location.reload();
 }
 
