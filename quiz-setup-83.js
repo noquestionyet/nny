@@ -32,8 +32,7 @@ we would need final screen after the quiz
 9. nny-quiz="result" - main div with the result collection
 10. nny-quiz="result-item" - collection item with the result
 11. nny-quiz="result-points" - number of final points
-12. nny-quiz="result-total-right-answers" - number of final right answers
-13. nny-quiz="start-over" - reload the page
+12. nny-quiz="start-over" - reload the page
 
 
 --leaderboard
@@ -300,10 +299,9 @@ function showResult(sentToDb) {
         }
     }
     //if we have right answers
-    const rightAnswersNumber = document.querySelectorAll('[nny-quiz="result-total-right-answers"]');
+    const rightAnswersNumber = document.querySelectorAll('[nny-quiz="right-answers"]');
     if (rightAnswersNumber) {
         for (i = 0; i < rightAnswersNumber.length; i++) {
-            console.log(rightAnswersAmount)
             if (Number(rightAnswersNumber[i].innerHTML) == rightAnswersAmount) {
                 const resultItem = $(rightAnswersNumber[i]).closest(document.querySelector('[nny-quiz="result-item"]'));
                 resultItem.css({
