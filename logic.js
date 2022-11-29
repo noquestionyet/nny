@@ -68,10 +68,10 @@ function turnOffNativeForm() {
 //start again
 function startOver() {
     window.location.reload();
-     //remove the data from local storage
-     localStorage.removeItem('totalPoints');
-     localStorage.removeItem('allUserAnswers');
-     localStorage.removeItem('rightAnswers');
+    //remove the data from local storage
+    localStorage.removeItem('totalPoints');
+    localStorage.removeItem('allUserAnswers');
+    localStorage.removeItem('rightAnswers');
 }
 
 //hide splash screen
@@ -111,7 +111,7 @@ function currentQuestionNumber(totalAnsweredQuestions, totalQuestions) {
     const progressBarParts = document.querySelectorAll('[nny-quiz="progress-part-element"]');
     if (progressBarParts) {
         for (let i = 0; i < progressBarParts.length; i++) {
-            if (i < totalAnsweredQuestions.length){
+            if (i < totalAnsweredQuestions.length) {
                 progressBarParts[i + 1].classList.add('active');
             }
         }
@@ -119,12 +119,12 @@ function currentQuestionNumber(totalAnsweredQuestions, totalQuestions) {
 }
 
 //add script for the circle progress bar
-function addProgressCircleScript(){
+function addProgressCircleScript() {
     const circleProgressBarScript = document.createElement("script");
     circleProgressBarScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.0.0/progressbar.min.js';
     document.head.appendChild(circleProgressBarScript);
-    let bar;  
-    circleProgressBarScript.addEventListener('load', function() {
+    let bar;
+    circleProgressBarScript.addEventListener('load', function () {
         createProgressCircle();
     });
 }
@@ -133,11 +133,11 @@ function addProgressCircleScript(){
 function createProgressCircle() {
     const progressCircleIcon = document.querySelector('[nny-quiz="progress-circle-element"]');
     const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue("border-color");
-    const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue("border-width").replace(/em|rem|px|ch|vw|vh|%/g,''));
+    const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue("border-width").replace(/em|rem|px|ch|vw|vh|%/g, ''));
     let progressCircleColor = progressCircleColorActive.replace(/rgb/i, "rgba");
-    progressCircleColor = progressCircleColor.replace(/\)/i,',0.3)');
+    progressCircleColor = progressCircleColor.replace(/\)/i, ',0.3)');
     document.querySelector('[nny-quiz="progress-circle-element"]').style.display = 'none';
-     bar = new ProgressBar.Circle('[nny-quiz="progress-circle"]', {
+    bar = new ProgressBar.Circle('[nny-quiz="progress-circle"]', {
         strokeWidth: progressCircleWidth,
         easing: 'easeOut',
         duration: 400,
@@ -145,7 +145,7 @@ function createProgressCircle() {
         trailColor: progressCircleColor,
         trailWidth: progressCircleWidth,
         svgStyle: null
-      });    
+    });
 };
 
 //show progress bar
@@ -157,7 +157,7 @@ function updateProgressBar(progress) {
         progressBar.style.width = `${progress}%`;
     }
     if (progressCircle) {
-        bar.animate(progress/100);
+        bar.animate(progress / 100);
     }
 }
 
@@ -180,23 +180,22 @@ function nextQuestion(totalQuestions) {
         const progressPartial = document.querySelector('[nny-quiz="progress-part"]');
 
         if (finalScreen) {
-        
-        finalScreen.style.display = 'flex';
-        currentQuestion.style.display = 'none';
-        if (progressBar) {
-            progressBar.style.display = 'none';
-        }
-        if (progressCircle) {
-            progressCircle.style.display = 'none';
-        }
-        if (progressPartial) {
-            progressPartial.style.display = 'none';
+
+            finalScreen.style.display = 'flex';
+            currentQuestion.style.display = 'none';
+            if (progressBar) {
+                progressBar.style.display = 'none';
+            }
+            if (progressCircle) {
+                progressCircle.style.display = 'none';
+            }
+            if (progressPartial) {
+                progressPartial.style.display = 'none';
+            }
+        } else {
+            showResult('false');
         }
     }
-    else {
-        showResult('false');
-    }
-}
     const totalAnsweredQuestions = document.querySelectorAll('.answered');
     const progress = 100 * ((totalAnsweredQuestions.length + 1) / totalQuestions);
     if (progress == 100) {
@@ -230,7 +229,7 @@ function nextQuestion(totalQuestions) {
             localStorage.setItem('rightAnswers', (Number(rightAnswers) + 1));
         }
     }
-   
+
     currentQuestionNumber(totalAnsweredQuestions, totalQuestions);
     updateProgressBar(progress);
 }
@@ -277,8 +276,8 @@ function showResult(sentToDb) {
         resultScreen.style.display = 'block';
     }
     //if we have leaderboard
-    if(sentToDb == 'true') {
-         if (leaderboardScreen && !resultScreen) {
+    if (sentToDb == 'true') {
+        if (leaderboardScreen && !resultScreen) {
             showLeaderboard();
         }
     }
@@ -287,8 +286,12 @@ function showResult(sentToDb) {
     const possiblePoints = document.querySelectorAll('[nny-quiz="result-points"]');
     const totalPoints = localStorage.getItem('totalPoints');
     const possiblePointsNumber = document.querySelector('[nny-quiz="total-result-points"]');
-    if (possiblePointsNumber){
-        possiblePointsNumber.innerHTML = totalPoints;
+    if (possiblePointsNumber) {
+        if (Number(totalPoints) != 0) {
+            possiblePointsNumber.innerHTML = totalPoints;
+        } else {
+            possiblePointsNumber.innerHTML = 0;
+        }
     }
 
     if (possiblePoints) {
@@ -305,7 +308,7 @@ function showResult(sentToDb) {
     const rightAnswersNumber = document.querySelectorAll('[nny-quiz="right-answers"]');
     const rightAnswersAmount = localStorage.getItem('rightAnswers');
     const rightAnswerText = document.querySelector('[nny-quiz="total-result-right-answers"]');
-    if (rightAnswerText){
+    if (rightAnswerText) {
         rightAnswerText.innerHTML = rightAnswersAmount;
     }
     if (rightAnswersNumber) {
@@ -433,7 +436,7 @@ function showLeaderboard() {
             }
             for (let i = 0; i < loopTime; i++) {
                 let leaderboardPosition = document.querySelector('[nny-quiz="leaderboard-position"]');
-                if (i < 10) {
+                if (i < 9) {
                     leaderboardPosition.innerHTML = `0${i + 1}`;
                 } else {
                     leaderboardPosition.innerHTML = i + 1;
@@ -455,7 +458,7 @@ function showLeaderboard() {
             leaderboardParent.remove();
             leaderboardScreen.style.display = 'flex';
             result.style.display = 'none';
-             //remove the data from local storage
+            //remove the data from local storage
             localStorage.removeItem('totalPoints');
             localStorage.removeItem('allUserAnswers');
             localStorage.removeItem('rightAnswers');
@@ -469,16 +472,15 @@ function showLeaderboard() {
 function activateScript(activeStatus) {
     let userStatus = false;
     let currentURL = window.location.hostname;
-    if (currentURL.includes("webflow.io")){
+    if (currentURL.includes("webflow.io")) {
         userStatus = true;
-    }
-    else {
+    } else {
         if (activeStatus == true) {
             userStatus = true;
         }
     }
 
-    if (userStatus == true){
+    if (userStatus == true) {
         console.log('the user is active')
         //setting main variables and create first question
         const list = document.querySelector('[nny-quiz="list"]');
@@ -493,7 +495,7 @@ function activateScript(activeStatus) {
         if (resultScreen) {
             resultScreen.style.display = 'none';
         }
-        
+
         const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
         if (leaderboardScreen) {
             leaderboardScreen.style.display = 'none';
@@ -569,15 +571,15 @@ function activateScript(activeStatus) {
         //if we have partial progress
         const progressPartsWrapper = document.querySelector('[nny-quiz="progress-part"]');
         if (progressPartsWrapper) {
-            const progressPart = document.querySelector('[nny-quiz="progress-part-element"]'); 
+            const progressPart = document.querySelector('[nny-quiz="progress-part-element"]');
             const progressPartClass = progressPart.className;
             while (progressPartsWrapper.firstChild) {
                 progressPartsWrapper.firstChild.remove()
             }
-            for (let i=0; i < totalQuestions; i++){
+            for (let i = 0; i < totalQuestions; i++) {
                 const newProgressPartElement = document.createElement("div");
                 newProgressPartElement.classList.add(progressPartClass);
-                newProgressPartElement.setAttribute('nny-quiz','progress-part-element');
+                newProgressPartElement.setAttribute('nny-quiz', 'progress-part-element');
                 newProgressPartElement.style.width = `${100/totalQuestions}%`;
                 progressPartsWrapper.appendChild(newProgressPartElement);
             }
@@ -642,17 +644,16 @@ function getMemberStatus(currentUserId) {
             let currentDate = Math.floor(Date.now() / 1000);
             let currentUserPriceId = data.price_id;
             if (currentUserPriceId == "prc_paid-plan-hrj0lut") {
-              if (expirationDate) {
-                  if (currentDate > expirationDate) {
-                      activeStatus = false;
-                  } else {
-                      activeStatus = true;
-                  }
-              } else {
-                  activeStatus = true;
-              }
-            }
-            else{
+                if (expirationDate) {
+                    if (currentDate > expirationDate) {
+                        activeStatus = false;
+                    } else {
+                        activeStatus = true;
+                    }
+                } else {
+                    activeStatus = true;
+                }
+            } else {
                 activeStatus = false;
             }
 
