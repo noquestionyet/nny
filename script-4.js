@@ -298,7 +298,7 @@ function showResult(sentToDb) {
         for (i = 0; i < possiblePoints.length; i++) {
             if (Number(possiblePoints[i].innerHTML) == Number(totalPoints)) {
                 const resultItem = $(possiblePoints[i]).closest(document.querySelector('[nny-quiz="result-item"]'));
-                console.log(resultItem)
+                console.log(resultItem.innerHTML)
                 resultItem.css({
                     "display": "block"
                 });
