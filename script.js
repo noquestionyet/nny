@@ -606,12 +606,18 @@ function activateScript(activeStatus) {
             document.querySelector('[nny-quiz="splash-start"]').addEventListener('click', hideSplash);
         }
 
-        if (document.querySelector('[nny-quiz="show-leaderboard"]')) {
-            document.querySelector('[nny-quiz="show-leaderboard"]').addEventListener('click', showLeaderboard);
+        const showLeaderboardBtns = document.querySelectorAll('[nny-quiz="show-leaderboard"]');
+        if (showLeaderboardBtns) {
+            for (let i = 0; i < showLeaderboardBtns.length; i++ ){
+                showLeaderboardBtns[i].addEventListener('click', showLeaderboard);
+            }
         }
-
-        if (document.querySelector('[nny-quiz="start-over"]')) {
-            document.querySelector('[nny-quiz="start-over"]').addEventListener('click', startOver);
+        
+        const startOverBtns = document.querySelectorAll('[nny-quiz="start-over"]');
+        if (startOverBtns) {
+            for (let i = 0; i < startOverBtns.length; i++ ){
+                startOverBtns[i].addEventListener('click', startOver);
+            }
         }
 
     } else {
