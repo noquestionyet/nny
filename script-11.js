@@ -313,7 +313,6 @@ function showResult(sentToDb) {
         for (i = 0; i < rightAnswersNumber.length; i++) {
             if (Number(rightAnswersNumber[i].innerHTML) == Number(rightAnswersAmount)) {
                 const resultItem = rightAnswersNumber[i].closest('[nny-quiz="result-item"]');
-                console.log(resultItem)
                 resultItem.style.display = 'block';                
             }
         }
@@ -515,6 +514,9 @@ function activateScript(activeStatus) {
 
         //create local storage keys to store total points and answers
         const totalPointsElement = localStorage.setItem('totalPoints', '');
+        if (totalPointsElement == "NaN"){
+            alert("Please, set the amount of points for the correct answer in number format!");
+        }
         const totalAnswersElement = localStorage.setItem('allUserAnswers', '');
 
         //if we want the next button
@@ -618,7 +620,7 @@ function activateScript(activeStatus) {
         }
 
     } else {
-        console.log('the user is not active')
+        alert("Please, upgrade the plan for the quiz to work on the custom domain!");
     }
 
 }
