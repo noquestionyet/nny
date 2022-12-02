@@ -298,7 +298,6 @@ function showResult(sentToDb) {
         for (i = 0; i < possiblePoints.length; i++) {
             if (Number(possiblePoints[i].innerHTML) == Number(totalPoints)) {
                 const resultItem = possiblePoints[i].closest('[nny-quiz="result-item"]');
-                console.log(resultItem)
                 resultItem.style.display = 'block';
             };
         }
@@ -313,10 +312,9 @@ function showResult(sentToDb) {
     if (rightAnswersNumber) {
         for (i = 0; i < rightAnswersNumber.length; i++) {
             if (Number(rightAnswersNumber[i].innerHTML) == Number(rightAnswersAmount)) {
-                const resultItem = $(rightAnswersNumber[i]).closest(document.querySelector('[nny-quiz="result-item"]'));
-                resultItem.css({
-                    "display": "block"
-                });
+                const resultItem = rightAnswersNumber[i].closest('[nny-quiz="result-item"]');
+                console.log(resultItem)
+                resultItem.style.display = 'block';                
             }
         }
     }
@@ -681,4 +679,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (progressCircle) {
         addProgressCircleScript();
     };
+    localStorage.removeItem('totalPoints');
+    localStorage.removeItem('allUserAnswers');
+    localStorage.removeItem('rightAnswers');
 })
