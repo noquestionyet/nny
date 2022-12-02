@@ -479,6 +479,10 @@ function activateScript(activeStatus) {
     if (userStatus == true) {
         console.log('the user is active')
         //setting main variables and create first question
+        const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
+        if (Number(answerPoints.innerHTML) == "NaN"){
+            alert("Please, set the amount of points for the correct answer in number format!");
+        }
         const list = document.querySelector('[nny-quiz="list"]');
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
         finalScreen.style.display = 'none';
@@ -514,9 +518,6 @@ function activateScript(activeStatus) {
 
         //create local storage keys to store total points and answers
         const totalPointsElement = localStorage.setItem('totalPoints', '');
-        if (totalPointsElement == "NaN"){
-            alert("Please, set the amount of points for the correct answer in number format!");
-        }
         const totalAnswersElement = localStorage.setItem('allUserAnswers', '');
 
         //if we want the next button
