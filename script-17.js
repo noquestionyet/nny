@@ -480,8 +480,7 @@ function activateScript(activeStatus) {
         console.log('the user is active')
         //setting main variables and create first question
         const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
-        console.log(Number(answerPoints))
-        if (Number(answerPoints) = NaN){
+        if (isNaN(Number(answerPoints))){
             alert("Please, set the amount of points for the correct answer in number format!");
         }
         const list = document.querySelector('[nny-quiz="list"]');
