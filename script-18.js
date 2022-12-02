@@ -57,6 +57,9 @@ we would need final screen after the quiz
 //turn off native webflow forms
 function turnOffNativeForm() {
     const quizForm = document.querySelector('[nny-quiz="form"]');
+    if (!quizForm){
+        alert('Please, add a main form with questions, answers and user inputs on the page and set an attribute nny-quiz="form" to the form element');
+    }
     quizForm.addEventListener("submit", handlerCallback, true);
 
     function handlerCallback(event) {
@@ -484,7 +487,13 @@ function activateScript(activeStatus) {
             alert("Please, set the amount of points for the correct answer in number format!");
         }
         const list = document.querySelector('[nny-quiz="list"]');
+        if (!list){
+            alert('Please, add a CMS collection with questions and answers on the page and set an attribute nny-quiz="list" to the CMS Collection List');
+        }
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
+        if (!finalScreen){
+            alert('Please, add a final screen after all questions and answers with user inputs on the page and set an attribute nny-quiz="finish"');
+        }
         finalScreen.style.display = 'none';
         const quizName = document.querySelector('[nny-quiz="quiz-name"]');
         if (quizName) {
