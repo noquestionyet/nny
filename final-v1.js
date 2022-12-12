@@ -342,7 +342,7 @@ function sendPoints() {
 
     console.log(final_data)
     const url =
-        'https://xrrg-54to-f4zf.n7.xano.io/api:84zPS-li/create_participant';
+        'https://api.noquestionyet.com/api:84zPS-li/create_participant';
     fetch(url, {
             method: 'POST',
             headers: {
@@ -376,7 +376,7 @@ function showLeaderboard() {
     const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
     const resultScreen = document.querySelector('[nny-quiz="leaderboard-wrapper"]');
     const url =
-        `https://xrrg-54to-f4zf.n7.xano.io/api:84zPS-li/member_current/${currentUserId}/${quizName}`;
+        `https://api.noquestionyet.com/api:84zPS-li/member_current/${currentUserId}/${quizName}`;
     fetch(url, {
             method: 'GET',
         })
@@ -638,7 +638,7 @@ function activateScript(activeStatus) {
 //checking the subscription status in the db
 function getMemberStatus(currentUserId) {
     const url =
-        `https://xrrg-54to-f4zf.n7.xano.io/api:84zPS-li/member/${currentUserId}`;
+        `https://api.noquestionyet.com/api:84zPS-li/member/${currentUserId}`;
     fetch(url, {
             method: 'GET',
             headers: {
