@@ -342,7 +342,7 @@ function sendPoints() {
 
     console.log(final_data)
     const url =
-        'https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/create_participant';
+        'https://xrrg-54to-f4zf.n7.xano.io/api:84zPS-li/create_participant';
     fetch(url, {
             method: 'POST',
             headers: {
@@ -376,7 +376,7 @@ function showLeaderboard() {
     const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
     const resultScreen = document.querySelector('[nny-quiz="leaderboard-wrapper"]');
     const url =
-        `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member_current/${currentUserId}/${quizName}`;
+        `https://xrrg-54to-f4zf.n7.xano.io/api:84zPS-li/member_current/${currentUserId}/${quizName}`;
     fetch(url, {
             method: 'GET',
         })
@@ -638,7 +638,7 @@ function activateScript(activeStatus) {
 //checking the subscription status in the db
 function getMemberStatus(currentUserId) {
     const url =
-        `https://x8ki-letl-twmt.n7.xano.io/api:84zPS-li/member/${currentUserId}`;
+        `https://xrrg-54to-f4zf.n7.xano.io/api:84zPS-li/member/${currentUserId}`;
     fetch(url, {
             method: 'GET',
             headers: {
@@ -658,7 +658,7 @@ function getMemberStatus(currentUserId) {
             let expirationDate = data.memberstack_expiration_date;
             let currentDate = Math.floor(Date.now() / 1000);
             let currentUserPriceId = data.price_id;
-            if (currentUserPriceId == "prc_paid-plan-hrj0lut") {
+            if (currentUserPriceId == "prc_deploy-plan-n4ae053s") {
                 if (expirationDate) {
                     if (currentDate > expirationDate) {
                         activeStatus = false;
