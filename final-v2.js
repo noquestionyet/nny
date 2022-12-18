@@ -596,7 +596,9 @@ function activateScript(activeStatus) {
         }
 
         if (document.querySelector('[nny-quiz="submit"]')) {
-            document.querySelector('[nny-quiz="submit"]').addEventListener('click', sendPoints);
+            if (document.querySelector('[nny-quiz="user-name"]').value != '' && document.querySelector('[nny-quiz="user-email"]').value != '') {
+                document.querySelector('[nny-quiz="submit"]').addEventListener('click', sendPoints);
+            }
         }
 
         //if splash screen exists
