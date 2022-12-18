@@ -324,7 +324,6 @@ function showResult(sentToDb) {
 
 //sending the user results to the db
 function sendPoints() {
-    console.log('send points')
     const total_points = localStorage.getItem('totalPoints');
     const allUserAnswers = localStorage.getItem('allUserAnswers');
     const allUserAnswersArray = allUserAnswers.split(',');
@@ -597,16 +596,11 @@ function activateScript(activeStatus) {
         }
 
         if (document.querySelector('[nny-quiz="submit"]')) {
-            if (document.querySelector('[nny-quiz="user-name"]').value != ''){
-                document.querySelector('[nny-quiz="submit"]').addEventListener('click', function(){
+            document.querySelector('[nny-quiz="submit"]').addEventListener('click', function(){
+                if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
                     sendPoints();
-                    console.log('addeventlistener works')
-                });
-            }   
-            else {
-                document.querySelector('[nny-quiz="user-name"]').value;
-            }
-            
+                };
+            })        
         }
 
         //if splash screen exists
