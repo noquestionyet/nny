@@ -402,7 +402,7 @@ function showLeaderboard() {
             if (data.length < 11) {
                 loopTime = data.length;
             } else {
-                loopTime = 11;
+                loopTime = 10;
             }
             let currentParticipantDb;
             const currentParticipant = 'pasta@test.com';
@@ -435,11 +435,8 @@ function showLeaderboard() {
             }
             for (let i = 0; i < loopTime; i++) {
                 let leaderboardPosition = document.querySelector('[nny-quiz="leaderboard-position"]');
-                if (i < 9) {
-                    leaderboardPosition.innerHTML = `0${i + 1}`;
-                } else {
-                    leaderboardPosition.innerHTML = i + 1;
-                }
+                leaderboardPosition.innerHTML = i + 1;
+                
                 let leaderboardPositionDiv = leaderboardPosition.outerHTML;
 
                 let leaderboardName = document.querySelector('[nny-quiz="leaderboard-name"]');
