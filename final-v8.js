@@ -73,6 +73,7 @@ function startOver() {
     window.location.reload();
     //remove the data from local storage
     localStorage.removeItem('totalPoints');
+    localStorage.removeItem('currentEmail');
     localStorage.removeItem('allUserAnswers');
     localStorage.removeItem('rightAnswers');
 }
@@ -329,6 +330,7 @@ function sendPoints() {
     const allUserAnswersArray = allUserAnswers.split(',');
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
+    const currentEmailLocalStorage = localStorage.setItem('currentEmail','user_email');
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
     const final_data = {
@@ -405,7 +407,8 @@ function showLeaderboard() {
                 loopTime = 10;
             }
             let currentParticipantDb;
-            const currentParticipant = 'pasta@test.com';
+            const currentEmailLocalStorage = localStorage.getItem('currentEmail');
+            const currentParticipant = currentEmailLocalStorage;
             for (let i = 0; i < data.length; i++) {
                 if (currentParticipant == data[i].email) {
                     currentParticipantDb = data[i];
@@ -456,6 +459,7 @@ function showLeaderboard() {
             result.style.display = 'none';
             //remove the data from local storage
             localStorage.removeItem('totalPoints');
+            localStorage.removeItem('currentEmail');
             localStorage.removeItem('allUserAnswers');
             localStorage.removeItem('rightAnswers');
         })
@@ -693,6 +697,7 @@ document.addEventListener("DOMContentLoaded", () => {
         addProgressCircleScript();
     };
     localStorage.removeItem('totalPoints');
+    localStorage.removeItem('currentEmail');
     localStorage.removeItem('allUserAnswers');
     localStorage.removeItem('rightAnswers');
 })
