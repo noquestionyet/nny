@@ -330,7 +330,7 @@ function sendPoints() {
     const allUserAnswersArray = allUserAnswers.split(',');
     const user_name = document.querySelector('[nny-quiz="user-name"]').value;
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
-    const currentEmailLocalStorage = localStorage.setItem('currentEmail','user_email');
+    const currentEmailLocalStorage = localStorage.setItem('currentEmail', user_email);
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
     const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
     const final_data = {
