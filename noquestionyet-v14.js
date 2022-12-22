@@ -471,7 +471,8 @@ function showLeaderboard() {
             leaderboardParent.remove();
             const allResultItems = document.querySelectorAll(leaderboardItemTemplateClass);
             if (originalResultColor != 'rgba(0, 0, 0, 0)'){
-                console.log('yes, there is color')
+                console.log('rgba(' + originalResultColor + ', 0.1)')
+
                 for (i = 0; i < allResultItems.length; i++){
                     allResultItems[0].style.backgroundColor = 'rgba(0, 0, 0, 0)';
                     allResultItems[1].style.backgroundColor = 'rgba(' + originalResultColor + ', 0.1)';
