@@ -410,6 +410,9 @@ function showLeaderboard() {
             const leaderboardItemTemplateClass = leaderboardItemTemplate.className;
             let originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).getPropertyValue("background-color");
             originalResultColor = originalResultColor.replace(/[rgba()]/g, '');
+            const lastCommaIndex = originalResultColor.lastIndexOf(",");
+            originalResultColor = originalResultColor.substring(0, lastCommaIndex);
+
             console.log(originalResultColor)
             let loopTime;
             if (data.length < 11) {
