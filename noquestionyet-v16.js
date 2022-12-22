@@ -407,7 +407,7 @@ function showLeaderboard() {
             const leaderboardScoreTemplate = document.querySelector('[nny-quiz="leaderboard-score"]').outerHTML;
             const leaderboardItemTemplate = document.querySelector('[nny-quiz="leaderboard-item"]').outerHTML;
             const leaderboardItemTemplateStyle = document.querySelector('[nny-quiz="leaderboard-item"]');
-            const leaderboardItemTemplateClass = leaderboardItemTemplate.className;
+            const leaderboardItemTemplateClass = leaderboardItemTemplateStyle.className;
             console.log(leaderboardItemTemplateClass)
             let originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).getPropertyValue("background-color");
             originalResultColor = originalResultColor.replace(/[rgba()]/g, '');
