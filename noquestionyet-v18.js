@@ -410,9 +410,9 @@ function showLeaderboard() {
             const leaderboardItemTemplateClassList = leaderboardItemTemplateStyle.classList;
             let leaderboardItemClass;
             for (i = 0; i < leaderboardItemTemplateClassList.length; i++){
-                leaderboardClass =+ `.${leaderboardItemTemplateClassList[i]}`
+                leaderboardItemClass =+ `.${leaderboardItemTemplateClassList[i]}`
             }
-            console.log(leaderboardClass)
+            console.log(leaderboardItemClass)
             let originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).getPropertyValue("background-color");
             originalResultColor = originalResultColor.replace(/[rgba()]/g, '');
             const lastCommaIndex = originalResultColor.lastIndexOf(",");
@@ -474,7 +474,7 @@ function showLeaderboard() {
                 newParent.innerHTML += leaderboardItem;
             };
             leaderboardParent.remove();
-            const allResultItems = document.querySelectorAll(leaderboardClass);
+            const allResultItems = document.querySelectorAll(leaderboardItemClass);
             if (originalResultColor != 'rgba(0, 0, 0, 0)'){
                 console.log('rgba(' + originalResultColor + ', 0.1)')
 
