@@ -473,6 +473,7 @@ function showLeaderboard() {
                     if (i > 2){
                         allResultItems[i].style.backgroundColor = originalResultColor;
                     }
+                }
             }
             leaderboardScreen.style.display = 'flex';
             result.style.display = 'none';
