@@ -407,8 +407,12 @@ function showLeaderboard() {
             const leaderboardScoreTemplate = document.querySelector('[nny-quiz="leaderboard-score"]').outerHTML;
             const leaderboardItemTemplate = document.querySelector('[nny-quiz="leaderboard-item"]').outerHTML;
             const leaderboardItemTemplateStyle = document.querySelector('[nny-quiz="leaderboard-item"]');
-            const leaderboardItemTemplateClass = leaderboardItemTemplateStyle.className;
-            console.log(leaderboardItemTemplateClass)
+            const leaderboardItemTemplateClassList = leaderboardItemTemplateStyle.classList;
+            let leaderboardItemClass;
+            for (i = 0; i < leaderboardItemTemplateClassList.length; i++){
+                leaderboardClass =+ `.${leaderboardItemTemplateClassList[i]}`
+            }
+            console.log(leaderboardClass)
             let originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).getPropertyValue("background-color");
             originalResultColor = originalResultColor.replace(/[rgba()]/g, '');
             const lastCommaIndex = originalResultColor.lastIndexOf(",");
@@ -470,7 +474,7 @@ function showLeaderboard() {
                 newParent.innerHTML += leaderboardItem;
             };
             leaderboardParent.remove();
-            const allResultItems = document.querySelectorAll(leaderboardItemTemplateClass);
+            const allResultItems = document.querySelectorAll(leaderboardClass);
             if (originalResultColor != 'rgba(0, 0, 0, 0)'){
                 console.log('rgba(' + originalResultColor + ', 0.1)')
 
