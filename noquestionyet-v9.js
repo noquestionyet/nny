@@ -408,6 +408,9 @@ function showLeaderboard() {
             const leaderboardItemTemplate = document.querySelector('[nny-quiz="leaderboard-item"]').outerHTML;
             const leaderboardItemTemplateStyle = document.querySelector('[nny-quiz="leaderboard-item"]');
             const leaderboardItemTemplateClass = leaderboardItemTemplate.className;
+            const originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).getPropertyValue("background-color");
+            console.log(leaderboardItemTemplateStyle)
+            console.log(originalResultColor)
             let loopTime;
             if (data.length < 11) {
                 loopTime = data.length;
@@ -464,9 +467,6 @@ function showLeaderboard() {
             };
             leaderboardParent.remove();
             const allResultItems = document.querySelectorAll(leaderboardItemTemplateClass);
-            const originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).getPropertyValue("background-color");
-            console.log(leaderboardItemTemplateStyle)
-            console.log(originalResultColor)
             if (originalResultColor != 'rgba(0, 0, 0, 0)'){
                 console.log('yes, there is color')
                 for (i = 0; i < allResultItems.length; i++){
