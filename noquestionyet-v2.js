@@ -516,6 +516,9 @@ function activateScript(activeStatus) {
 
         const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
         if (leaderboardScreen) {
+            if (!quizName){
+                alert('Please, put the name of the quiz on a page with nny-quiz="quiz-name" attribute');
+            }
             leaderboardScreen.style.display = 'none';
         }
 
