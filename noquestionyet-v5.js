@@ -406,6 +406,8 @@ function showLeaderboard() {
             const leaderboardNameTemplate = document.querySelector('[nny-quiz="leaderboard-name"]').outerHTML;
             const leaderboardScoreTemplate = document.querySelector('[nny-quiz="leaderboard-score"]').outerHTML;
             const leaderboardItemTemplate = document.querySelector('[nny-quiz="leaderboard-item"]').outerHTML;
+            const leaderboardItemTemplateStyle = document.querySelector('[nny-quiz="leaderboard-item"]');
+            const leaderboardItemTemplateClass = leaderboardItemTemplate.className;
             let loopTime;
             if (data.length < 11) {
                 loopTime = data.length;
@@ -438,8 +440,6 @@ function showLeaderboard() {
                         let leaderboardScoreCurrentDiv = leaderboardScoreCurrent.outerHTML;
 
                         let leaderboardItemCurrent = leaderboardItemTemplate.replace(leaderboardPositionTemplate, leaderboardPositionCurrentDiv).replace(leaderboardNameTemplate, leaderboardNameCurrentDiv).replace(leaderboardScoreTemplate, leaderboardScoreCurrentDiv);;
-                        console.log(leaderboardItemCurrent)
-                        leaderboardItemCurrent.style.border = 'none';
                         newCurrentParent.innerHTML = leaderboardItemCurrent;
                     }
                 }
@@ -459,14 +459,21 @@ function showLeaderboard() {
                 leaderboardScore.innerHTML = data[i].total_points;
                 let leaderboardScoreDiv = leaderboardScore.outerHTML;
 
-                let leaderboardItem = leaderboardItemTemplate.replace(leaderboardPositionTemplate, leaderboardPositionDiv).replace(leaderboardNameTemplate, leaderboardNameDiv).replace(leaderboardScoreTemplate, leaderboardScoreDiv);;
-                console.log(leaderboardClass)
-                if (i == 0 || i == 9) {
-                    leaderboardItem.style.border = 'none';
-                }
+                let leaderboardItem = leaderboardItemTemplate.replace(leaderboardPositionTemplate, leaderboardPositionDiv).replace(leaderboardNameTemplate, leaderboardNameDiv).replace(leaderboardScoreTemplate, leaderboardScoreDiv);
                 newParent.innerHTML += leaderboardItem;
             };
             leaderboardParent.remove();
+            const allResultItems = document.querySelectorAll(leaderboardItemTemplateClass);
+            const originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).backgroundColor;
+            if (originalResultColor != 'rgba(0, 0, 0, 0)'){
+                for (i = 0; i < allResultItems.length; i++){
+                    allResultItems[0].style.backgroundColor = 'rgba(0, 0, 0, 0)';
+                    allResultItems[1].style.backgroundColor = "rgba(" + originalResultColor + ", 0.1)";
+                    allResultItems[2].style.backgroundColor = "rgba(" + originalResultColor + ", 0.3)";
+                    if (i > 2){
+                        allResultItems[i].style.backgroundColor = originalResultColor;
+                    }
+            }
             leaderboardScreen.style.display = 'flex';
             result.style.display = 'none';
             //remove the data from local storage
