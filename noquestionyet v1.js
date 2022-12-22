@@ -332,7 +332,13 @@ function sendPoints() {
     const user_email = document.querySelector('[nny-quiz="user-email"]').value;
     const currentEmailLocalStorage = localStorage.setItem('currentEmail', user_email);
     const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
-    const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
+    let quizName;
+    if(document.querySelector('[nny-quiz="quiz-name"]')){
+        quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
+    }
+    else {
+        quizName ='undefined';
+    }
     const final_data = {
         total_points: total_points,
         name: user_name,
@@ -484,8 +490,10 @@ function activateScript(activeStatus) {
         console.log('the user is active')
         //setting main variables and create first question
         const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML;
-        if (isNaN(Number(answerPoints))){
-            alert("Please, set the amount of points for the correct answer in number format!");
+        if (document.querySelector('[nny-quiz="points"]')) {
+          if (isNaN(Number(answerPoints))){
+              alert("Please, set the amount of points for the correct answer in number format!");
+          }
         }
         const list = document.querySelector('[nny-quiz="list"]');
         if (!list){
