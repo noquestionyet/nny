@@ -407,10 +407,11 @@ function showLeaderboard() {
             const leaderboardScoreTemplate = document.querySelector('[nny-quiz="leaderboard-score"]').outerHTML;
             const leaderboardItemTemplate = document.querySelector('[nny-quiz="leaderboard-item"]').outerHTML;
             const leaderboardItemTemplateStyle = document.querySelector('[nny-quiz="leaderboard-item"]');
-            console.log(leaderboardItemTemplate)
             console.log(leaderboardItemTemplateStyle)
 
             const leaderboardItemTemplateClassList = leaderboardItemTemplateStyle.classList;
+            console.log(leaderboardItemTemplateClassList)
+
             let leaderboardItemClass;
             for (i = 0; i < leaderboardItemTemplateClassList.length; i++){
                 leaderboardItemClass =+ `.${leaderboardItemTemplateClassList[i]}`
