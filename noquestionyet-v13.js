@@ -474,8 +474,8 @@ function showLeaderboard() {
                 console.log('yes, there is color')
                 for (i = 0; i < allResultItems.length; i++){
                     allResultItems[0].style.backgroundColor = 'rgba(0, 0, 0, 0)';
-                    allResultItems[1].style.backgroundColor = 'rgba(' + originalResultColor + '0.1)';
-                    allResultItems[2].style.backgroundColor = 'rgba(' + originalResultColor + '0.3)';
+                    allResultItems[1].style.backgroundColor = 'rgba(' + originalResultColor + ', 0.1)';
+                    allResultItems[2].style.backgroundColor = 'rgba(' + originalResultColor + ', 0.3)';
                     if (i > 2){
                         allResultItems[i].style.backgroundColor = 'rgba(' + originalResultColor + ')';
                     }
