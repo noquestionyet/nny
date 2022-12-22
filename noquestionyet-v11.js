@@ -409,14 +409,7 @@ function showLeaderboard() {
             const leaderboardItemTemplateStyle = document.querySelector('[nny-quiz="leaderboard-item"]');
             const leaderboardItemTemplateClass = leaderboardItemTemplate.className;
             let originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).getPropertyValue("background-color");
-            if (originalResultColor.includes('rgb')) {
-                originalResultColor = originalResultColor.replace(/[rgb()]/g, '');
-            }
-            else {
-                const rgbOriginalColor = originalResultColor.lastIndexOf(",");
-                originalResultColor = originalResultColor.slice(0, rgbOriginalColor);
-            }
-
+            originalResultColor = originalResultColor.replace(/[rgba()]/g, '');
             console.log(originalResultColor)
             let loopTime;
             if (data.length < 11) {
@@ -478,10 +471,10 @@ function showLeaderboard() {
                 console.log('yes, there is color')
                 for (i = 0; i < allResultItems.length; i++){
                     allResultItems[0].style.backgroundColor = 'rgba(0, 0, 0, 0)';
-                    allResultItems[1].style.backgroundColor = originalResultColor + '0.1)';
-                    allResultItems[2].style.backgroundColor = originalResultColor + '0.3)';
+                    allResultItems[1].style.backgroundColor = 'rgba(' + originalResultColor + '0.1)';
+                    allResultItems[2].style.backgroundColor = 'rgba(' + originalResultColor + '0.3)';
                     if (i > 2){
-                        allResultItems[i].style.backgroundColor = originalResultColor;
+                        allResultItems[i].style.backgroundColor = 'rgba(' + originalResultColor + ')';
                     }
                 }
             }
