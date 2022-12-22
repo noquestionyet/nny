@@ -438,6 +438,7 @@ function showLeaderboard() {
                         let leaderboardScoreCurrentDiv = leaderboardScoreCurrent.outerHTML;
 
                         let leaderboardItemCurrent = leaderboardItemTemplate.replace(leaderboardPositionTemplate, leaderboardPositionCurrentDiv).replace(leaderboardNameTemplate, leaderboardNameCurrentDiv).replace(leaderboardScoreTemplate, leaderboardScoreCurrentDiv);;
+                        leaderboardItemCurrent.style.border = 'none';
                         newCurrentParent.innerHTML = leaderboardItemCurrent;
                     }
                 }
@@ -458,6 +459,9 @@ function showLeaderboard() {
                 let leaderboardScoreDiv = leaderboardScore.outerHTML;
 
                 let leaderboardItem = leaderboardItemTemplate.replace(leaderboardPositionTemplate, leaderboardPositionDiv).replace(leaderboardNameTemplate, leaderboardNameDiv).replace(leaderboardScoreTemplate, leaderboardScoreDiv);;
+                if (i == 0 || i == 9) {
+                    leaderboardItem.style.border = 'none';
+                }
                 newParent.innerHTML += leaderboardItem;
             };
             leaderboardParent.remove();
