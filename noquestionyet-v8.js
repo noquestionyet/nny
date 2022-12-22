@@ -464,7 +464,8 @@ function showLeaderboard() {
             };
             leaderboardParent.remove();
             const allResultItems = document.querySelectorAll(leaderboardItemTemplateClass);
-            const originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).backgroundColor;
+            const originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).getPropertyValue("background-color");
+            console.log(leaderboardItemTemplateStyle)
             console.log(originalResultColor)
             if (originalResultColor != 'rgba(0, 0, 0, 0)'){
                 console.log('yes, there is color')
