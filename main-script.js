@@ -348,7 +348,6 @@ function sendPoints() {
         quiz_name: quizName
     }
 
-    console.log(final_data)
     const url =
         'https://api.noquestionyet.com/api:84zPS-li/create_participant';
     fetch(url, {
@@ -407,22 +406,18 @@ function showLeaderboard() {
             const leaderboardScoreTemplate = document.querySelector('[nny-quiz="leaderboard-score"]').outerHTML;
             const leaderboardItemTemplate = document.querySelector('[nny-quiz="leaderboard-item"]').outerHTML;
             const leaderboardItemTemplateStyle = document.querySelector('[nny-quiz="leaderboard-item"]');
-            console.log(leaderboardItemTemplateStyle)
 
             const leaderboardItemTemplateClassList = leaderboardItemTemplateStyle.classList;
-            console.log(leaderboardItemTemplateClassList)
 
             let leaderboardItemClass;
             for (i = 0; i < leaderboardItemTemplateClassList.length; i++){
                 leaderboardItemClass =+ `.${leaderboardItemTemplateClassList[i]}`
             }
-            console.log(leaderboardItemClass)
             let originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).getPropertyValue("background-color");
             originalResultColor = originalResultColor.replace(/[rgba()]/g, '');
             const lastCommaIndex = originalResultColor.lastIndexOf(",");
             originalResultColor = originalResultColor.substring(0, lastCommaIndex);
 
-            console.log(originalResultColor)
             let loopTime;
             if (data.length < 11) {
                 loopTime = data.length;
@@ -480,7 +475,6 @@ function showLeaderboard() {
             leaderboardParent.remove();
             const allResultItems = document.querySelectorAll(leaderboardItemClass);
             if (originalResultColor != 'rgba(0, 0, 0, 0)'){
-                console.log('rgba(' + originalResultColor + ', 0.1)')
 
                 for (i = 0; i < allResultItems.length; i++){
                     allResultItems[0].style.backgroundColor = 'rgba(0, 0, 0, 0)';
