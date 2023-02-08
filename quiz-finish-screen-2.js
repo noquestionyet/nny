@@ -267,16 +267,21 @@ function showError (value) {
 
 // show result in the amount of right answers
 function showResult (sentToDb) {
-  const resultScreen = document.querySelector('[nny-quiz="result"]')
-  const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]')
-  if (resultScreen) {
-    document.querySelector('[nny-quiz="finish"]').style.display = 'none'
-    resultScreen.style.display = 'block'
+  const finishScreen = document.querySelector('[nny-quiz="finish"]');
+  const resultScreen = document.querySelector('[nny-quiz="result"]');
+  const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
+  if (resultScreen && finishScreen) {
+    document.querySelector('[nny-quiz="finish"]').style.display = 'none';
+    resultScreen.style.display = 'block';
+  }
+  else if (resultScreen) {
+    document.querySelector('[nny-quiz="form"]').style.display = 'none';
+    resultScreen.style.display = 'block';
   }
   // if we have leaderboard
   if (sentToDb === 'true') {
     if (leaderboardScreen && !resultScreen) {
-      showLeaderboard()
+      showLeaderboard();
     }
   }
 
