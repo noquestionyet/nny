@@ -527,9 +527,9 @@ function activateScript(activeStatus) {
         }
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
         if (!finalScreen){
-            alert('Please, add a final screen after all questions and answers with user inputs on the page and set an attribute nny-quiz="finish"');
+             finalScreen.style.display = 'none';
+        //   alert('Please, add a final screen after all questions and answers with user inputs on the page and set an attribute nny-quiz="finish"');
         }
-        finalScreen.style.display = 'none';
         const quizName = document.querySelector('[nny-quiz="quiz-name"]');
         if (quizName) {
             quizName.style.display = 'none';
