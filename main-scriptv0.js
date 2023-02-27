@@ -526,7 +526,7 @@ function activateScript(activeStatus) {
             alert('Please, add a CMS collection with questions and answers on the page and set an attribute nny-quiz="list" to the CMS Collection List');
         }
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
-        if (!finalScreen){
+        if (finalScreen){
              finalScreen.style.display = 'none';
         //   alert('Please, add a final screen after all questions and answers with user inputs on the page and set an attribute nny-quiz="finish"');
         }
