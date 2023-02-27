@@ -276,7 +276,9 @@ function showResult(sentToDb) {
     const resultScreen = document.querySelector('[nny-quiz="result"]');
     const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
     if (resultScreen) {
-        document.querySelector('[nny-quiz="finish"]').style.display = 'none';
+        if (document.querySelector('[nny-quiz="finish"]')){
+          document.querySelector('[nny-quiz="finish"]').style.display = 'none';
+        }
         resultScreen.style.display = 'block';
     }
     //if we have leaderboard
