@@ -275,11 +275,13 @@ function showError(value) {
 function showResult(sentToDb) {
     const resultScreen = document.querySelector('[nny-quiz="result"]');
     const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
-    if (resultScreen) {
-        if (document.querySelector('[nny-quiz="finish"]')){
-          document.querySelector('[nny-quiz="finish"]').style.display = 'none';
-        }
-        resultScreen.style.display = 'block';
+    const finishScreen = document.querySelector('[nny-quiz="finish"]');
+    if (resultScreen && finishScreen) {
+      document.querySelector('[nny-quiz="finish"]').style.display = 'none';
+      resultScreen.style.display = 'block';
+    } else if (resultScreen) {
+      document.querySelector('[nny-quiz="form"]').style.display = 'none';
+      resultScreen.style.display = 'block';
     }
     //if we have leaderboard
     if (sentToDb == 'true') {
