@@ -275,11 +275,13 @@ function showError(value) {
 function showResult(sentToDb) {
     const resultScreen = document.querySelector('[nny-quiz="result"]');
     const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
-    if (resultScreen) {
-        if (document.querySelector('[nny-quiz="finish"]')){
-          document.querySelector('[nny-quiz="finish"]').style.display = 'none';
-        }
-        resultScreen.style.display = 'block';
+    const finishScreen = document.querySelector('[nny-quiz="finish"]');
+    if (resultScreen && finishScreen) {
+      document.querySelector('[nny-quiz="finish"]').style.display = 'none';
+      resultScreen.style.display = 'block';
+    } else if (resultScreen) {
+      document.querySelector('[nny-quiz="form"]').style.display = 'none';
+      resultScreen.style.display = 'block';
     }
     //if we have leaderboard
     if (sentToDb == 'true') {
@@ -526,7 +528,7 @@ function activateScript(activeStatus) {
             alert('Please, add a CMS collection with questions and answers on the page and set an attribute nny-quiz="list" to the CMS Collection List');
         }
         const finalScreen = document.querySelector('[nny-quiz="finish"]');
-        if (!finalScreen){
+        if (finalScreen){
              finalScreen.style.display = 'none';
         //   alert('Please, add a final screen after all questions and answers with user inputs on the page and set an attribute nny-quiz="finish"');
         }
