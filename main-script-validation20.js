@@ -183,20 +183,16 @@ function checkRequiredFields (currentQuestion) {
   // Check if all required fields are filled in
   const allFieldsFilled = Array.from(requiredFields).every(field => {
     if (field.type === 'checkbox' || field.type === 'radio') {
-      !field.checked ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
       return field.checked
     } else if (field.type === 'email') {
       const emailLowerCase = field.value.toLowerCase()
       const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-      emailMatch ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
       return emailMatch
     } else {
       const filledInput = field.value.trim() !== ''
-      filledInput === false ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
       return filledInput
     }
   })
-  console.log(allFieldsFilled)
   formInputs.forEach(input => {
     input.addEventListener('input', () => {
       checkRequiredFields(currentQuestion)
@@ -210,6 +206,23 @@ function checkRequiredFields (currentQuestion) {
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
     return false
   }
+}
+
+// show validation error
+function validationError (currentQuestion) {
+  const requiredFields = currentQuestion.querySelectorAll('[required]')
+  requiredFields.forEach(field => {
+    if (field.type === 'checkbox' || field.type === 'radio') {
+      !field.checked ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+    } else if (field.type === 'email') {
+      const emailLowerCase = field.value.toLowerCase()
+      const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+      emailMatch ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+    } else {
+      const filledInput = field.value.trim() !== ''
+      filledInput === false ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+    }
+  })
 }
 
 // show next question
@@ -688,7 +701,7 @@ function activateScript (activeStatus) {
           if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
             sendPoints()
           };
-        }
+        } else { validationError(finishScreen) }
       })
     }
 
