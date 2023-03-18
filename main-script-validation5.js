@@ -166,8 +166,9 @@ function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]')
   if (requiredFields.length !== 0) {
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
+    let fieldFilledState
     requiredFields.forEach((requiredField) => {
-      let fieldFilledState = false
+      fieldFilledState = false
       requiredField.addEventListener('input', function () {
         const validationState = validationState(requiredField, currentQuestion)
         validationState === false ? requiredFileds(currentQuestion) : fieldFilledState = true
