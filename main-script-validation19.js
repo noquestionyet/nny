@@ -179,6 +179,7 @@ const validationState = (requiredField, currentQuestion) => {
 function checkRequiredFields (currentQuestion) {
   // Select all required fields on the form
   const requiredFields = currentQuestion.querySelectorAll('[required]')
+  const formInputs = currentQuestion.querySelectorAll('input, select, textarea')
   // Check if all required fields are filled in
   const allFieldsFilled = Array.from(requiredFields).every(field => {
     if (field.type === 'checkbox' || field.type === 'radio') {
@@ -196,6 +197,11 @@ function checkRequiredFields (currentQuestion) {
     }
   })
   console.log(allFieldsFilled)
+  formInputs.forEach(input => {
+    input.addEventListener('input', () => {
+      checkRequiredFields(currentQuestion)
+    })
+  })
   // Return true if all required fields are filled in, false otherwise
   if (allFieldsFilled) {
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '1'
@@ -678,16 +684,11 @@ function activateScript (activeStatus) {
     if (document.querySelector('[nny-quiz="submit"]')) {
       document.querySelector('[nny-quiz="submit"]').addEventListener('click', function () {
         const finishScreen = document.querySelector('[nny-quiz="finish"]')
-        const formInputs = document.querySelectorAll('input, select, textarea')
-        formInputs.forEach(input => {
-          input.addEventListener('input', () => {
-            if (checkRequiredFields(finishScreen)) {
-              if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
-                sendPoints()
-              };
-            }
-          })
-        })
+        if (checkRequiredFields(finishScreen)) {
+          if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
+            sendPoints()
+          };
+        }
       })
     }
 
