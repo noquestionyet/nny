@@ -197,16 +197,21 @@ function checkRequiredFields (currentQuestion) {
 function validationError (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]')
   requiredFields.forEach(field => {
-    console.log(field)
     if (field.type === 'checkbox' || field.type === 'radio') {
+      console.log(field)
+      console.log(field.checked)
       !field.checked ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
     } else if (field.type === 'email') {
       const emailLowerCase = field.value.toLowerCase()
       const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
       emailMatch ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+      console.log(field)
+      console.log(emailMatch)
     } else {
       const filledInput = field.value.trim() !== ''
       filledInput === false ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+      console.log(field)
+      console.log(filledInput)
     }
   })
 }
