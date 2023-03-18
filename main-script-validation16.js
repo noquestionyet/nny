@@ -177,60 +177,35 @@ const validationState = (requiredField, currentQuestion) => {
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
-  let filledState = false
-  const requiredFields = currentQuestion.querySelectorAll('[required]')
-  if (requiredFields.length !== 0) {
-    currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
-    /* eslint-disable */
-    let fieldInputsArray = []
-    for (let i = 0; i < requiredFields.length; i++) {
-      let fieldFilledState = false
-      requiredFields[i].addEventListener('input', function () {
-        fieldFilledState = validationState(requiredFields[i], currentQuestion)
-        if (fieldFilledState === false) {
-          requiredFileds(currentQuestion)
-          const index = fieldInputsArray.indexOf(i)
-          if (index) {
-            if (index > -1) {
-              fieldInputsArray.splice(index, 1)
-            }
-          }
-        } else {
-          console.log(i)
-          fieldInputsArray.push(i)
-          console.log(fieldInputsArray)
-          checkRequiredFields(currentQuestion)
-        }
-      })
-      console.log(fieldInputsArray)
-    }
-    if (requiredFields.length === fieldInputsArray.length) {
-      filledState = true
-    }
-    console.log(filledState)
-  } else {
-    filledState = true
-  }
-  const currentQuestionNextButton = currentQuestion.querySelector('[nny-quiz="submit"]')
-  filledState === true ? currentQuestionNextButton.style.opacity = '1' : currentQuestionNextButton.style.opacity = '0.6'
-  console.log(filledState)
-}
-
-// higlight required fields
-function requiredFileds (currentQuestion) {
-  const requiredFields = currentQuestion.querySelectorAll('[required]')
-  for (let i = 0; i < requiredFields.length; i++) {
-    if (requiredFields[i].type === 'radio' || requiredFields[i].type === 'checkbox') {
-      !requiredFields[i].checked ? requiredFields[i].classList.add('nqy-input-error') : null
-    } else if (requiredFields.type === 'email') {
-      const emailLowerCase = requiredFields.value.toLowerCase()
-      const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-      !emailMatch ? requiredFields[i].classList.add('nqy-input-error') : null
+    // Select all required fields on the form
+    const requiredFields = currentQuestion.querySelectorAll('[required]');
+    // Check if all required fields are filled in
+    const allFieldsFilled = Array.from(requiredFields).every(field => {
+      if (field.type === 'checkbox' || field.type === 'radio') {
+        !field.checked ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+        return field.checked;
+      } else if (field.type === 'email'){
+        const emailLowerCase = field.value.toLowerCase()
+        const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+        emailMatch ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+        return emailMatch
+      }
+      else {
+        const filledInput = field.value.trim() !== '';
+        filledInput === false? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+        return filledInput;
+      }
+    });
+     console.log(allFieldsFilled)
+    // Return true if all required fields are filled in, false otherwise
+    if (allFieldsFilled) {
+      return true;
     } else {
-      !requiredFields.value ? requiredFields[i].classList.add('nqy-input-error') : null
+      return false;
     }
   }
-}
+ // currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
+
 
 // show next question
 function nextQuestion (totalQuestions) {
@@ -704,15 +679,17 @@ function activateScript (activeStatus) {
     if (document.querySelector('[nny-quiz="submit"]')) {
       document.querySelector('[nny-quiz="submit"]').addEventListener('click', function () {
         const finishScreen = document.querySelector('[nny-quiz="finish"]')
-        const filledState = checkRequiredFields(finishScreen)
-        if (filledState === true) {
-          if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
-            sendPoints()
-          };
-        } else {
-          requiredFileds(finishScreen)
-        }
-      })
+        const formInputs = document.querySelectorAll('input, select, textarea');
+        formInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (checkRequiredFields (currentQuestion)) {
+                    console.log('All required fields are filled in. Execute next function here.');
+                }
+            });
+        });
+          //if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
+            //sendPoints()
+          //};
     }
 
     // if splash screen exists
