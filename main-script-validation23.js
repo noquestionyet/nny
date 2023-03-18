@@ -174,8 +174,7 @@ function checkRequiredFields (currentQuestion) {
       const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
       return emailMatch
     } else {
-      const filledInput = field.value.trim() !== ''
-      return filledInput
+      return field.value.trim() !== ''
     }
   })
   formInputs.forEach(input => {
@@ -208,10 +207,9 @@ function validationError (currentQuestion) {
       console.log(field)
       console.log(emailMatch)
     } else {
-      const filledInput = field.value.trim() !== ''
-      filledInput === false ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+      field.value.trim() === '' ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
       console.log(field)
-      console.log(filledInput)
+      console.log(field.value.trim() !== '')
     }
   })
 }
