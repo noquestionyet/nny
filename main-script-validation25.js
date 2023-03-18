@@ -203,9 +203,9 @@ function validationError (currentQuestion) {
     } else if (field.type === 'email') {
       const emailLowerCase = field.value.toLowerCase()
       const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-      emailMatch !== null ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+      emailMatch == null ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
       console.log(field)
-      console.log(emailMatch)
+      console.log(emailMatch == null)
     } else {
       field.value.trim() === '' ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
       console.log(field)
