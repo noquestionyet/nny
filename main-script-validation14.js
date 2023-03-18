@@ -197,6 +197,7 @@ function checkRequiredFields (currentQuestion) {
         } else {
           console.log(i)
           fieldInputsArray.push(i)
+          console.log(fieldInputsArray)
           checkRequiredFields(currentQuestion)
         }
       })
