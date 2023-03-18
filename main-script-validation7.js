@@ -186,8 +186,8 @@ function checkRequiredFields (currentQuestion) {
     requiredFields.forEach((requiredField) => {
       fieldFilledState = false
       requiredField.addEventListener('input', function () {
-        const validationState = validationState(requiredField, currentQuestion)
-        validationState === false ? requiredFileds(currentQuestion) : fieldFilledState = true
+        const validationFieldState = validationState(requiredField, currentQuestion)
+        validationFieldState === false ? requiredFileds(currentQuestion) : fieldFilledState = true
       })
     })
     console.log(fieldFilledState)
