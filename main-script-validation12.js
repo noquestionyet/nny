@@ -171,7 +171,6 @@ const validationState = (requiredField, currentQuestion) => {
   } else {
     requiredField.value ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
   }
-  console.log(filledState)
   return filledState
 }
 
@@ -197,6 +196,7 @@ function checkRequiredFields (currentQuestion) {
           }
         } else {
           fieldInputsArray.push(i)
+          checkRequiredFields(currentQuestion)
         }
       })
       console.log(fieldInputsArray)
