@@ -181,7 +181,8 @@ function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]')
   if (requiredFields.length !== 0) {
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
-    const fieldInputsArray = []
+    /* eslint-disable */
+    let fieldInputsArray = []
     for (let i = 0; i < requiredFields.length; i++) {
       let fieldFilledState = false
       requiredFields[i].addEventListener('input', function () {
