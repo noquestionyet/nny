@@ -172,7 +172,7 @@ function checkRequiredFields (currentQuestion) {
     } else if (field.type === 'email') {
       const emailLowerCase = field.value.toLowerCase()
       const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-      return emailMatch
+      return emailMatch !== null
     } else {
       return field.value.trim() !== ''
     }
@@ -203,7 +203,7 @@ function validationError (currentQuestion) {
     } else if (field.type === 'email') {
       const emailLowerCase = field.value.toLowerCase()
       const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-      emailMatch ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+      emailMatch !== null ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
       console.log(field)
       console.log(emailMatch)
     } else {
