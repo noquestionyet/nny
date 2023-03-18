@@ -159,6 +159,56 @@ function updateProgressBar (progress) {
   }
 }
 
+// every time the new question appears, check if there are required fields
+// call validatation func on every input change
+function checkRequiredFields (currentQuestion) {
+  let filledState
+  const requiredFields = currentQuestion.querySelectorAll('[required]')
+  if (requiredFields.length !== 0) {
+    currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
+    requiredFields.forEach((requiredField) => {
+      requiredField.addEventListener('input', function () {
+        filledState = validationState(requiredField, currentQuestion)
+      })
+    })
+  }
+  console.log(filledState)
+}
+
+// validate if required fields were filled
+const validationState = (requiredField, currentQuestion) => {
+  let filledState
+  if (requiredField.type === 'radio' || requiredField.type === 'checkbox') {
+    requiredField.checked ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
+  } else if (requiredField.type === 'email') {
+    const emailLowerCase = requiredField.value.toLowerCase()
+    const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    emailMatch ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
+  } else {
+    requiredField.value ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
+  }
+  const currentQuestionNextButton = currentQuestion.querySelector('[nqy-action="next"]')
+  filledState === true ? currentQuestionNextButton.style.opacity = '1' : currentQuestionNextButton.style.opacity = '0.6'
+  console.log(filledState)
+  return filledState
+}
+
+// higlight required fields
+function requiredFileds (currentQuestion) {
+  const requiredFields = currentQuestion.querySelectorAll('[required]')
+  for (let i = 0; i < requiredFields.length; i++) {
+    if (requiredFields[i].type === 'radio' || requiredFields[i].type === 'checkbox') {
+      !requiredFields[i].checked ? requiredFields[i].classList.add('nqy-input-error') : null
+    } else if (requiredFields.type === 'email') {
+      const emailLowerCase = requiredFields.value.toLowerCase()
+      const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+      !emailMatch ? requiredFields[i].classList.add('nqy-input-error') : null
+    } else {
+      !requiredFields.value ? requiredFields[i].classList.add('nqy-input-error') : null
+    }
+  }
+}
+
 // show next question
 function nextQuestion (totalQuestions) {
   const currentQuestion = document.querySelector('.current-question')
@@ -626,56 +676,6 @@ function activateScript (activeStatus) {
         progressPartsWrapper.appendChild(newProgressPartElement)
       }
       progressPartsWrapper.firstElementChild.classList.add('active')
-    }
-
-    // every time the new question appears, check if there are required fields
-    // call validatation func on every input change
-    function checkRequiredFields (currentQuestion) {
-      let filledState
-      const requiredFields = currentQuestion.querySelectorAll('[required]')
-      if (requiredFields.length !== 0) {
-        currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
-        requiredFields.forEach((requiredField) => {
-          requiredField.addEventListener('input', function () {
-            filledState = validationState(requiredField, currentQuestion)
-          })
-        })
-      }
-      console.log(filledState)
-    }
-
-    // validate if required fields were filled
-    const validationState = (requiredField, currentQuestion) => {
-      let filledState
-      if (requiredField.type === 'radio' || requiredField.type === 'checkbox') {
-        requiredField.checked ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
-      } else if (requiredField.type === 'email') {
-        const emailLowerCase = requiredField.value.toLowerCase()
-        const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-        emailMatch ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
-      } else {
-        requiredField.value ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
-      }
-      const currentQuestionNextButton = currentQuestion.querySelector('[nqy-action="next"]')
-      filledState === true ? currentQuestionNextButton.style.opacity = '1' : currentQuestionNextButton.style.opacity = '0.6'
-      console.log(filledState)
-      return filledState
-    }
-
-    // higlight required fields
-    function requiredFileds (currentQuestion) {
-      const requiredFields = currentQuestion.querySelectorAll('[required]')
-      for (let i = 0; i < requiredFields.length; i++) {
-        if (requiredFields[i].type === 'radio' || requiredFields[i].type === 'checkbox') {
-          !requiredFields[i].checked ? requiredFields[i].classList.add('nqy-input-error') : null
-        } else if (requiredFields.type === 'email') {
-          const emailLowerCase = requiredFields.value.toLowerCase()
-          const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-          !emailMatch ? requiredFields[i].classList.add('nqy-input-error') : null
-        } else {
-          !requiredFields.value ? requiredFields[i].classList.add('nqy-input-error') : null
-        }
-      }
     }
 
     if (document.querySelector('[nny-quiz="submit"]')) {
