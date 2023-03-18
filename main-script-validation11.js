@@ -182,17 +182,29 @@ function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]')
   if (requiredFields.length !== 0) {
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
-    let fieldFilledState
-    requiredFields.forEach((requiredField) => {
-      fieldFilledState = false
-      requiredField.addEventListener('input', function () {
-        const validationFieldState = validationState(requiredField, currentQuestion)
-        validationFieldState === false ? requiredFileds(currentQuestion) : fieldFilledState = true
+    const fieldInputsArray = []
+    for (let i = 0; i < requiredFields.length; i++) {
+      let fieldFilledState = false
+      requiredFields[i].addEventListener('input', function () {
+        fieldFilledState = validationState(requiredFields[i], currentQuestion)
+        if (fieldFilledState === false) {
+          requiredFileds(currentQuestion)
+          const index = fieldInputsArray.indexOf(i)
+          if (index) {
+            if (index > -1) {
+              fieldInputsArray.splice(index, 1)
+            }
+          }
+        } else {
+          fieldInputsArray.push(i)
+        }
       })
-      console.log(`current input state is ${fieldFilledState}`)
-    })
-    console.log(fieldFilledState)
-    fieldFilledState === true ? filledState = true : filledState = false
+      console.log(fieldInputsArray)
+    }
+    if (requiredFields.length === fieldInputsArray.length) {
+      filledState = true
+    }
+    console.log(filledState)
   } else {
     filledState = true
   }
