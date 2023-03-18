@@ -187,9 +187,9 @@ function checkRequiredFields (currentQuestion) {
       fieldFilledState = false
       requiredField.addEventListener('input', function () {
         const validationFieldState = validationState(requiredField, currentQuestion)
-        validationFieldState === false ? console.log(`input validation state is ${validationFieldState}`) : fieldFilledState = true
-        // requiredFileds(currentQuestion)
+        validationFieldState === false ? requiredFileds(currentQuestion) : fieldFilledState = true
       })
+      console.log(`current input state is ${fieldFilledState}`)
     })
     console.log(fieldFilledState)
     fieldFilledState === true ? filledState = true : filledState = false
