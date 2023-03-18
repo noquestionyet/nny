@@ -198,12 +198,13 @@ function checkRequiredFields (currentQuestion) {
   console.log(allFieldsFilled)
   // Return true if all required fields are filled in, false otherwise
   if (allFieldsFilled) {
+    currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '1'
     return true
   } else {
+    currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
     return false
   }
 }
-// currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
 
 // show next question
 function nextQuestion (totalQuestions) {
@@ -681,14 +682,13 @@ function activateScript (activeStatus) {
         formInputs.forEach(input => {
           input.addEventListener('input', () => {
             if (checkRequiredFields(finishScreen)) {
-              console.log('All required fields are filled in. Execute next function here.')
+              if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
+                sendPoints()
+              };
             }
           })
         })
       })
-      // if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
-      // sendPoints()
-      // };
     }
 
     // if splash screen exists
