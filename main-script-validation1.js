@@ -173,6 +173,7 @@ function nextQuestion (totalQuestions) {
     currentQuestion.classList.add('answered')
   } else {
     const finalScreen = document.querySelector('[nny-quiz="finish"]')
+    checkRequiredFields(finalScreen)
     const progressBar = document.querySelector('[nny-quiz="progress-bar"]')
     const progressCircle = document.querySelector('[nny-quiz="progress-circle"]')
     const progressPartial = document.querySelector('[nny-quiz="progress-part"]')
@@ -630,15 +631,17 @@ function activateScript (activeStatus) {
     // every time the new question appears, check if there are required fields
     // call validatation func on every input change
     function checkRequiredFields (currentQuestion) {
+      let filledState
       const requiredFields = currentQuestion.querySelectorAll('[required]')
       if (requiredFields.length !== 0) {
         currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
         requiredFields.forEach((requiredField) => {
           requiredField.addEventListener('input', function () {
-            validationState(requiredField, currentQuestion)
+            filledState = validationState(requiredField, currentQuestion)
           })
         })
       }
+      console.log(filledState)
     }
 
     // validate if required fields were filled
@@ -678,7 +681,7 @@ function activateScript (activeStatus) {
     if (document.querySelector('[nny-quiz="submit"]')) {
       document.querySelector('[nny-quiz="submit"]').addEventListener('click', function () {
         const finishScreen = document.querySelector('[nny-quiz="finish"]')
-        checkRequiredFields(finishScreen)
+        const filledState = checkRequiredFields(finishScreen)
         if (filledState === true) {
           if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
             sendPoints()
