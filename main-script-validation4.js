@@ -162,17 +162,24 @@ function updateProgressBar (progress) {
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
-  let filledState
+  let filledState = false
   const requiredFields = currentQuestion.querySelectorAll('[required]')
   if (requiredFields.length !== 0) {
-    filledState = false
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
     requiredFields.forEach((requiredField) => {
+      let fieldFilledState = false
       requiredField.addEventListener('input', function () {
-        filledState = validationState(requiredField, currentQuestion)
+        const validationState = validationState(requiredField, currentQuestion)
+        validationState === false ? requiredFileds(currentQuestion) : fieldFilledState = true
       })
     })
+    console.log(fieldFilledState)
+    fieldFilledState === true ? filledState = true : filledState = false
+  } else {
+    filledState = true
   }
+  const currentQuestionNextButton = currentQuestion.querySelector('[nny-quiz="submit"]')
+  filledState === true ? currentQuestionNextButton.style.opacity = '1' : currentQuestionNextButton.style.opacity = '0.6'
   console.log(filledState)
 }
 
@@ -188,9 +195,7 @@ const validationState = (requiredField, currentQuestion) => {
   } else {
     requiredField.value ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
   }
-  const currentQuestionNextButton = currentQuestion.querySelector('[nny-quiz="submit"]')
-  filledState === true ? currentQuestionNextButton.style.opacity = '1' : currentQuestionNextButton.style.opacity = '0.6'
-  console.log(filledState)
+
   return filledState
 }
 
