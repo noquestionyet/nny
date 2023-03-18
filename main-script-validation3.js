@@ -165,6 +165,7 @@ function checkRequiredFields (currentQuestion) {
   let filledState
   const requiredFields = currentQuestion.querySelectorAll('[required]')
   if (requiredFields.length !== 0) {
+    filledState = false
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
     requiredFields.forEach((requiredField) => {
       requiredField.addEventListener('input', function () {
@@ -187,7 +188,7 @@ const validationState = (requiredField, currentQuestion) => {
   } else {
     requiredField.value ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
   }
-  const currentQuestionNextButton = currentQuestion.querySelector('[nqy-action="next"]')
+  const currentQuestionNextButton = currentQuestion.querySelector('[nny-quiz="submit"]')
   filledState === true ? currentQuestionNextButton.style.opacity = '1' : currentQuestionNextButton.style.opacity = '0.6'
   console.log(filledState)
   return filledState
