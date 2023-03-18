@@ -177,35 +177,33 @@ const validationState = (requiredField, currentQuestion) => {
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
-    // Select all required fields on the form
-    const requiredFields = currentQuestion.querySelectorAll('[required]');
-    // Check if all required fields are filled in
-    const allFieldsFilled = Array.from(requiredFields).every(field => {
-      if (field.type === 'checkbox' || field.type === 'radio') {
-        !field.checked ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
-        return field.checked;
-      } else if (field.type === 'email'){
-        const emailLowerCase = field.value.toLowerCase()
-        const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-        emailMatch ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
-        return emailMatch
-      }
-      else {
-        const filledInput = field.value.trim() !== '';
-        filledInput === false? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
-        return filledInput;
-      }
-    });
-     console.log(allFieldsFilled)
-    // Return true if all required fields are filled in, false otherwise
-    if (allFieldsFilled) {
-      return true;
+  // Select all required fields on the form
+  const requiredFields = currentQuestion.querySelectorAll('[required]')
+  // Check if all required fields are filled in
+  const allFieldsFilled = Array.from(requiredFields).every(field => {
+    if (field.type === 'checkbox' || field.type === 'radio') {
+      !field.checked ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+      return field.checked
+    } else if (field.type === 'email') {
+      const emailLowerCase = field.value.toLowerCase()
+      const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+      emailMatch ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+      return emailMatch
     } else {
-      return false;
+      const filledInput = field.value.trim() !== ''
+      filledInput === false ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
+      return filledInput
     }
+  })
+  console.log(allFieldsFilled)
+  // Return true if all required fields are filled in, false otherwise
+  if (allFieldsFilled) {
+    return true
+  } else {
+    return false
   }
- // currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
-
+}
+// currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '0.6'
 
 // show next question
 function nextQuestion (totalQuestions) {
@@ -679,17 +677,18 @@ function activateScript (activeStatus) {
     if (document.querySelector('[nny-quiz="submit"]')) {
       document.querySelector('[nny-quiz="submit"]').addEventListener('click', function () {
         const finishScreen = document.querySelector('[nny-quiz="finish"]')
-        const formInputs = document.querySelectorAll('input, select, textarea');
+        const formInputs = document.querySelectorAll('input, select, textarea')
         formInputs.forEach(input => {
-            input.addEventListener('input', () => {
-                if (checkRequiredFields (currentQuestion)) {
-                    console.log('All required fields are filled in. Execute next function here.');
-                }
-            });
-        });
-          //if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
-            //sendPoints()
-          //};
+          input.addEventListener('input', () => {
+            if (checkRequiredFields(finishScreen)) {
+              console.log('All required fields are filled in. Execute next function here.')
+            }
+          })
+        })
+      })
+      // if (document.querySelector('[nny-quiz="user-name"]').value && document.querySelector('[nny-quiz="user-email"]').value) {
+      // sendPoints()
+      // };
     }
 
     // if splash screen exists
