@@ -171,7 +171,7 @@ const validationState = (requiredField, currentQuestion) => {
   } else {
     requiredField.value ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
   }
-
+  console.log(filledState)
   return filledState
 }
 
@@ -187,6 +187,7 @@ function checkRequiredFields (currentQuestion) {
       fieldFilledState = false
       requiredField.addEventListener('input', function () {
         const validationFieldState = validationState(requiredField, currentQuestion)
+        console.log(`input validation state is ${validationFieldState}`)
         validationFieldState === false ? requiredFileds(currentQuestion) : fieldFilledState = true
       })
     })
