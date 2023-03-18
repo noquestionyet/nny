@@ -159,6 +159,22 @@ function updateProgressBar (progress) {
   }
 }
 
+// validate if required fields were filled
+const validationState = (requiredField, currentQuestion) => {
+  let filledState
+  if (requiredField.type === 'radio' || requiredField.type === 'checkbox') {
+    requiredField.checked ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
+  } else if (requiredField.type === 'email') {
+    const emailLowerCase = requiredField.value.toLowerCase()
+    const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    emailMatch ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
+  } else {
+    requiredField.value ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
+  }
+
+  return filledState
+}
+
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
@@ -182,22 +198,6 @@ function checkRequiredFields (currentQuestion) {
   const currentQuestionNextButton = currentQuestion.querySelector('[nny-quiz="submit"]')
   filledState === true ? currentQuestionNextButton.style.opacity = '1' : currentQuestionNextButton.style.opacity = '0.6'
   console.log(filledState)
-}
-
-// validate if required fields were filled
-const validationState = (requiredField, currentQuestion) => {
-  let filledState
-  if (requiredField.type === 'radio' || requiredField.type === 'checkbox') {
-    requiredField.checked ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
-  } else if (requiredField.type === 'email') {
-    const emailLowerCase = requiredField.value.toLowerCase()
-    const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-    emailMatch ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
-  } else {
-    requiredField.value ? (filledState = true, requiredField.classList.remove('nqy-input-error')) : filledState = false
-  }
-
-  return filledState
 }
 
 // higlight required fields
