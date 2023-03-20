@@ -749,7 +749,8 @@ function getMemberStatus (currentUserId) {
       if (currentUserPriceId === 'prc_deploy-plan-n4ae053s') {
         if (expirationDate) {
           if (currentDate > expirationDate) {
-            console.log('expired')
+            console.log(currentDate)
+            console.log(expirationDate)
             activeStatus = false
           } else {
             activeStatus = true
