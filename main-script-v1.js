@@ -546,7 +546,6 @@ function showLeaderboard () {
 
 // checking the status of the subscription and setting the main variables based on that
 function activateScript (activeStatus) {
-  console.log(activeStatus)
   let userStatus = false
   const currentURL = window.location.hostname
   if (currentURL.includes('webflow.io')) {
