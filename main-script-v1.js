@@ -783,3 +783,4 @@ document.addEventListener('DOMContentLoaded', () => {
   localStorage.removeItem('allUserAnswers')
   localStorage.removeItem('rightAnswers')
 })
+
