@@ -747,7 +747,7 @@ function getMemberStatus (currentUserId) {
       const currentUserPriceId = data.price_id
       let activeStatus
       if (currentUserPriceId === 'prc_deploy-plan-n4ae053s') {
-        if (expirationDate) {
+        if (expirationDate !== '') {
           if (currentDate > expirationDate) {
             console.log(currentDate)
             console.log(expirationDate)
