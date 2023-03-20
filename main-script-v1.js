@@ -546,17 +546,18 @@ function showLeaderboard () {
 
 // checking the status of the subscription and setting the main variables based on that
 function activateScript (activeStatus) {
+  console.log(activeStatus)
   let userStatus = false
   const currentURL = window.location.hostname
   if (currentURL.includes('webflow.io')) {
     userStatus = true
   } else {
-    if (activeStatus == true) {
+    if (activeStatus === true) {
       userStatus = true
     }
   }
 
-  if (userStatus == true) {
+  if (userStatus === true) {
     console.log('the user is active')
     // setting main variables and create first question
     const answerPoints = document.querySelector('[nny-quiz="points"]').innerHTML
@@ -744,7 +745,8 @@ function getMemberStatus (currentUserId) {
       const expirationDate = data.memberstack_expiration_date
       const currentDate = Math.floor(Date.now() / 1000)
       const currentUserPriceId = data.price_id
-      if (currentUserPriceId == 'prc_deploy-plan-n4ae053s') {
+      let activeStatus
+      if (currentUserPriceId === 'prc_deploy-plan-n4ae053s') {
         if (expirationDate) {
           if (currentDate > expirationDate) {
             activeStatus = false
