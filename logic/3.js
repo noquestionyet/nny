@@ -383,7 +383,9 @@ function showError (value) {
   toastMessage.className = 'toast-message';
   toastMessage.style.position = 'fixed';
   toastMessage.style.bottom = '2%';
-  toastMessage.style.maxWidth = '30rem';
+  toastMessage.style.left = '50%';
+  toastMessage.style.marginLeft = '-25%';
+  toastMessage.style.width = '50%';
   toastMessage.style.backgroundColor = '#CC0000';
   toastMessage.style.color = '#ffffff';
   toastMessage.style.padding = '1.5rem';
