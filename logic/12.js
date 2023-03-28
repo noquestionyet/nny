@@ -112,6 +112,7 @@ function setFormShowers () {
 function showForm (formName) {
   const quizForms = document.querySelectorAll('[nqy-form]');
   quizForms.forEach((quizForm) => {
+    turnOffNativeForm(quizForm)
     const quizFormName = quizForm.getAttribute('nqy-formshow');
     if (quizFormName === formName) {
       quizForm.style.display = 'block';
@@ -119,6 +120,18 @@ function showForm (formName) {
       checkRequiredFields(currentQuestion);
     }
   })
+}
+
+// turn off native webflow forms
+function turnOffNativeForm (quizForm) {
+  const defaultState = quizForm.getAttribute('nqy-behavior');
+  if (!defaultState || defaultState !== 'default') {
+    quizForm.addEventListener('submit', handlerCallback, true);
+    function handlerCallback (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
 }
 
 // every time the new question appears, check if there are required fields
@@ -322,12 +335,7 @@ function pointSum () {
 
 // if we have personalised content, like name, to reuse in the form text
 function addCustomContent (stepCopyTarget) {
-  console.log('we are in addcustomtarget function')
-  //
-  console.log(stepCopyTarget)
   const sourceAttribute = stepCopyTarget.getAttribute('nqy-source');
-  console.log(sourceAttribute)
-  console.log(stepCopyTarget.value)
   const textTargets = document.querySelectorAll('[nqy-target]');
   textTargets.forEach(textTarget => {
     const targetAttribute = textTarget.getAttribute('nqy-target');
@@ -364,7 +372,6 @@ radioButtonsAll.forEach((radioButton) => {
 const checkboxAll = document.querySelectorAll('input[type="checkbox"]');
 checkboxAll.forEach((checkbox) => {
   checkbox.addEventListener('click', () => {
-    console.log(checkbox)
     for (let i = 0; i < checkboxAll.length; i++) {
       const checkboxWrapper = checkboxAll[i].parentElement;
       !checkboxAll[i].checked ? checkboxWrapper.classList.remove('nqy-form-active') : checkboxWrapper.classList.add('nqy-form-active');
