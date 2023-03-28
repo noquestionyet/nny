@@ -379,21 +379,29 @@ checkboxAll.forEach((checkbox) => {
 
 // custom error display
 function showError (value) {
-  const toastMessage = document.createElement('div');
-  toastMessage.className = 'toast-message';
-  toastMessage.style.position = 'fixed';
-  toastMessage.style.bottom = '2%';
-  toastMessage.style.left = '50%';
-  toastMessage.style.marginLeft = '-25%';
-  toastMessage.style.width = '50%';
-  toastMessage.style.backgroundColor = '#CC0000';
-  toastMessage.style.color = '#ffffff';
-  toastMessage.style.padding = '1.5rem';
-  toastMessage.innerHTML = value;
-  document.body.appendChild(toastMessage);
-  setTimeout(function () {
-    toastMessage.style.display = 'none'
-  }, 2000)
+  const toastError = document.querySelector('.toast-message');
+  if (!toastError) {
+    const toastMessage = document.createElement('div');
+    toastMessage.style.position = 'fixed';
+    toastMessage.style.bottom = '2%';
+    toastMessage.style.left = '50%';
+    toastMessage.style.marginLeft = '-25%';
+    toastMessage.style.width = '50%';
+    toastMessage.style.backgroundColor = '#CC0000';
+    toastMessage.style.color = '#ffffff';
+    toastMessage.style.padding = '1.5rem';
+    toastMessage.style.textAlign = 'center';
+    toastMessage.innerHTML = value;
+    document.body.appendChild(toastMessage);
+    setTimeout(function () {
+      toastMessage.style.display = 'none'
+    }, 2000);
+  } else {
+    toastError.innerHTML = value;
+    setTimeout(function () {
+      toastError.style.display = 'none'
+    }, 2000)
+  }
 }
 
 // clear session storage on load
