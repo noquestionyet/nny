@@ -16,9 +16,8 @@ nqy-input-error - error class
 7. nqy-form="form" - main form
 8. nqy-points="40" -amount of points for each answer (add to radio button)
 
-9. nqy-text="source-n" - reuse the input content
-10. nqy-text="target-n"
-11. nqy-text-button="activator-n" //!!!!!rewrite this with every next step
+9. nqy-source="text" - reuse the input content (can be text-1,text-2 etc)
+10. nqy-target="text"
 12. nqy-action="start-over" - reload page
 
 --final steps
@@ -185,7 +184,7 @@ if (nextButtons.length !== 0) {
       const nextStepNumber = nextButton.getAttribute('nqy-destination');
       const stepConditional = nextButton.getAttribute('nqy-conditional');
       const currentQuestion = nextButton.closest('.current-question');
-      const stepCopyTarget = currentQuestion.querySelectorAll('[nqy-text]');
+      const stepCopyTarget = currentQuestion.querySelectorAll('[nqy-source]');
       // simple logic next step call
       if (nextStepNumber) {
         nextQuestion(nextStepNumber, quizForm);
@@ -196,13 +195,7 @@ if (nextButtons.length !== 0) {
       }
       // add custom content from inputs
       if (stepCopyTarget) {
-        for (let i = 0; i < stepCopyTarget.length; i++) {
-          const stepCopyAttribute = stepCopyTarget[i].getAttribute('nqy-text');
-          if (stepCopyAttribute.includes('source')) {
-            const stepCopyTargetNumber = stepCopyAttribute.replace('source-', '');
-            addCustomContent(stepCopyTargetNumber);
-          }
-        }
+        addCustomContent();
       }
     })
   })
@@ -326,23 +319,22 @@ function pointSum () {
 }
 
 // if we have personalised content, like name, to reuse in the form text
-function addCustomContent (stepCopyTargetNumber) {
+function addCustomContent () {
   console.log('we are in addcustomtarget function')
-  let sourceTextAttribute = '[nqy-text="source"]';
-  let targetTextAttribute = '[nqy-text="target"]';
-  if (stepCopyTargetNumber) {
-    sourceTextAttribute = `[nqy-text="source-${stepCopyTargetNumber}"]`;
-    targetTextAttribute = `[nqy-text="target-${stepCopyTargetNumber}"]`;
-  }
-  const sourceText = document.querySelector(`${sourceTextAttribute}`);
-  console.log(sourceText)
-  const targetText = document.querySelectorAll(`${targetTextAttribute}`);
-  console.log(targetText)
-  if (sourceText.value) {
-    for (let i = 0; i < targetText.length; i++) {
-      targetText[i].innerHTML = sourceText.value;
-    }
-  }
+  const textSources = document.querySelectorAll('[nqy-source]');
+  textSources.forEach(textSource => {
+    console.log(textSource)
+    const textSourceValue = textSource.getAttribute('nqy-source');
+    console.log(textSourceValue)
+    const textTargets = document.querySelectorAll('[nqy-target]');
+    textTargets.forEach(textTarget => {
+      const textTargetValue = textTarget.getAttribute('nqy-target');
+      console.log(textTargetValue)
+      if (textTargetValue === textSourceValue) {
+        textTargetValue.innerHTML = textSource.value;
+      }
+    });
+  });
 }
 
 // reload page function
