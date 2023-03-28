@@ -334,7 +334,9 @@ function addCustomContent (stepCopyTargetNumber) {
     targetTextAttribute = `[nqy-text="target-${stepCopyTargetNumber}"]`;
   }
   const sourceText = document.querySelector(`${sourceTextAttribute}`);
+  console.log(sourceText)
   const targetText = document.querySelectorAll(`${targetTextAttribute}`);
+  console.log(targetText)
   if (sourceText.value) {
     for (let i = 0; i < targetText.length; i++) {
       targetText[i].innerHTML = sourceText.value;
@@ -377,7 +379,7 @@ checkboxAll.forEach((checkbox) => {
   })
 })
 
-// custom error display
+// custom error toast message display
 function showError (value) {
   const toastError = document.querySelector('.toast-message');
   if (!toastError) {
