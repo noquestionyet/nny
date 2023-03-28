@@ -345,6 +345,7 @@ function addCustomContent (stepCopyTargetNumber) {
 // reload page function
 function startOver () {
   window.location.reload();
+  sessionStorage.clear();
 }
 
 // every "start over" button activates the reload page function
@@ -378,27 +379,19 @@ checkboxAll.forEach((checkbox) => {
 
 // custom error display
 function showError (value) {
-  const toastWrapper = document.createElement('div');
-  toastWrapper.className = 'toast-wrapper';
-  toastWrapper.style.position = 'fixed';
-  toastWrapper.style.right = '0%';
-  toastWrapper.style.left = '0%';
-  toastWrapper.style.bottom = '0%';
-  toastWrapper.style.padding = '1.5rem';
   const toastMessage = document.createElement('div');
   toastMessage.className = 'toast-message';
+  toastMessage.style.position = 'fixed';
+  toastMessage.style.bottom = '2%';
   toastMessage.style.maxWidth = '30rem';
   toastMessage.style.backgroundColor = '#CC0000';
   toastMessage.style.color = '#ffffff';
   toastMessage.style.padding = '1.5rem';
-  toastMessage.style.textAlign = 'center';
-  toastMessage.style.margin = 'auto';
   toastMessage.innerHTML = value;
-  toastWrapper.appendChild(toastMessage);
-  document.body.appendChild(toastWrapper);
+  document.body.appendChild(toastMessage);
   setTimeout(function () {
-    toastWrapper.style.display = 'none'
-  }, 1800)
+    toastMessage.style.display = 'none'
+  }, 2000)
 }
 
 // clear session storage on load
