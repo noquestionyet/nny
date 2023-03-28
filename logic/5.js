@@ -394,12 +394,13 @@ function showError (value) {
     toastMessage.innerHTML = value;
     document.body.appendChild(toastMessage);
     setTimeout(function () {
-      toastMessage.style.display = 'none'
+      toastMessage.style.display = 'none';
     }, 2000);
   } else {
     toastError.innerHTML = value;
+    toastError.style.display = 'block';
     setTimeout(function () {
-      toastError.style.display = 'none'
+      toastError.style.display = 'none';
     }, 2000)
   }
 }
