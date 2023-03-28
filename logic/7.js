@@ -198,7 +198,7 @@ if (nextButtons.length !== 0) {
       if (stepCopyTarget) {
         for (let i = 0; i < stepCopyTarget.length; i++) {
           const stepCopyAttribute = stepCopyTarget[i].getAttribute('nqy-text');
-          if (stepCopyAttribute.includes('source-')) {
+          if (stepCopyAttribute.includes('source')) {
             const stepCopyTargetNumber = stepCopyAttribute.replace('source-', '');
             addCustomContent(stepCopyTargetNumber);
           }
@@ -327,6 +327,7 @@ function pointSum () {
 
 // if we have personalised content, like name, to reuse in the form text
 function addCustomContent (stepCopyTargetNumber) {
+  console.log('we are in addcustomtarget function')
   let sourceTextAttribute = '[nqy-text="source"]';
   let targetTextAttribute = '[nqy-text="target"]';
   if (stepCopyTargetNumber) {
