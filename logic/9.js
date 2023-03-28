@@ -16,8 +16,8 @@ nqy-input-error - error class
 7. nqy-form="form" - main form
 8. nqy-points="40" -amount of points for each answer (add to radio button)
 
-9. nqy-source="text" - reuse the input content (can be text-1,text-2 etc)
-10. nqy-target="text"
+9. nqy-source="text" - reuse the input content, add text-1, text-2 etc
+10. nqy-target="target"
 12. nqy-action="start-over" - reload page
 
 --final steps
@@ -195,7 +195,9 @@ if (nextButtons.length !== 0) {
       }
       // add custom content from inputs
       if (stepCopyTarget) {
-        addCustomContent();
+        for (let i = 0; i < stepCopyTarget.length; i++) {
+          addCustomContent(stepCopyTarget);
+        }
       }
     })
   })
@@ -319,22 +321,19 @@ function pointSum () {
 }
 
 // if we have personalised content, like name, to reuse in the form text
-function addCustomContent () {
+function addCustomContent (stepCopyTarget) {
   console.log('we are in addcustomtarget function')
-  const textSources = document.querySelectorAll('[nqy-source]');
-  textSources.forEach(textSource => {
-    console.log(textSource)
-    const textSourceValue = textSource.getAttribute('nqy-source');
-    console.log(textSourceValue)
-    const textTargets = document.querySelectorAll('[nqy-target]');
-    textTargets.forEach(textTarget => {
-      const textTargetValue = textTarget.getAttribute('nqy-target');
-      console.log(textTargetValue)
-      if (textTargetValue === textSourceValue) {
-        textTargetValue.innerHTML = textSource.value;
-      }
-    });
-  });
+  //
+  const sourceAttribute = stepCopyTarget.getAttribute('nqy-source');
+  console.log(sourceAttribute)
+  console.log(stepCopyTarget.value)
+  const textTargets = document.querySelectorAll('[nqy-target]');
+  textTargets.forEach(textTarget => {
+    const targetAttribute = textTarget.getAttribute('nqy-target');
+    if (sourceAttribute === targetAttribute) {
+      textTarget.innerHTML = stepCopyTarget.value;
+    }
+  })
 }
 
 // reload page function
