@@ -324,6 +324,7 @@ function pointSum () {
 function addCustomContent (stepCopyTarget) {
   console.log('we are in addcustomtarget function')
   //
+  console.log(stepCopyTarget)
   const sourceAttribute = stepCopyTarget.getAttribute('nqy-source');
   console.log(sourceAttribute)
   console.log(stepCopyTarget.value)
