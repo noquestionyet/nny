@@ -196,7 +196,7 @@ if (nextButtons.length !== 0) {
       // add custom content from inputs
       if (stepCopyTarget) {
         for (let i = 0; i < stepCopyTarget.length; i++) {
-          addCustomContent(stepCopyTarget);
+          addCustomContent(stepCopyTarget[i]);
         }
       }
     })
