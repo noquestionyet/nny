@@ -118,6 +118,20 @@ function showForm (formName) {
   })
 }
 
+// turn off native webflow forms
+function turnOffNativeForm (quizForm) {
+  console.log('default behaviour is turned on')
+  const defaultState = quizForm.getAttribute('nqy-behavior');
+  console.log(defaultState)
+  if (!defaultState || defaultState !== 'default') {
+    quizForm.addEventListener('submit', handlerCallback, true);
+    function handlerCallback (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+}
+
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
