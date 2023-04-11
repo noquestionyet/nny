@@ -86,7 +86,7 @@ quizForms.forEach((quizForm) => {
       questionSteps[i].classList.add('current-question');
       if (formShowers.length !== 0) {
         quizForm.style.display = 'none';
-      } else { checkRequiredFields(questionSteps[i]) }
+      } else { findRequiredFields(questionSteps[i]) }
     }
   }
 })
@@ -113,7 +113,7 @@ function showForm (formName) {
     if (quizFormName === formName) {
       quizForm.style.display = 'block';
       const currentQuestion = quizForm.querySelector('.current-question');
-      checkRequiredFields(currentQuestion);
+      findRequiredFields(currentQuestion);
     }
   })
 }
