@@ -177,11 +177,17 @@ function checkRequiredFields (currentQuestion) {
       return field.value.trim() !== ''
     }
   })
+  
+ let debounceTimeout;
   formInputs.forEach(input => {
     input.addEventListener('input', () => {
-      checkRequiredFields(currentQuestion)
+      clearTimeout(debounceTimeout)
+      debounceTimeout = setTimeout(() => {
+        checkRequiredFields(currentQuestion)
+      }, 500) // wait for 500ms before running the function
     })
   })
+  
   // Return true if all required fields are filled in, false otherwise
   if (allFieldsFilled) {
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '1'
