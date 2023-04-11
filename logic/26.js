@@ -188,11 +188,12 @@ function validationError (currentQuestion) {
 }
 
 // call next question function on each "next question" button click
-const nextButtons = document.querySelectorAll('[nqy-action=”next”]');
+const nextButtons = document.querySelectorAll('[nqy-action="next"]');
 if (nextButtons.length !== 0) {
   nextButtons.forEach((nextButton) => {
     // if we have "next buttons"
     nextButton.addEventListener('click', () => {
+      console.log(filledState)
       if (userStatus) {
         const quizForm = nextButton.closest('[nqy-form]');
         const nextStepNumber = nextButton.getAttribute('nqy-destination');
@@ -245,7 +246,7 @@ function nextQuestion (stepNumber, quizForm) {
       const nextQuestion = quizForm.querySelector(`[nqy-step='${stepNumber}']`);
       nextQuestion.classList.add('current-question');
       nextQuestion.style.display = 'block';
-      findRequiredFields(nextQuestion);
+      checkRequiredFields(nextQuestion);
     }
   } else { validationError(currentQuestion) }
 }
