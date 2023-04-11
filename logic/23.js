@@ -30,7 +30,7 @@ nqy-formshow = "form-name" - add to the link and form
 */
 
 // main variables
-const filledState = true;
+let filledState = true;
 const apirUrl = 'https://api.noquestionyet.com/api:84zPS-li';
 const paidPlanId = 'prc_deploy-plan-n4ae053s';
 let userStatus = false;
@@ -144,6 +144,7 @@ currentQuestions.forEach(currentQuestion => {
 function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]');
   if (requiredFields.length !== 0) {
+    filledState = false;
     setNextButtonState(false, currentQuestion);
     return Array.from(requiredFields).every(field => {
       if (field.type === 'checkbox' || field.type === 'radio') {
@@ -166,10 +167,10 @@ function setNextButtonState (allFieldsFilled, currentQuestion) {
   console.log(nextButton)
   if (allFieldsFilled) {
     nextButton.style.opacity = '1';
-    nextButton.disabled = false;
+    filledState = true;
   } else {
     nextButton.style.opacity = '0.6';
-    nextButton.disabled = true;
+    filledState = false;
   }
 }
 
@@ -189,6 +190,7 @@ function validationError (currentQuestion) {
   })
 }
 
+// call next question function on each "next question" button click
 const nextButtons = document.querySelectorAll('[nqy-action=”next”]');
 if (nextButtons.length !== 0) {
   nextButtons.forEach((nextButton) => {
