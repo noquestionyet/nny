@@ -189,6 +189,7 @@ function checkRequiredFields (currentQuestion) {
 }
 
 const formInputs = document.querySelectorAll('input, select, textarea')
+console.log(formInputs)
 formInputs.forEach(input => {
   input.addEventListener('input', () => {
     console.log(input)
