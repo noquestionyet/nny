@@ -191,6 +191,7 @@ function checkRequiredFields (currentQuestion) {
 const formInputs = document.querySelectorAll('input, select, textarea')
 formInputs.forEach(input => {
   input.addEventListener('input', () => {
+    console.log(input)
     const finishScreen = document.querySelector('[nny-quiz="finish"]')
     checkRequiredFields(finishScreen)
   })
