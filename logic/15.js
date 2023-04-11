@@ -69,31 +69,27 @@ function getMemberStatus (currentUserId) {
 function activateScript (activeStatus) {
   const currentURL = window.location.hostname;
   currentURL.includes('webflow.io') ? userStatus = true : userStatus = activeStatus;
-  setForms(userStatus);
   setFormShowers();
 }
 
 // hiding all questions apart from the first
-function setForms (userStatus) {
-  const quizForms = document.querySelectorAll('[nqy-form]');
-  const formShowers = document.querySelectorAll('[nqy-formshow]');
-  if (userStatus === true) {
-    quizForms.forEach((quizForm) => {
-      turnOffNativeForm(quizForm);
-      const questionSteps = quizForm.querySelectorAll('[nqy-step]');
-      for (let i = 0; i < questionSteps.length; i++) {
-        questionSteps[i].style.display = 'none';
-        if (i === 0) {
-          questionSteps[i].style.display = 'block';
-          questionSteps[i].classList.add('current-question');
-          if (formShowers.length !== 0) {
-            quizForm.style.display = 'none';
-          } else { checkRequiredFields(questionSteps[i]) }
-        }
-      }
-    })
-  } else { showError('Please, upgrade the plan'); }
-}
+
+const quizForms = document.querySelectorAll('[nqy-form]');
+const formShowers = document.querySelectorAll('[nqy-formshow]');
+quizForms.forEach((quizForm) => {
+  turnOffNativeForm(quizForm);
+  const questionSteps = quizForm.querySelectorAll('[nqy-step]');
+  for (let i = 0; i < questionSteps.length; i++) {
+    questionSteps[i].style.display = 'none';
+    if (i === 0) {
+      questionSteps[i].style.display = 'block';
+      questionSteps[i].classList.add('current-question');
+      if (formShowers.length !== 0) {
+        quizForm.style.display = 'none';
+      } else { checkRequiredFields(questionSteps[i]) }
+    }
+  }
+})
 
 // if there are links to show the forms, activate them
 function setFormShowers () {
@@ -140,10 +136,8 @@ function turnOffNativeForm (quizForm) {
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]');
-  const formInputs = currentQuestion.querySelectorAll('input, select, textarea');
   // check if all required fields are filled in
   if (requiredFields.length !== 0) {
-    filledState = false;
     const allFieldsFilled = Array.from(requiredFields).every(field => {
       if (field.type === 'checkbox' || field.type === 'radio') {
         return field.checked;
@@ -155,11 +149,14 @@ function checkRequiredFields (currentQuestion) {
         return field.value.trim() !== '';
       }
     })
-    formInputs.forEach((input) => {
-      input.addEventListener('input', () => {
-        checkRequiredFields(currentQuestion);
-      })
-    })
+    return allFieldsFilled;
+  }
+}
+
+// check if required inputs are filled
+function findRequiredFields (currentQuestion) {
+  currentQuestion.addEventListener('input', () => {
+    const allFieldsFilled = checkRequiredFields(currentQuestion);
     // return true if all required fields are filled in, false otherwise
     if (allFieldsFilled) {
       currentQuestion.querySelector('[nqy-action="next"]').style.opacity = '1';
@@ -170,7 +167,7 @@ function checkRequiredFields (currentQuestion) {
       filledState = false
       return filledState;
     }
-  }
+  })
 }
 
 // show validation error
@@ -195,25 +192,27 @@ if (nextButtons.length !== 0) {
   nextButtons.forEach((nextButton) => {
     // if we have "next buttons"
     nextButton.addEventListener('click', () => {
-      const quizForm = nextButton.closest('[nqy-form]');
-      const nextStepNumber = nextButton.getAttribute('nqy-destination');
-      const stepConditional = nextButton.getAttribute('nqy-conditional');
-      const currentQuestion = nextButton.closest('.current-question');
-      const stepCopyTarget = currentQuestion.querySelectorAll('[nqy-source]');
-      // simple logic next step call
-      if (nextStepNumber) {
-        nextQuestion(nextStepNumber, quizForm);
-      }
-      // conditional logic next step call
-      if (stepConditional) {
-        findNextQuestion(nextButton);
-      }
-      // add custom content from inputs
-      if (stepCopyTarget) {
-        for (let i = 0; i < stepCopyTarget.length; i++) {
-          addCustomContent(stepCopyTarget[i]);
+      if (userStatus) {
+        const quizForm = nextButton.closest('[nqy-form]');
+        const nextStepNumber = nextButton.getAttribute('nqy-destination');
+        const stepConditional = nextButton.getAttribute('nqy-conditional');
+        const currentQuestion = nextButton.closest('.current-question');
+        const stepCopyTarget = currentQuestion.querySelectorAll('[nqy-source]');
+        // simple logic next step call
+        if (nextStepNumber) {
+          nextQuestion(nextStepNumber, quizForm);
         }
-      }
+        // conditional logic next step call
+        if (stepConditional) {
+          findNextQuestion(nextButton);
+        }
+        // add custom content from inputs
+        if (stepCopyTarget) {
+          for (let i = 0; i < stepCopyTarget.length; i++) {
+            addCustomContent(stepCopyTarget[i]);
+          }
+        }
+      } else { showError('Please, upgrade the plan') }
     })
   })
 }
@@ -244,7 +243,7 @@ function nextQuestion (stepNumber, quizForm) {
       const nextQuestion = quizForm.querySelector(`[nqy-step='${stepNumber}']`);
       nextQuestion.classList.add('current-question');
       nextQuestion.style.display = 'block';
-      checkRequiredFields(nextQuestion);
+      findRequiredFields(nextQuestion);
     }
   } else { validationError(currentQuestion) }
 }
