@@ -164,6 +164,8 @@ function checkRequiredFields (currentQuestion) {
 // Enable/disable the next button based on the allFieldsFilled parameter
 function setNextButtonState (allFieldsFilled, currentQuestion) {
   const nextButton = currentQuestion.querySelector('[nqy-action=”next”]');
+  console.log(currentQuestion)
+  console.log(nextButton)
   if (allFieldsFilled) {
     nextButton.style.opacity = '1';
     submitButton.disabled = false;
