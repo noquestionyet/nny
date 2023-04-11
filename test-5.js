@@ -182,6 +182,7 @@ function checkRequiredFields (currentQuestion) {
  let debounceTimeout;
   formInputs.forEach(input => {
     input.addEventListener('input', () => {
+      console.log(input)
       clearTimeout(debounceTimeout)
       debounceTimeout = setTimeout(() => {
         checkRequiredFields(currentQuestion)
