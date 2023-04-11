@@ -130,8 +130,6 @@ function turnOffNativeForm (quizForm) {
   }
 }
 
-const submitButton = document.querySelector('[nqy-action="next"]');
-
 // Check if required inputs are filled
 const currentQuestions = document.querySelectorAll('.current-question');
 currentQuestions.forEach(currentQuestion => {
@@ -163,12 +161,12 @@ function checkRequiredFields (currentQuestion) {
 
 // Enable/disable the next button based on the allFieldsFilled parameter
 function setNextButtonState (allFieldsFilled, currentQuestion) {
-  const nextButton = currentQuestion.querySelector('[nqy-action=”next”]');
   console.log(currentQuestion)
+  const nextButton = currentQuestion.querySelector('[nqy-action="next"]');
   console.log(nextButton)
   if (allFieldsFilled) {
     nextButton.style.opacity = '1';
-    submitButton.disabled = false;
+    nextButton.disabled = false;
   } else {
     nextButton.style.opacity = '0.6';
     nextButton.disabled = true;
