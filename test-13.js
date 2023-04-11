@@ -162,7 +162,6 @@ function updateProgressBar (progress) {
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
-  console.log('calling check required fields')
   // Select all required fields on the form
   const requiredFields = currentQuestion.querySelectorAll('[required]')
   // Check if all required fields are filled in
@@ -187,18 +186,16 @@ function checkRequiredFields (currentQuestion) {
     return false
   }
 }
-window.addEventListener("DOMContentLoaded", (event) => {
-
-const formInputs = document.querySelectorAll('input, select, textarea')
-console.log(formInputs)
-formInputs.forEach(input => {
-  input.addEventListener('input', () => {
-    console.log(input)
-    const finishScreen = document.querySelector('[nny-quiz="finish"]')
-    checkRequiredFields(finishScreen)
+window.addEventListener('DOMContentLoaded', (event) => {
+  const formInputs = document.querySelectorAll('input, select, textarea')
+  formInputs.forEach(input => {
+    input.addEventListener('input', () => {
+      const finishScreen = document.querySelector('[nny-quiz="finish"]')
+      checkRequiredFields(finishScreen)
+    })
   })
 })
-})
+
 // show validation error
 function validationError (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]')
@@ -789,4 +786,3 @@ document.addEventListener('DOMContentLoaded', () => {
   localStorage.removeItem('allUserAnswers')
   localStorage.removeItem('rightAnswers')
 })
-
