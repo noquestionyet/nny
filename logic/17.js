@@ -52,9 +52,7 @@ function getMemberStatus (currentUserId) {
     const expirationDate = data.memberstack_expiration_date;
     const currentDate = Math.floor(Date.now() / 1000);
     const currentUserPriceId = data.price_id;
-    console.log(currentUserPriceId)
     if (currentUserPriceId === paidPlanId) {
-      console.log(expirationDate)
       expirationDate && currentDate > expirationDate ? activeStatus = false : activeStatus = true;
     } else {
       activeStatus = false;
@@ -120,9 +118,7 @@ function showForm (formName) {
 
 // turn off native webflow forms
 function turnOffNativeForm (quizForm) {
-  console.log('default behaviour is turned on')
   const defaultState = quizForm.getAttribute('nqy-behavior');
-  console.log(defaultState)
   if (!defaultState || defaultState !== 'default') {
     quizForm.addEventListener('submit', handlerCallback, true);
     function handlerCallback (event) {
@@ -136,6 +132,7 @@ function turnOffNativeForm (quizForm) {
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]');
+  console.log(requiredFields)
   // check if all required fields are filled in
   if (requiredFields.length !== 0) {
     const allFieldsFilled = Array.from(requiredFields).every(field => {
@@ -155,6 +152,7 @@ function checkRequiredFields (currentQuestion) {
 
 // check if required inputs are filled
 function findRequiredFields (currentQuestion) {
+  console.log(currentQuestion)
   currentQuestion.addEventListener('input', () => {
     const allFieldsFilled = checkRequiredFields(currentQuestion);
     // return true if all required fields are filled in, false otherwise
