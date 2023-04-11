@@ -1,3 +1,5 @@
+/* eslint-disable semi */
+
 /* attributes are used
 -- required
 1. nny-quiz="list" - list of questions
@@ -162,7 +164,7 @@ function updateProgressBar (progress) {
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
-  console.log(currentQuestion)
+  console.log('we are checking required fields');
   // Select all required fields on the form
   const requiredFields = currentQuestion.querySelectorAll('[required]')
   const formInputs = currentQuestion.querySelectorAll('input, select, textarea')
@@ -178,9 +180,14 @@ function checkRequiredFields (currentQuestion) {
       return field.value.trim() !== ''
     }
   })
+
+  let debounceTimeout;
   formInputs.forEach(input => {
     input.addEventListener('input', () => {
-      checkRequiredFields(currentQuestion)
+      clearTimeout(debounceTimeout)
+      debounceTimeout = setTimeout(() => {
+        checkRequiredFields(currentQuestion)
+      }, 500) // wait for 500ms before running the function
     })
   })
   // Return true if all required fields are filled in, false otherwise
