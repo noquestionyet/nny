@@ -193,7 +193,6 @@ if (nextButtons.length !== 0) {
   nextButtons.forEach((nextButton) => {
     // if we have "next buttons"
     nextButton.addEventListener('click', () => {
-      console.log(filledState)
       if (userStatus) {
         const quizForm = nextButton.closest('[nqy-form]');
         const nextStepNumber = nextButton.getAttribute('nqy-destination');
@@ -233,7 +232,6 @@ if (previousButtons.length !== 0) {
 // show next question
 function nextQuestion (stepNumber, quizForm) {
   const currentQuestion = quizForm.querySelector('.current-question');
-  console.log(filledState)
   if (filledState) {
     savePoints(currentQuestion);
     const existingStepFlow = sessionStorage.getItem('stepFlow');
