@@ -232,6 +232,7 @@ if (previousButtons.length !== 0) {
 // show next question
 function nextQuestion (stepNumber, quizForm) {
   const currentQuestion = quizForm.querySelector('.current-question');
+  console.log(filledState)
   if (filledState) {
     savePoints(currentQuestion);
     const existingStepFlow = sessionStorage.getItem('stepFlow');
