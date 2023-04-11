@@ -164,7 +164,6 @@ function updateProgressBar (progress) {
 function checkRequiredFields (currentQuestion) {
   // Select all required fields on the form
   const requiredFields = currentQuestion.querySelectorAll('[required]')
-  const formInputs = currentQuestion.querySelectorAll('input, select, textarea')
   // Check if all required fields are filled in
   const allFieldsFilled = Array.from(requiredFields).every(field => {
     if (field.type === 'checkbox' || field.type === 'radio') {
@@ -177,17 +176,7 @@ function checkRequiredFields (currentQuestion) {
       return field.value.trim() !== ''
     }
   })
-  
- let debounceTimeout;
-  formInputs.forEach(input => {
-    input.addEventListener('input', () => {
-      clearTimeout(debounceTimeout)
-      debounceTimeout = setTimeout(() => {
-        checkRequiredFields(currentQuestion)
-      }, 500) // wait for 500ms before running the function
-    })
-  })
-  
+
   // Return true if all required fields are filled in, false otherwise
   if (allFieldsFilled) {
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '1'
@@ -197,6 +186,15 @@ function checkRequiredFields (currentQuestion) {
     return false
   }
 }
+window.addEventListener('DOMContentLoaded', (event) => {
+  const formInputs = document.querySelectorAll('input, select, textarea')
+  formInputs.forEach(input => {
+    input.addEventListener('input', () => {
+      const finishScreen = document.querySelector('[nny-quiz="finish"]')
+      checkRequiredFields(finishScreen)
+    })
+  })
+})
 
 // show validation error
 function validationError (currentQuestion) {
@@ -788,4 +786,3 @@ document.addEventListener('DOMContentLoaded', () => {
   localStorage.removeItem('allUserAnswers')
   localStorage.removeItem('rightAnswers')
 })
-
