@@ -30,7 +30,7 @@ nqy-formshow = "form-name" - add to the link and form
 */
 
 // main variables
-let filledState = true;
+const filledState = true;
 const apirUrl = 'https://api.noquestionyet.com/api:84zPS-li';
 const paidPlanId = 'prc_deploy-plan-n4ae053s';
 let userStatus = false;
@@ -130,14 +130,24 @@ function turnOffNativeForm (quizForm) {
   }
 }
 
+const submitButton = document.querySelector('[nqy-action="next"]');
+
+// Check if required inputs are filled
+const currentQuestions = document.querySelectorAll('.current-question');
+currentQuestions.forEach(currentQuestion => {
+  currentQuestion.addEventListener('input', () => {
+    const allFieldsFilled = checkRequiredFields(currentQuestion);
+    setNextButtonState(allFieldsFilled);
+  })
+})
+
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
-  console.log('checking')
   const requiredFields = currentQuestion.querySelectorAll('[required]');
-  // check if all required fields are filled in
   if (requiredFields.length !== 0) {
-    const allFieldsFilled = Array.from(requiredFields).every(field => {
+    setNextButtonState(false);
+    return Array.from(requiredFields).every(field => {
       if (field.type === 'checkbox' || field.type === 'radio') {
         return field.checked;
       } else if (field.type === 'email') {
@@ -147,28 +157,20 @@ function checkRequiredFields (currentQuestion) {
       } else {
         return field.value.trim() !== '';
       }
-    })
-    return allFieldsFilled;
+    });
   }
 }
 
-// check if required inputs are filled
-const currentQuestions = document.querySelectorAll('.currentQuestion');
-currentQuestions.forEach(currentQuestion => {
-  currentQuestion.addEventListener('input', () => {
-    const allFieldsFilled = checkRequiredFields(currentQuestion);
-    // return true if all required fields are filled in, false otherwise
-    if (allFieldsFilled) {
-      currentQuestion.querySelector('[nqy-action="next"]').style.opacity = '1';
-      filledState = true;
-      return filledState;
-    } else {
-      currentQuestion.querySelector('[nqy-action="next"]').style.opacity = '0.6'
-      filledState = false
-      return filledState;
-    }
-  })
-})
+// Enable/disable the next button based on the allFieldsFilled parameter
+function setNextButtonState (allFieldsFilled) {
+  if (allFieldsFilled) {
+    nextButton.style.opacity = '1';
+    submitButton.disabled = false;
+  } else {
+    nextButton.style.opacity = '0.6';
+    nextButton.disabled = true;
+  }
+}
 
 // show validation error
 function validationError (currentQuestion) {
@@ -186,8 +188,6 @@ function validationError (currentQuestion) {
   })
 }
 
-// call next question function on each "next question" button click
-const nextButtons = document.querySelectorAll('[nqy-action="next"]');
 if (nextButtons.length !== 0) {
   nextButtons.forEach((nextButton) => {
     // if we have "next buttons"
