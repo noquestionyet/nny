@@ -185,7 +185,7 @@ function checkRequiredFields (currentQuestion) {
       clearTimeout(debounceTimeout)
       debounceTimeout = setTimeout(() => {
         checkRequiredFields(currentQuestion)
-      }, 500) // wait for 500ms before running the function
+      }, 1000) // wait for 500ms before running the function
     })
   })
   
