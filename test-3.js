@@ -1,5 +1,3 @@
-/* eslint-disable semi */
-
 /* attributes are used
 -- required
 1. nny-quiz="list" - list of questions
@@ -164,7 +162,7 @@ function updateProgressBar (progress) {
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
-  console.log('we are checking required fields');
+  console.log('checking required fields')
   // Select all required fields on the form
   const requiredFields = currentQuestion.querySelectorAll('[required]')
   const formInputs = currentQuestion.querySelectorAll('input, select, textarea')
@@ -180,8 +178,8 @@ function checkRequiredFields (currentQuestion) {
       return field.value.trim() !== ''
     }
   })
-
-  let debounceTimeout;
+  
+ let debounceTimeout;
   formInputs.forEach(input => {
     input.addEventListener('input', () => {
       clearTimeout(debounceTimeout)
@@ -190,6 +188,7 @@ function checkRequiredFields (currentQuestion) {
       }, 500) // wait for 500ms before running the function
     })
   })
+  
   // Return true if all required fields are filled in, false otherwise
   if (allFieldsFilled) {
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '1'
@@ -209,7 +208,6 @@ function validationError (currentQuestion) {
     } else if (field.type === 'email') {
       const emailLowerCase = field.value.toLowerCase()
       const emailMatch = emailLowerCase.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-      console.log(emailMatch)
       emailMatch == null ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
     } else {
       field.value.trim() === '' ? field.classList.add('nqy-input-error') : field.classList.remove('nqy-input-error')
@@ -791,3 +789,4 @@ document.addEventListener('DOMContentLoaded', () => {
   localStorage.removeItem('allUserAnswers')
   localStorage.removeItem('rightAnswers')
 })
+
