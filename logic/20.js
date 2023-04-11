@@ -137,7 +137,7 @@ const currentQuestions = document.querySelectorAll('.current-question');
 currentQuestions.forEach(currentQuestion => {
   currentQuestion.addEventListener('input', () => {
     const allFieldsFilled = checkRequiredFields(currentQuestion);
-    setNextButtonState(allFieldsFilled);
+    setNextButtonState(allFieldsFilled, currentQuestion);
   })
 })
 
@@ -146,7 +146,7 @@ currentQuestions.forEach(currentQuestion => {
 function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]');
   if (requiredFields.length !== 0) {
-    setNextButtonState(false);
+    setNextButtonState(false, currentQuestion);
     return Array.from(requiredFields).every(field => {
       if (field.type === 'checkbox' || field.type === 'radio') {
         return field.checked;
@@ -162,7 +162,8 @@ function checkRequiredFields (currentQuestion) {
 }
 
 // Enable/disable the next button based on the allFieldsFilled parameter
-function setNextButtonState (allFieldsFilled) {
+function setNextButtonState (allFieldsFilled, currentQuestion) {
+  const nextButton = currentQuestion.querySelector('[nqy-action=”next”]');
   if (allFieldsFilled) {
     nextButton.style.opacity = '1';
     submitButton.disabled = false;
@@ -188,6 +189,7 @@ function validationError (currentQuestion) {
   })
 }
 
+const nextButtons = document.querySelectorAll('[nqy-action=”next”]');
 if (nextButtons.length !== 0) {
   nextButtons.forEach((nextButton) => {
     // if we have "next buttons"
