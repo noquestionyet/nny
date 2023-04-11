@@ -162,10 +162,9 @@ function updateProgressBar (progress) {
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
-  console.log('checking required fields')
+  console.log('calling check required fields')
   // Select all required fields on the form
   const requiredFields = currentQuestion.querySelectorAll('[required]')
-  const formInputs = currentQuestion.querySelectorAll('input, select, textarea')
   // Check if all required fields are filled in
   const allFieldsFilled = Array.from(requiredFields).every(field => {
     if (field.type === 'checkbox' || field.type === 'radio') {
@@ -178,15 +177,7 @@ function checkRequiredFields (currentQuestion) {
       return field.value.trim() !== ''
     }
   })
-  
-  formInputs.forEach(input => {
-    input.addEventListener('input', () => {
-      console.log(input)
-      checkRequiredFields(currentQuestion)
-       // wait for 500ms before running the function
-    })
-  })
-  
+
   // Return true if all required fields are filled in, false otherwise
   if (allFieldsFilled) {
     currentQuestion.querySelector('[nny-quiz="submit"]').style.opacity = '1'
@@ -196,6 +187,14 @@ function checkRequiredFields (currentQuestion) {
     return false
   }
 }
+
+const finsihScreen = document.querySelector('[nny-quiz="finish"]')
+const formInputs = finsihScreen.querySelectorAll('input, select, textarea')
+formInputs.forEach(input => {
+  input.addEventListener('input', () => {
+    checkRequiredFields(finsihScreen)
+  })
+})
 
 // show validation error
 function validationError (currentQuestion) {
