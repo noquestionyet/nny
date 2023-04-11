@@ -187,6 +187,7 @@ function checkRequiredFields (currentQuestion) {
     return false
   }
 }
+window.addEventListener("DOMContentLoaded", (event) => {
 
 const formInputs = document.querySelectorAll('input, select, textarea')
 console.log(formInputs)
@@ -197,7 +198,7 @@ formInputs.forEach(input => {
     checkRequiredFields(finishScreen)
   })
 })
-
+})
 // show validation error
 function validationError (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]')
