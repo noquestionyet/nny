@@ -52,7 +52,9 @@ function getMemberStatus (currentUserId) {
     const expirationDate = data.memberstack_expiration_date;
     const currentDate = Math.floor(Date.now() / 1000);
     const currentUserPriceId = data.price_id;
+    console.log(currentUserPriceId)
     if (currentUserPriceId === paidPlanId) {
+      console.log(expirationDate)
       expirationDate && currentDate > expirationDate ? activeStatus = false : activeStatus = true;
     } else {
       activeStatus = false;
@@ -84,7 +86,7 @@ quizForms.forEach((quizForm) => {
       questionSteps[i].classList.add('current-question');
       if (formShowers.length !== 0) {
         quizForm.style.display = 'none';
-      } else { findRequiredFields(questionSteps[i]) }
+      } else { checkRequiredFields(questionSteps[i]) }
     }
   }
 })
@@ -111,7 +113,7 @@ function showForm (formName) {
     if (quizFormName === formName) {
       quizForm.style.display = 'block';
       const currentQuestion = quizForm.querySelector('.current-question');
-      findRequiredFields(currentQuestion);
+      checkRequiredFields(currentQuestion);
     }
   })
 }
@@ -131,8 +133,8 @@ function turnOffNativeForm (quizForm) {
 // every time the new question appears, check if there are required fields
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
+  console.log('checking')
   const requiredFields = currentQuestion.querySelectorAll('[required]');
-  console.log(requiredFields)
   // check if all required fields are filled in
   if (requiredFields.length !== 0) {
     const allFieldsFilled = Array.from(requiredFields).every(field => {
@@ -151,8 +153,8 @@ function checkRequiredFields (currentQuestion) {
 }
 
 // check if required inputs are filled
-function findRequiredFields (currentQuestion) {
-  console.log(currentQuestion)
+const currentQuestions = document.querySelectorAll('.currentQuestion');
+currentQuestions.forEach(currentQuestion => {
   currentQuestion.addEventListener('input', () => {
     const allFieldsFilled = checkRequiredFields(currentQuestion);
     // return true if all required fields are filled in, false otherwise
@@ -166,7 +168,7 @@ function findRequiredFields (currentQuestion) {
       return filledState;
     }
   })
-}
+})
 
 // show validation error
 function validationError (currentQuestion) {
