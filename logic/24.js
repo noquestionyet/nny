@@ -144,7 +144,6 @@ currentQuestions.forEach(currentQuestion => {
 function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]');
   if (requiredFields.length !== 0) {
-    filledState = false;
     setNextButtonState(false, currentQuestion);
     return Array.from(requiredFields).every(field => {
       if (field.type === 'checkbox' || field.type === 'radio') {
@@ -162,9 +161,7 @@ function checkRequiredFields (currentQuestion) {
 
 // Enable/disable the next button based on the allFieldsFilled parameter
 function setNextButtonState (allFieldsFilled, currentQuestion) {
-  console.log(currentQuestion)
   const nextButton = currentQuestion.querySelector('[nqy-action="next"]');
-  console.log(nextButton)
   if (allFieldsFilled) {
     nextButton.style.opacity = '1';
     filledState = true;
