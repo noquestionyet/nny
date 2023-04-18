@@ -84,6 +84,8 @@ quizForms.forEach((quizForm) => {
   totalQuestionsNumbers.forEach((totalQuestionsNumber) => {
     totalQuestionsNumber.innerHTML = questionSteps.length - 1; // because there's always final step
   })
+  // create progress bars
+  createProgress(quizForm);
   // hide all questions apart the first
   for (let i = 0; i < questionSteps.length; i++) {
     questionSteps[i].style.display = 'none';
@@ -304,9 +306,24 @@ function currentQuestionNumber (currentQuestion, stepNumber) {
   currentQuestionNumberText.innerHTML = parseInt(stepNumber.match(/\d+/)[0]);
 }
 
+// create progress bar
+function createProgress (quizForm) {
+  const questionSteps = quizForm.querySelectorAll('[nqy-step]');
+  const totalQuestions = questionSteps.length - 1; // because there's always a final step
+  const progressBarPart = document.querySelector('[nqy-progress="progress-part"]');
+  if (progressBarPart) {
+    const progressBarPartElement = progressBarPart.querySelector('[nqy-progress="part-element"]');
+    for (let i = 1; i < totalQuestions; i++) {
+      const progressBarPartElementCopy = progressBarPartElement.cloneNode(true);
+      progressBarPart.appendChild(progressBarPartElementCopy);
+    }
+  }
+}
+
 // update progress
 function updateProgress (stepNumber, quizForm) {
   const progressWrapper = document.querySelector('[nqy-progress="progress"]');
+  console.log(stepNumber)
   if (stepNumber === 'final') {
     progressWrapper.style.display = 'none';
   } else {
@@ -314,15 +331,19 @@ function updateProgress (stepNumber, quizForm) {
     const questionSteps = quizForm.querySelectorAll('[nqy-step]');
     const totalQuestions = questionSteps.length - 1; // because there's always a final step
     const progress = (currentQuestionNumber / totalQuestions) * 100;
-    console.log(progress)
     const progressBar = document.querySelector('[nqy-progress="progress-bar"]');
     const progressBarCircle = document.querySelector('[nqy-progress="progress-circle"]');
     const progressBarPart = document.querySelector('[nqy-progress="progress-part"]');
     if (progressBar) {
       progressBar.style.width = `${progress}%`
     }
+    if (progressBarPart) {
+      const progressBarPartElement = progressBarPart.querySelectorAll('[nqy-progress="part-element"]');
+      for (let i = 1; i < progressBarPartElement.length; i++) {
+        currentQuestionNumber >= i ? progressBarPartElement[i].classList.add('active') : null;
+      }
+    }
   }
-
   /* if (progressCircle) {
     bar.animate(progress / 100)
   }
