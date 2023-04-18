@@ -306,6 +306,30 @@ function currentQuestionNumber (currentQuestion, stepNumber) {
   currentQuestionNumberText.innerHTML = parseInt(stepNumber.match(/\d+/)[0]);
 }
 
+// add script for the circle progress bar
+function addProgressCircleScript () {
+  const circleProgressBarScript = document.createElement('script');
+  circleProgressBarScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.0.0/progressbar.min.js';
+  document.head.appendChild(circleProgressBarScript);
+  let bar;
+  circleProgressBarScript.addEventListener('load', function () {
+    const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue('border-color')
+    const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue('border-width').replace(/em|rem|px|ch|vw|vh|%/g, ''))
+    let progressCircleColor = progressCircleColorActive.replace(/rgb/i, 'rgba')
+    progressCircleColor = progressCircleColor.replace(/\)/i, ',0.3)')
+    document.querySelector('[nqy-progress="progress-circle-element"]').style.display = 'none'
+    bar = new ProgressBar.Circle('[nqy-progress="progress-circle"]', {
+      strokeWidth: progressCircleWidth,
+      easing: 'easeOut',
+      duration: 400,
+      color: progressCircleColorActive,
+      trailColor: progressCircleColor,
+      trailWidth: progressCircleWidth,
+      svgStyle: null
+    })
+  })
+}
+
 // create progress bar
 function createProgress (quizForm) {
   const questionSteps = quizForm.querySelectorAll('[nqy-step]');
@@ -321,20 +345,7 @@ function createProgress (quizForm) {
     progressBarPartElement.classList.add('active');
   }
   if (progressCircleIcon) {
-    const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue('border-color')
-    const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue('border-width').replace(/em|rem|px|ch|vw|vh|%/g, ''))
-    let progressCircleColor = progressCircleColorActive.replace(/rgb/i, 'rgba')
-    progressCircleColor = progressCircleColor.replace(/\)/i, ',0.3)')
-    document.querySelector('[nqy-progress="progress-circle-element"]').style.display = 'none'
-    bar = new ProgressBar.Circle('[nqy-progress="progress-circle"]', {
-      strokeWidth: progressCircleWidth,
-      easing: 'easeOut',
-      duration: 400,
-      color: progressCircleColorActive,
-      trailColor: progressCircleColor,
-      trailWidth: progressCircleWidth,
-      svgStyle: null
-    })
+    addProgressCircleScript()
   }
 }
 
