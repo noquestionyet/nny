@@ -79,6 +79,7 @@ const formShowers = document.querySelectorAll('[nqy-formshow]');
 quizForms.forEach((quizForm) => {
   turnOffNativeForm(quizForm);
   const questionSteps = quizForm.querySelectorAll('[nqy-step]');
+  console.log(questionSteps)
   for (let i = 0; i < questionSteps.length; i++) {
     questionSteps[i].style.display = 'none';
     if (i === 0) {
