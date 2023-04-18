@@ -120,9 +120,7 @@ function showForm (formName) {
 
 // turn off native webflow forms
 function turnOffNativeForm (quizForm) {
-  console.log('default behaviour is turned on')
   const defaultState = quizForm.getAttribute('nqy-behavior');
-  console.log(defaultState)
   if (!defaultState || defaultState !== 'default') {
     quizForm.addEventListener('submit', handlerCallback, true);
     function handlerCallback (event) {
@@ -136,11 +134,9 @@ function turnOffNativeForm (quizForm) {
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]');
-  const formInputs = currentQuestion.querySelectorAll('input, select, textarea');
-  // check if all required fields are filled in
   if (requiredFields.length !== 0) {
-    filledState = false;
-    const allFieldsFilled = Array.from(requiredFields).every(field => {
+    setNextButtonState(false, currentQuestion);
+    return Array.from(requiredFields).every(field => {
       if (field.type === 'checkbox' || field.type === 'radio') {
         return field.checked;
       } else if (field.type === 'email') {
@@ -150,27 +146,28 @@ function checkRequiredFields (currentQuestion) {
       } else {
         return field.value.trim() !== '';
       }
-    })
-    // call function on input change with the delay so we don't stuck in the loop
-    let debounceTimeout;
-    formInputs.forEach(input => {
-      input.addEventListener('input', () => {
-        clearTimeout(debounceTimeout)
-        debounceTimeout = setTimeout(() => {
-          checkRequiredFields(currentQuestion)
-        }, 500) // wait for 500ms before running the function
-      })
-    })
-    // return true if all required fields are filled in, false otherwise
-    if (allFieldsFilled) {
-      currentQuestion.querySelector('[nqy-action="next"]').style.opacity = '1';
-      filledState = true;
-      return filledState;
-    } else {
-      currentQuestion.querySelector('[nqy-action="next"]').style.opacity = '0.6'
-      filledState = false
-      return filledState;
-    }
+    });
+  }
+}
+
+// Check if required inputs are filled on every input change
+const currentQuestions = document.querySelectorAll('.current-question');
+currentQuestions.forEach(currentQuestion => {
+  currentQuestion.addEventListener('input', () => {
+    const allFieldsFilled = checkRequiredFields(currentQuestion);
+    setNextButtonState(allFieldsFilled, currentQuestion);
+  })
+})
+
+// Enable/disable the next button based on the allFieldsFilled parameter
+function setNextButtonState (allFieldsFilled, currentQuestion) {
+  const nextButton = currentQuestion.querySelector('[nqy-action="next"]');
+  if (allFieldsFilled) {
+    nextButton.style.opacity = '1';
+    filledState = true; // this goes to the show next question function
+  } else {
+    nextButton.style.opacity = '0.6';
+    filledState = false;
   }
 }
 
@@ -198,12 +195,21 @@ if (nextButtons.length !== 0) {
     nextButton.addEventListener('click', () => {
       if (userStatus) {
         const quizForm = nextButton.closest('[nqy-form]');
-        const nextStepNumber = nextButton.getAttribute('nqy-destination');
+        const nextStep = nextButton.getAttribute('nqy-destination');
+        const nextStepNumber = parseInt(nextStep.match(/\d+/)[0]);
         const stepConditional = nextButton.getAttribute('nqy-conditional');
         const currentQuestion = nextButton.closest('.current-question');
         const stepCopyTarget = currentQuestion.querySelectorAll('[nqy-source]');
         // simple logic next step call
         if (nextStepNumber) {
+          nextQuestion(nextStepNumber, quizForm);
+        }
+        if (!nextStepNumber) {
+          const currentStep = currentQuestion.getAttribute('nqy-step');
+          const currentStepNumber = parseInt(currentStep.match(/\d+/)[0]);
+          let nextStepNumber = currentStepNumber + 1;
+          const nextQuestion = quizForm.querySelector(`[nqy-action='step-${nextStepNumber}']`);
+          !nextQuestion ? nextStepNumber = 'final' : null;
           nextQuestion(nextStepNumber, quizForm);
         }
         // conditional logic next step call
