@@ -307,11 +307,11 @@ function currentQuestionNumber (currentQuestion, stepNumber) {
 }
 
 // add script for the circle progress bar
+let bar;
 function addProgressCircleScript () {
   const circleProgressBarScript = document.createElement('script');
   circleProgressBarScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.0.0/progressbar.min.js';
   document.head.appendChild(circleProgressBarScript);
-  let bar;
   circleProgressBarScript.addEventListener('load', function () {
     const progressCircleIcon = document.querySelector('[nqy-progress="progress-circle-element"]')
     const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue('border-color')
