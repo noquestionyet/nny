@@ -319,14 +319,18 @@ function addProgressCircleScript () {
     let progressCircleColor = progressCircleColorActive.replace(/rgb/i, 'rgba');
     progressCircleColor = progressCircleColor.replace(/\)/i, ',0.3)');
     document.querySelector('[nqy-progress="progress-circle-element"]').style.display = 'none';
-    bar = new ProgressBar.Circle('[nqy-progress="progress"]', {
+    bar = new ProgressBar.Circle('[nqy-progress="progress-circle"]', {
       strokeWidth: progressCircleWidth,
       easing: 'easeOut',
       duration: 400,
       color: progressCircleColorActive,
       trailColor: progressCircleColor,
       trailWidth: progressCircleWidth,
-      svgStyle: null
+      svgStyle: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute'
+      }
     })
     bar.animate(10 / 100);
   })
