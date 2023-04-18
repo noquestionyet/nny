@@ -263,8 +263,8 @@ function nextQuestion (stepNumber, quizForm) {
       nextQuestion.style.display = 'block';
       checkRequiredFields(nextQuestion);
       currentQuestionNumber(nextQuestion, stepNumber);
-      updateProgress(stepNumber, quizForm)
     }
+    updateProgress(stepNumber, quizForm)
   } else { validationError(currentQuestion) }
 }
 
