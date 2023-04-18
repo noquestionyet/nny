@@ -79,7 +79,6 @@ const formShowers = document.querySelectorAll('[nqy-formshow]');
 quizForms.forEach((quizForm) => {
   turnOffNativeForm(quizForm);
   const questionSteps = quizForm.querySelectorAll('[nqy-step]');
-  console.log(questionSteps)
   for (let i = 0; i < questionSteps.length; i++) {
     questionSteps[i].style.display = 'none';
     if (i === 0) {
@@ -135,7 +134,6 @@ function turnOffNativeForm (quizForm) {
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]');
-  console.log(requiredFields)
   if (requiredFields.length !== 0) {
     setNextButtonState(false, currentQuestion);
     return Array.from(requiredFields).every(field => {
@@ -242,8 +240,6 @@ if (previousButtons.length !== 0) {
 
 // show next question
 function nextQuestion (stepNumber, quizForm) {
-  console.log(stepNumber)
-  console.log(filledState)
   const currentQuestion = quizForm.querySelector('.current-question');
   if (filledState) {
     savePoints(currentQuestion);
@@ -255,7 +251,6 @@ function nextQuestion (stepNumber, quizForm) {
       showResult();
     } else {
       const nextQuestion = quizForm.querySelector(`[nqy-step='${stepNumber}']`);
-      console.log(nextQuestion)
       nextQuestion.classList.add('current-question');
       nextQuestion.style.display = 'block';
       checkRequiredFields(nextQuestion);
@@ -300,6 +295,7 @@ function currentQuestionNumber (currentQuestion, stepNumber) {
   console.log(stepNumber)
   console.log(currentQuestion)
   const currentQuestionNumberText = currentQuestion.querySelector('[nqy-question=”current”]');
+  console.log(currentQuestionNumberText)
   currentQuestionNumberText.innerHTML = parseInt(stepNumber.match(/\d+/)[0]);
 }
 
