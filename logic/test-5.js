@@ -197,15 +197,15 @@ if (nextButtons.length !== 0) {
       if (userStatus) {
         const quizForm = nextButton.closest('[nqy-form]');
         const nextStep = nextButton.getAttribute('nqy-destination');
-        const nextStepNumber = parseInt(nextStep.match(/\d+/)[0]);
         const stepConditional = nextButton.getAttribute('nqy-conditional');
         const currentQuestion = nextButton.closest('.current-question');
         const stepCopyTarget = currentQuestion.querySelectorAll('[nqy-source]');
         // simple logic next step call
-        if (nextStepNumber) {
+        if (nextStep) {
+          const nextStepNumber = parseInt(nextStep.match(/\d+/)[0]);
           nextQuestion(nextStepNumber, quizForm);
         }
-        if (!nextStepNumber) {
+        if (!nextStep) {
           const currentStep = currentQuestion.getAttribute('nqy-step');
           const currentStepNumber = parseInt(currentStep.match(/\d+/)[0]);
           let nextStepNumber = currentStepNumber + 1;
