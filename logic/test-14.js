@@ -297,8 +297,10 @@ function previousQuestion (quizForm) {
 
 // show current question number
 function currentQuestionNumber (currentQuestion, stepNumber) {
+  console.log(stepNumber)
+  console.log(currentQuestion)
   const currentQuestionNumberText = currentQuestion.querySelector('[nqy-question=”current”]');
-  currentQuestionNumberText.innerHTML = parseInt(currentQuestionNumberText.match(/\d+/)[0]);
+  currentQuestionNumberText.innerHTML = parseInt(stepNumber.match(/\d+/)[0]);
 }
 
 // if we have points, add points results to the sessionStorage
