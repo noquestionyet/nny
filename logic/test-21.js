@@ -339,7 +339,7 @@ function updateProgress (stepNumber, quizForm) {
     }
     if (progressBarPart) {
       const progressBarPartElement = progressBarPart.querySelectorAll('[nqy-progress="part-element"]');
-      for (let i = 1; i < progressBarPartElement.length; i++) {
+      for (let i = 0; i < progressBarPartElement.length; i++) {
         currentQuestionNumber >= i ? progressBarPartElement[i].classList.add('active') : null;
       }
     }
