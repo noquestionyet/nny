@@ -83,7 +83,6 @@ quizForms.forEach((quizForm) => {
   const totalQuestionsNumbers = quizForm.querySelectorAll('[nqy-question="total"]');
   totalQuestionsNumbers.forEach((totalQuestionsNumber) => {
     totalQuestionsNumber.innerHTML = questionSteps.length;
-    console.log(questionSteps.length)
   })
   // hide all questions apart the first
   for (let i = 0; i < questionSteps.length; i++) {
@@ -262,6 +261,7 @@ function nextQuestion (stepNumber, quizForm) {
       nextQuestion.style.display = 'block';
       checkRequiredFields(nextQuestion);
       currentQuestionNumber(nextQuestion, stepNumber);
+      updateProgress(stepNumber, quizForm)
     }
   } else { validationError(currentQuestion) }
 }
@@ -291,6 +291,7 @@ function previousQuestion (quizForm) {
   currentQuestion.classList.remove('current-question');
   currentQuestion.style.display = 'none';
   currentQuestionNumber(previousQuestion, previousQuestionNumber);
+  updateProgress(previousQuestionNumber, quizForm)
   const newStepFlowArray = existingStepFlowArray.splice(-1)
   const newStepFlow = newStepFlowArray.toString();
   sessionStorage.setItem('stepFlow', `${newStepFlow}`);
@@ -301,6 +302,36 @@ function previousQuestion (quizForm) {
 function currentQuestionNumber (currentQuestion, stepNumber) {
   const currentQuestionNumberText = currentQuestion.querySelector('[nqy-question="current"]');
   currentQuestionNumberText.innerHTML = parseInt(stepNumber.match(/\d+/)[0]);
+}
+
+// update progress
+function updateProgress (stepNumber, quizForm) {
+  const progressWrapper = document.querySelector('[nqy-progress="progress"]');
+  if (stepNumber === 'final') {
+    progressWrapper.style.display = 'none';
+  } else {
+    const currentQuestionNumber = parseInt(stepNumber.match(/\d+/)[0]);
+    const questionSteps = quizForm.querySelectorAll('[nqy-step]');
+    const totalQuestions = questionSteps.length;
+    const progress = (currentQuestionNumber / totalQuestions) * 100;
+    console.log(progress)
+    const progressBar = document.querySelector('[nqy-progress="progress-bar"]');
+    const progressBarCircle = document.querySelector('[nqy-progress="progress-circle"]');
+    const progressBarPart = document.querySelector('[nqy-progress="progress-part"]');
+    if (progressBar) {
+      progressBar.style.width = `${progress}%`
+    }
+  }
+
+  /* if (progressCircle) {
+    bar.animate(progress / 100)
+  }
+  const progressBarParts = document.querySelectorAll('[nqy-progress="part-element"]')
+if (progressBarParts) {
+  for (let i = 0; i < progressBarParts.length; i++) {
+    if (i < totalAnsweredQuestions.length) {
+      progressBarParts[i + 1].classList.add('active')
+    } */
 }
 
 // if we have points, add points results to the sessionStorage
