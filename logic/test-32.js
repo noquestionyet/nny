@@ -313,13 +313,13 @@ function addProgressCircleScript () {
   circleProgressBarScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.0.0/progressbar.min.js';
   document.head.appendChild(circleProgressBarScript);
   circleProgressBarScript.addEventListener('load', function () {
-    const progressCircleIcon = document.querySelector('[nqy-progress="progress-circle-element"]')
-    const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue('border-color')
-    const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue('border-width').replace(/em|rem|px|ch|vw|vh|%/g, ''))
-    let progressCircleColor = progressCircleColorActive.replace(/rgb/i, 'rgba')
-    progressCircleColor = progressCircleColor.replace(/\)/i, ',0.3)')
-    document.querySelector('[nqy-progress="progress-circle-element"]').style.display = 'none'
-    bar = new ProgressBar.Circle('[nqy-progress="progress-circle"]', {
+    const progressCircleIcon = document.querySelector('[nqy-progress="progress-circle-element"]');
+    const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue('border-color');
+    const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue('border-width').replace(/em|rem|px|ch|vw|vh|%/g, ''));
+    let progressCircleColor = progressCircleColorActive.replace(/rgb/i, 'rgba');
+    progressCircleColor = progressCircleColor.replace(/\)/i, ',0.3)');
+    document.querySelector('[nqy-progress="progress-circle-element"]').style.display = 'none';
+    bar = new ProgressBar.Circle('[nqy-progress="progress"]', {
       strokeWidth: progressCircleWidth,
       easing: 'easeOut',
       duration: 400,
