@@ -294,7 +294,7 @@ function previousQuestion (quizForm) {
 function currentQuestionNumber (currentQuestion, stepNumber) {
   console.log(stepNumber)
   console.log(currentQuestion)
-  const currentQuestionNumberText = currentQuestion.querySelector('[nqy-question=”current”]');
+  const currentQuestionNumberText = currentQuestion.querySelector('[nqy-question="current"]');
   console.log(currentQuestionNumberText)
   currentQuestionNumberText.innerHTML = parseInt(stepNumber.match(/\d+/)[0]);
 }
