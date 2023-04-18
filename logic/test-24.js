@@ -325,7 +325,7 @@ function createProgress (quizForm) {
     const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue('border-width').replace(/em|rem|px|ch|vw|vh|%/g, ''))
     let progressCircleColor = progressCircleColorActive.replace(/rgb/i, 'rgba')
     progressCircleColor = progressCircleColor.replace(/\)/i, ',0.3)')
-    document.querySelector('[nny-quiz="progress-circle-element"]').style.display = 'none'
+    document.querySelector('[nqy-progress="progress-circle-element"]').style.display = 'none'
     bar = new ProgressBar.Circle('[nqy-progress="progress-circle"]', {
       strokeWidth: progressCircleWidth,
       easing: 'easeOut',
