@@ -328,8 +328,8 @@ function addProgressCircleScript () {
       trailWidth: progressCircleWidth,
       svgStyle: null
     })
+    bar.animate(10 / 100);
   })
-  bar.animate(10 / 100);
 }
 
 // create progress bar
