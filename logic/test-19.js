@@ -82,7 +82,7 @@ quizForms.forEach((quizForm) => {
   // show the total amount of questions
   const totalQuestionsNumbers = quizForm.querySelectorAll('[nqy-question="total"]');
   totalQuestionsNumbers.forEach((totalQuestionsNumber) => {
-    totalQuestionsNumber.innerHTML = questionSteps.length;
+    totalQuestionsNumber.innerHTML = questionSteps.length - 1; // because there's always final step
   })
   // hide all questions apart the first
   for (let i = 0; i < questionSteps.length; i++) {
@@ -312,7 +312,7 @@ function updateProgress (stepNumber, quizForm) {
   } else {
     const currentQuestionNumber = parseInt(stepNumber.match(/\d+/)[0]);
     const questionSteps = quizForm.querySelectorAll('[nqy-step]');
-    const totalQuestions = questionSteps.length;
+    const totalQuestions = questionSteps.length - 1; // because there's always a final step
     const progress = (currentQuestionNumber / totalQuestions) * 100;
     console.log(progress)
     const progressBar = document.querySelector('[nqy-progress="progress-bar"]');
