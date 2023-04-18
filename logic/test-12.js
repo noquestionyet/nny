@@ -259,6 +259,7 @@ function nextQuestion (stepNumber, quizForm) {
       nextQuestion.classList.add('current-question');
       nextQuestion.style.display = 'block';
       checkRequiredFields(nextQuestion);
+      currentQuestionNumber(nextQuestion, stepNumber);
     }
   } else { validationError(currentQuestion) }
 }
@@ -287,10 +288,17 @@ function previousQuestion (quizForm) {
   previousQuestion.style.display = 'block';
   currentQuestion.classList.remove('current-question');
   currentQuestion.style.display = 'none';
+  currentQuestionNumber(previousQuestion, previousQuestionNumber);
   const newStepFlowArray = existingStepFlowArray.splice(-1)
   const newStepFlow = newStepFlowArray.toString();
   sessionStorage.setItem('stepFlow', `${newStepFlow}`);
   deletePoints();
+}
+
+// show current question number
+function currentQuestionNumber (currentQuestion, stepNumber) {
+  const currentQuestionNumberText = currentQuestion.querySelector('[nqy-question=”current”]');
+  currentQuestionNumberText.innerHTML = parseInt(currentQuestionNumberText.match(/\d+/)[0]);
 }
 
 // if we have points, add points results to the sessionStorage
@@ -422,6 +430,123 @@ function showError (value) {
     }, 2000)
   }
 }
+
+// show the leaderboard
+function showLeaderboard () {
+  const leaderboardScreen = document.querySelector('[nny-quiz="leaderboard-result"]');
+  const result = document.querySelector('[nny-quiz="result"]');
+  const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
+  const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
+  const resultScreen = document.querySelector('[nny-quiz="leaderboard-wrapper"]');
+  const url =
+        `${apirUrl}/member_current/${currentUserId}/${quizName}`
+  fetch(url, {
+    method: 'GET'
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      return response.json().then((text) => {
+        throw new Error(text);
+      })
+    })
+    .then((data) => {
+      const leaderboardParent = document.querySelector('[nny-quiz="leaderboard"]');
+      const leaderboardClass = leaderboardParent.className;
+      const newParent = document.createElement('div');
+      newParent.className = leaderboardClass;
+      resultScreen.appendChild(newParent);
+      const leaderboardPositionTemplate = document.querySelector('[nny-quiz="leaderboard-position"]').outerHTML;
+      const leaderboardNameTemplate = document.querySelector('[nny-quiz="leaderboard-name"]').outerHTML;
+      const leaderboardScoreTemplate = document.querySelector('[nny-quiz="leaderboard-score"]').outerHTML;
+      const leaderboardItemTemplate = document.querySelector('[nny-quiz="leaderboard-item"]').outerHTML;
+      const leaderboardItemTemplateStyle = document.querySelector('[nny-quiz="leaderboard-item"]');
+
+      const leaderboardItemTemplateClassList = leaderboardItemTemplateStyle.classList;
+
+      let leaderboardItemClass;
+      for (let i = 0; i < leaderboardItemTemplateClassList.length; i++) {
+        leaderboardItemClass = +`.${leaderboardItemTemplateClassList[i]}`
+      }
+      let originalResultColor = window.getComputedStyle(leaderboardItemTemplateStyle).getPropertyValue('background-color');
+      originalResultColor = originalResultColor.replace(/[rgba()]/g, '');
+      const lastCommaIndex = originalResultColor.lastIndexOf(',');
+      originalResultColor = originalResultColor.substring(0, lastCommaIndex);
+
+      let loopTime
+      if (data.length < 11) {
+        loopTime = data.length;
+      } else {
+        loopTime = 10;
+      }
+      let currentParticipantDb;
+      const currentEmailLocalStorage = localStorage.getItem('currentEmail') // ADD EMAIL TO LOCAL STORAGE!!!
+      const currentParticipant = currentEmailLocalStorage;
+      for (let i = 0; i < data.length; i++) {
+        if (currentParticipant === data[i].email) {
+          currentParticipantDb = data[i];
+          if (i > loopTime) {
+            const newCurrentParent = document.createElement('div');
+            newCurrentParent.className = leaderboardClass;
+            newCurrentParent.style.marginTop = '1.5rem';
+            resultScreen.appendChild(newCurrentParent);
+            const leaderboardPositionCurrent = document.querySelector('[nny-quiz="leaderboard-position"]');
+            leaderboardPositionCurrent.innerHTML = i + 1;
+
+            const leaderboardPositionCurrentDiv = leaderboardPositionCurrent.outerHTML;
+
+            const leaderboardNameCurrent = document.querySelector('[nny-quiz="leaderboard-name"]');
+            leaderboardNameCurrent.classList.add('clone');
+            leaderboardNameCurrent.innerHTML = data[i].name;
+            const leaderboardNameCurrentDiv = leaderboardNameCurrent.outerHTML;
+
+            const leaderboardScoreCurrent = document.querySelector('[nny-quiz="leaderboard-score"]');
+            leaderboardScoreCurrent.innerHTML = data[i].total_points;
+            const leaderboardScoreCurrentDiv = leaderboardScoreCurrent.outerHTML;
+
+            const leaderboardItemCurrent = leaderboardItemTemplate.replace(leaderboardPositionTemplate, leaderboardPositionCurrentDiv).replace(leaderboardNameTemplate, leaderboardNameCurrentDiv).replace(leaderboardScoreTemplate, leaderboardScoreCurrentDiv);
+            newCurrentParent.innerHTML = leaderboardItemCurrent;
+          }
+        }
+      }
+      for (let i = 0; i < loopTime; i++) {
+        const leaderboardPosition = document.querySelector('[nny-quiz="leaderboard-position"]');
+        leaderboardPosition.innerHTML = i + 1;
+
+        const leaderboardPositionDiv = leaderboardPosition.outerHTML;
+
+        const leaderboardName = document.querySelector('[nny-quiz="leaderboard-name"]');
+        leaderboardName.classList.add('clone');
+        leaderboardName.innerHTML = data[i].name;
+        const leaderboardNameDiv = leaderboardName.outerHTML;
+
+        const leaderboardScore = document.querySelector('[nny-quiz="leaderboard-score"]');
+        leaderboardScore.innerHTML = data[i].total_points;
+        const leaderboardScoreDiv = leaderboardScore.outerHTML;
+
+        const leaderboardItem = leaderboardItemTemplate.replace(leaderboardPositionTemplate, leaderboardPositionDiv).replace(leaderboardNameTemplate, leaderboardNameDiv).replace(leaderboardScoreTemplate, leaderboardScoreDiv);
+        newParent.innerHTML += leaderboardItem;
+      };
+      leaderboardParent.remove();
+      const allResultItems = document.querySelectorAll(leaderboardItemClass);
+      if (originalResultColor !== 'rgba(0, 0, 0, 0)') {
+        for (let i = 0; i < allResultItems.length; i++) {
+          allResultItems[0].style.backgroundColor = 'rgba(0, 0, 0, 0)';
+          allResultItems[1].style.backgroundColor = 'rgba(' + originalResultColor + ', 0.1)';
+          allResultItems[2].style.backgroundColor = 'rgba(' + originalResultColor + ', 0.3)';
+          if (i > 2) {
+            allResultItems[i].style.backgroundColor = 'rgba(' + originalResultColor + ')';
+          }
+        }
+      }
+      leaderboardScreen.style.display = 'flex';
+      result.style.display = 'none';
+    })
+    .catch((error) => {
+      showError(error.message)
+    })
+};
 
 // clear session storage on load
 window.onload = () => {
