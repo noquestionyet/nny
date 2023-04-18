@@ -346,7 +346,8 @@ function createProgress (quizForm) {
     progressBarPartElement.classList.add('active');
   }
   if (progressCircleIcon) {
-    addProgressCircleScript()
+    addProgressCircleScript();
+    bar.animate(10 / 100);
   }
 }
 
