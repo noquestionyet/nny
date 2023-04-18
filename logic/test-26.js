@@ -313,6 +313,7 @@ function addProgressCircleScript () {
   document.head.appendChild(circleProgressBarScript);
   let bar;
   circleProgressBarScript.addEventListener('load', function () {
+    const progressCircleIcon = document.querySelector('[nqy-progress="progress-circle-element"]')
     const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue('border-color')
     const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue('border-width').replace(/em|rem|px|ch|vw|vh|%/g, ''))
     let progressCircleColor = progressCircleColorActive.replace(/rgb/i, 'rgba')
