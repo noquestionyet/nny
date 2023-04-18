@@ -135,6 +135,7 @@ function turnOffNativeForm (quizForm) {
 // call validatation func on every input change
 function checkRequiredFields (currentQuestion) {
   const requiredFields = currentQuestion.querySelectorAll('[required]');
+  console.log(requiredFields)
   if (requiredFields.length !== 0) {
     setNextButtonState(false, currentQuestion);
     return Array.from(requiredFields).every(field => {
@@ -148,7 +149,7 @@ function checkRequiredFields (currentQuestion) {
         return field.value.trim() !== '';
       }
     });
-  }
+  } return true;
 }
 
 // Check if required inputs are filled on every input change
