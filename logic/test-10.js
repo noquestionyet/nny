@@ -210,7 +210,6 @@ if (nextButtons.length !== 0) {
           const nextStepNumber = currentStepNumber + 1;
           let nextStep = 'step-' + nextStepNumber;
           const nextQuestionStep = quizForm.querySelector(`[nqy-step='step-${nextStepNumber}']`);
-          console.log(nextQuestionStep)
           !nextQuestionStep ? nextStep = 'final' : null;
           nextQuestion(nextStep, quizForm);
         }
@@ -243,6 +242,7 @@ if (previousButtons.length !== 0) {
 // show next question
 function nextQuestion (stepNumber, quizForm) {
   console.log(stepNumber)
+  console.log(filledState)
   const currentQuestion = quizForm.querySelector('.current-question');
   if (filledState) {
     savePoints(currentQuestion);
