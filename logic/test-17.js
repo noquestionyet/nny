@@ -79,6 +79,13 @@ const formShowers = document.querySelectorAll('[nqy-formshow]');
 quizForms.forEach((quizForm) => {
   turnOffNativeForm(quizForm);
   const questionSteps = quizForm.querySelectorAll('[nqy-step]');
+  // show the total amount of questions
+  const totalQuestionsNumbers = quizForm.querySelectorAll('[nqy-question="total"]');
+  totalQuestionsNumbers.forEach((totalQuestionsNumber) => {
+    totalQuestionsNumber.innerHTML = questionSteps.length;
+    console.log(questionSteps.length)
+  })
+  // hide all questions apart the first
   for (let i = 0; i < questionSteps.length; i++) {
     questionSteps[i].style.display = 'none';
     if (i === 0) {
@@ -292,10 +299,7 @@ function previousQuestion (quizForm) {
 
 // show current question number
 function currentQuestionNumber (currentQuestion, stepNumber) {
-  console.log(stepNumber)
-  console.log(currentQuestion)
   const currentQuestionNumberText = currentQuestion.querySelector('[nqy-question="current"]');
-  console.log(currentQuestionNumberText)
   currentQuestionNumberText.innerHTML = parseInt(stepNumber.match(/\d+/)[0]);
 }
 
