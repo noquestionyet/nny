@@ -311,6 +311,7 @@ function createProgress (quizForm) {
   const questionSteps = quizForm.querySelectorAll('[nqy-step]');
   const totalQuestions = questionSteps.length - 1; // because there's always a final step
   const progressBarPart = document.querySelector('[nqy-progress="progress-part"]');
+  const progressCircleIcon = document.querySelector('[nqy-progress="progress-circle-element"]')
   if (progressBarPart) {
     const progressBarPartElement = progressBarPart.querySelector('[nqy-progress="part-element"]');
     for (let i = 1; i < totalQuestions; i++) {
@@ -318,6 +319,22 @@ function createProgress (quizForm) {
       progressBarPart.appendChild(progressBarPartElementCopy);
     }
     progressBarPartElement.classList.add('active');
+  }
+  if (progressCircleIcon) {
+    const progressCircleColorActive = window.getComputedStyle(progressCircleIcon).getPropertyValue('border-color')
+    const progressCircleWidth = Number(window.getComputedStyle(progressCircleIcon).getPropertyValue('border-width').replace(/em|rem|px|ch|vw|vh|%/g, ''))
+    let progressCircleColor = progressCircleColorActive.replace(/rgb/i, 'rgba')
+    progressCircleColor = progressCircleColor.replace(/\)/i, ',0.3)')
+    document.querySelector('[nny-quiz="progress-circle-element"]').style.display = 'none'
+    bar = new ProgressBar.Circle('[nqy-progress="progress-circle"]', {
+      strokeWidth: progressCircleWidth,
+      easing: 'easeOut',
+      duration: 400,
+      color: progressCircleColorActive,
+      trailColor: progressCircleColor,
+      trailWidth: progressCircleWidth,
+      svgStyle: null
+    })
   }
 }
 
@@ -344,16 +361,14 @@ function updateProgress (stepNumber, quizForm) {
         currentQuestionNumber > i ? progressBarPartElement[i].classList.add('active') : null;
       }
     }
+    if (progressBarCircle) {
+      bar.animate(progress / 100);
+      const currentQuestionProgress = progressBarCircle.querySelector('[nqy-progress="current"]');
+      const totalQuestionsProgress = progressBarCircle.querySelector('[nqy-progress="total"]');
+      currentQuestionProgress.innerHTML = currentQuestionNumber;
+      totalQuestionsProgress.innerHTML = totalQuestions;
+    }
   }
-  /* if (progressCircle) {
-    bar.animate(progress / 100)
-  }
-  const progressBarParts = document.querySelectorAll('[nqy-progress="part-element"]')
-if (progressBarParts) {
-  for (let i = 0; i < progressBarParts.length; i++) {
-    if (i < totalAnsweredQuestions.length) {
-      progressBarParts[i + 1].classList.add('active')
-    } */
 }
 
 // if we have points, add points results to the sessionStorage
