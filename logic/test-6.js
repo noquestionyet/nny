@@ -209,8 +209,8 @@ if (nextButtons.length !== 0) {
           const currentStep = currentQuestion.getAttribute('nqy-step');
           const currentStepNumber = parseInt(currentStep.match(/\d+/)[0]);
           let nextStepNumber = currentStepNumber + 1;
-          const nextQuestion = quizForm.querySelector(`[nqy-action='step-${nextStepNumber}']`);
-          !nextQuestion ? nextStepNumber = 'final' : null;
+          const nextQuestionStep = quizForm.querySelector(`[nqy-action='step-${nextStepNumber}']`);
+          !nextQuestionStep ? nextStepNumber = 'final' : null;
           nextQuestion(nextStepNumber, quizForm);
         }
         // conditional logic next step call
