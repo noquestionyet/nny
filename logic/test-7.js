@@ -196,22 +196,22 @@ if (nextButtons.length !== 0) {
     nextButton.addEventListener('click', () => {
       if (userStatus) {
         const quizForm = nextButton.closest('[nqy-form]');
-        const nextStep = nextButton.getAttribute('nqy-destination');
+        const nextStepNumber = nextButton.getAttribute('nqy-destination');
         const stepConditional = nextButton.getAttribute('nqy-conditional');
         const currentQuestion = nextButton.closest('.current-question');
         const stepCopyTarget = currentQuestion.querySelectorAll('[nqy-source]');
         // simple logic next step call
-        if (nextStep) {
-          const nextStepNumber = parseInt(nextStep.match(/\d+/)[0]);
+        if (nextStepNumber) {
           nextQuestion(nextStepNumber, quizForm);
         }
-        if (!nextStep) {
+        if (!nextStepNumber) {
           const currentStep = currentQuestion.getAttribute('nqy-step');
           const currentStepNumber = parseInt(currentStep.match(/\d+/)[0]);
-          let nextStepNumber = currentStepNumber + 1;
+          const nextStepNumber = currentStepNumber + 1;
+          let nextStep = 'step-' + nextStepNumber;
           const nextQuestionStep = quizForm.querySelector(`[nqy-action='step-${nextStepNumber}']`);
-          !nextQuestionStep ? nextStepNumber = 'final' : null;
-          nextQuestion(nextStepNumber, quizForm);
+          !nextQuestionStep ? nextStep = 'final' : null;
+          nextQuestion(nextStep, quizForm);
         }
         // conditional logic next step call
         if (stepConditional) {
@@ -241,6 +241,7 @@ if (previousButtons.length !== 0) {
 
 // show next question
 function nextQuestion (stepNumber, quizForm) {
+  console.log(stepNumber)
   const currentQuestion = quizForm.querySelector('.current-question');
   if (filledState) {
     savePoints(currentQuestion);
