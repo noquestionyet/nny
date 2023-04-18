@@ -329,6 +329,7 @@ function addProgressCircleScript () {
       svgStyle: null
     })
   })
+  bar.animate(10 / 100);
 }
 
 // create progress bar
@@ -347,7 +348,6 @@ function createProgress (quizForm) {
   }
   if (progressCircleIcon) {
     addProgressCircleScript();
-    bar.animate(10 / 100);
   }
 }
 
