@@ -106,20 +106,22 @@ function setFormShowers () {
     formShowers.forEach((formShower) => {
       if (formShower.tagName !== 'A') return;
       const quizFormName = formShower.getAttribute('nqy-formshow');
+      const splashScreen = formShower.closest('[nqy-formshow="formshow"]');
       formShower.addEventListener('click', function () {
-        showForm(quizFormName);
+        showForm(quizFormName, splashScreen);
       });
     })
   }
 }
 
 // show form on form shower link click
-function showForm (formName) {
+function showForm (formName, splashScreen) {
   const quizForms = document.querySelectorAll('[nqy-form]');
   quizForms.forEach((quizForm) => {
     const quizFormName = quizForm.getAttribute('nqy-formshow');
     if (quizFormName === formName) {
       quizForm.style.display = 'block';
+      splashScreen.style.display = 'none';
       const currentQuestion = quizForm.querySelector('.current-question');
       checkRequiredFields(currentQuestion);
     }
