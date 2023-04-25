@@ -226,12 +226,12 @@ function nextQuestion (totalQuestions) {
     currentQuestion.classList.add('answered')
   } else {
     const finalScreen = document.querySelector('[nny-quiz="finish"]')
-    checkRequiredFields(finalScreen)
     const progressBar = document.querySelector('[nny-quiz="progress-bar"]')
     const progressCircle = document.querySelector('[nny-quiz="progress-circle"]')
     const progressPartial = document.querySelector('[nny-quiz="progress-part"]')
 
     if (finalScreen) {
+      checkRequiredFields(finalScreen)
       finalScreen.style.display = 'flex'
       currentQuestion.style.display = 'none'
       if (progressBar) {
