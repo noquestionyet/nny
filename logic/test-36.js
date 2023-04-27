@@ -253,6 +253,7 @@ function nextQuestion (stepNumber, quizForm) {
   const currentQuestion = quizForm.querySelector('.current-question');
   if (filledState) {
     savePoints(currentQuestion);
+    saveTotalAnswers(currentQuestion);
     const existingStepFlow = sessionStorage.getItem('stepFlow');
     existingStepFlow ? sessionStorage.setItem('stepFlow', `${existingStepFlow},${stepNumber}`) : sessionStorage.setItem('stepFlow', `step-1,${stepNumber}`);
     currentQuestion.classList.remove('current-question');
@@ -300,6 +301,7 @@ function previousQuestion (quizForm) {
   const newStepFlow = newStepFlowArray.toString();
   sessionStorage.setItem('stepFlow', `${newStepFlow}`);
   deletePoints();
+  deleteAnswers();
 }
 
 // show current question number
@@ -409,6 +411,25 @@ function savePoints (currentQuestion) {
   }
 }
 
+// if we have total right answers, add them to the sessionStorage
+function saveTotalAnswers (currentQuestion) {
+  let currentQuestionStateBoolean = 0;
+  const currentQuestionStates = currentQuestion.querySelectorAll('[nqy-state]');
+  if (currentQuestionStates) {
+    currentQuestionStates.forEach((currentQuestionState) => {
+      if (currentQuestionState.type === 'radio' && currentQuestionState.checked) {
+        const currentQuestionStateAttribute = Number(currentQuestionState.getAttribute('nqy-state'));
+        currentQuestionStateBoolean = currentQuestionStateAttribute;
+      }
+    })
+    const existingState = sessionStorage.getItem('state');
+    if (existingState) {
+      return sessionStorage.setItem('state', `${existingState},${currentQuestionStateBoolean}`);
+    }
+    return sessionStorage.setItem('state', `${currentQuestionStateBoolean}`);
+  }
+}
+
 // if we have points results, delete them from sessionStorage
 function deletePoints () {
   const existingPoints = sessionStorage.getItem('points');
@@ -420,28 +441,58 @@ function deletePoints () {
   }
 }
 
+// if we have right/wrong answer results, delete them from sessionStorage
+function deleteAnswers () {
+  const existingAnswers = sessionStorage.getItem('state');
+  if (existingAnswers) {
+    const existingAnswersArray = existingAnswers.split(',');
+    const newAnswersArray = existingAnswersArray.splice(-1)
+    const newAnswers = newAnswersArray.toString();
+    sessionStorage.setItem('state', `${newAnswers}`);
+  }
+}
+
 // if we have points show the custom result message
 function showResult () {
   const resultScreens = document.querySelectorAll('[nqy-step="final"]');
+  const pointNumber = document.querySelectorAll('[nqy-result="points"]');
+  const answerNumber = document.querySelectorAll('[nqy-result="answers"]');
+  const pointFinalSum = pointSum();
   if (resultScreens.length === 1) {
     document.querySelectorAll('[nqy-step="final"]').item(0).style.display = 'block';
   } else {
-    const pointFinalSum = pointSum();
     for (let i = 0; i < resultScreens.length; i++) {
       const minRange = Number(resultScreens[i].getAttribute('nqy-range-from'));
       const maxRange = Number(resultScreens[i].getAttribute('nqy-range-to'));
       minRange <= pointFinalSum && pointFinalSum <= maxRange ? resultScreens[i].style.display = 'block' : null;
     }
   }
+  if (pointNumber) {
+    for (let i = 0; i < pointNumber.length; i++) {
+      pointNumber[i].innerHTML = pointFinalSum;
+    }
+  } else if (answerNumber) {
+    for (let i = 0; i < answerNumber.length; i++) {
+      answerNumber[i].innerHTML = pointFinalSum;
+    }
+  }
 }
 
-// get the sum of the points
+// get the sum of the points/right answers
 function pointSum () {
   const pointString = sessionStorage.getItem('points');
-  const pointArray = pointString.split(',');
+  const answerString = sessionStorage.getItem('state');
   let pointSum = 0;
-  for (let i = 0; i < pointArray.length; i++) {
-    !isNaN(pointArray[i]) ? pointSum += Number(pointArray[i]) : null;
+  if (pointString) {
+    const pointArray = pointString.split(',');
+    for (let i = 0; i < pointArray.length; i++) {
+      !isNaN(pointArray[i]) ? pointSum += Number(pointArray[i]) : null;
+    }
+  } else if (answerString) {
+    const answerArray = answerString.split(',');
+    for (let i = 0; i < answerArray.length; i++) {
+      answerArray[i] === 'true' ? pointSum += Number(answerArray[i]) : null;
+    }
   }
   return pointSum;
 }
