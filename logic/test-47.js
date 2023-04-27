@@ -470,7 +470,8 @@ function showResult () {
     for (let i = 0; i < pointNumber.length; i++) {
       pointNumber[i].innerHTML = pointFinalSum;
     }
-  } else if (answerNumber) {
+  }
+  if (answerNumber) {
     console.log(answerNumber)
     for (let i = 0; i < answerNumber.length; i++) {
       console.log(answerNumber[i])
@@ -489,7 +490,8 @@ function pointSum () {
     for (let i = 0; i < pointArray.length; i++) {
       !isNaN(pointArray[i]) ? pointSum += Number(pointArray[i]) : null;
     }
-  } else if (answerString) {
+  }
+  if (answerString) {
     const answerArray = answerString.split(',');
     for (let i = 0; i < answerArray.length; i++) {
       console.log(answerArray[i])
