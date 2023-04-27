@@ -415,7 +415,7 @@ function saveTotalAnswers (currentQuestion) {
   let currentQuestionStateBoolean = 0;
   const currentQuestionStates = currentQuestion.querySelectorAll('[nqy-state]');
   console.log(currentQuestionStates)
-  if (currentQuestionStates !== 0) {
+  if (currentQuestionStates.length !== 0) {
     currentQuestionStates.forEach((currentQuestionState) => {
       if (currentQuestionState.type === 'radio' && currentQuestionState.checked) {
         const currentQuestionStateAttribute = currentQuestionState.getAttribute('nqy-state');
