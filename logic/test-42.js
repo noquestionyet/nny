@@ -395,6 +395,7 @@ function updateProgress (stepNumber, quizForm) {
 function savePoints (currentQuestion) {
   let currentQuestionPointNumber = 0;
   const currentQuestionPoints = currentQuestion.querySelectorAll('[nqy-points]');
+  console.log(currentQuestionPoints);
   if (currentQuestionPoints) {
     currentQuestionPoints.forEach((currentQuestionPoint) => {
       if (currentQuestionPoint.type === 'radio' && currentQuestionPoint.checked) {
