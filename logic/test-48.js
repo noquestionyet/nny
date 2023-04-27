@@ -414,6 +414,7 @@ function savePoints (currentQuestion) {
 function saveTotalAnswers (currentQuestion) {
   let currentQuestionStateBoolean = 0;
   const currentQuestionStates = currentQuestion.querySelectorAll('[nqy-state]');
+  console.log(currentQuestionStates)
   if (currentQuestionStates !== 0) {
     currentQuestionStates.forEach((currentQuestionState) => {
       if (currentQuestionState.type === 'radio' && currentQuestionState.checked) {
@@ -466,15 +467,14 @@ function showResult () {
       minRange <= pointFinalSum && pointFinalSum <= maxRange ? resultScreens[i].style.display = 'block' : null;
     }
   }
-  if (pointNumber) {
+  if (pointNumber.length !== 0) {
     for (let i = 0; i < pointNumber.length; i++) {
       pointNumber[i].innerHTML = pointFinalSum;
     }
   }
-  if (answerNumber) {
+  if (answerNumber.length !== 0) {
     console.log(answerNumber)
     for (let i = 0; i < answerNumber.length; i++) {
-      console.log(answerNumber[i])
       answerNumber[i].innerHTML = pointFinalSum;
     }
   }
