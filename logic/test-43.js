@@ -395,8 +395,7 @@ function updateProgress (stepNumber, quizForm) {
 function savePoints (currentQuestion) {
   let currentQuestionPointNumber = 0;
   const currentQuestionPoints = currentQuestion.querySelectorAll('[nqy-points]');
-  console.log(currentQuestionPoints);
-  if (currentQuestionPoints) {
+  if (currentQuestionPoints.length !== 0) {
     currentQuestionPoints.forEach((currentQuestionPoint) => {
       if (currentQuestionPoint.type === 'radio' && currentQuestionPoint.checked) {
         const currentQuestionPointAttribute = Number(currentQuestionPoint.getAttribute('nqy-points'));
@@ -415,7 +414,7 @@ function savePoints (currentQuestion) {
 function saveTotalAnswers (currentQuestion) {
   let currentQuestionStateBoolean = 0;
   const currentQuestionStates = currentQuestion.querySelectorAll('[nqy-state]');
-  if (currentQuestionStates) {
+  if (currentQuestionStates !== 0) {
     currentQuestionStates.forEach((currentQuestionState) => {
       if (currentQuestionState.type === 'radio' && currentQuestionState.checked) {
         const currentQuestionStateAttribute = currentQuestionState.getAttribute('nqy-state');
