@@ -491,7 +491,9 @@ function pointSum () {
   } else if (answerString) {
     const answerArray = answerString.split(',');
     for (let i = 0; i < answerArray.length; i++) {
+      console.log(answerArray[i])
       answerArray[i] === 'true' ? pointSum++ : null;
+      console.log(pointSum)
     }
   }
   return pointSum;
