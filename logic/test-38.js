@@ -362,9 +362,8 @@ function createProgress (quizForm) {
 // update progress
 function updateProgress (stepNumber, quizForm) {
   const progressWrapper = document.querySelector('[nqy-progress="progress"]');
-  console.log(stepNumber)
   if (stepNumber === 'final') {
-    progressWrapper.style.display = 'none';
+    progressWrapper ? progressWrapper.style.display = 'none' : null;
   } else {
     const currentQuestionNumber = parseInt(stepNumber.match(/\d+/)[0]);
     const questionSteps = quizForm.querySelectorAll('[nqy-step]');
