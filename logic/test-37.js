@@ -418,8 +418,9 @@ function saveTotalAnswers (currentQuestion) {
   if (currentQuestionStates) {
     currentQuestionStates.forEach((currentQuestionState) => {
       if (currentQuestionState.type === 'radio' && currentQuestionState.checked) {
-        const currentQuestionStateAttribute = Number(currentQuestionState.getAttribute('nqy-state'));
-        currentQuestionStateBoolean = currentQuestionStateAttribute;
+        const currentQuestionStateAttribute = currentQuestionState.getAttribute('nqy-state');
+        console.log(currentQuestionStateAttribute);
+        currentQuestionStateAttribute ? currentQuestionStateBoolean = currentQuestionStateAttribute : currentQuestionStateBoolean = false;
       }
     })
     const existingState = sessionStorage.getItem('state');
