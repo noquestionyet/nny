@@ -305,7 +305,7 @@ function previousQuestion (quizForm) {
 // show current question number
 function currentQuestionNumber (currentQuestion, stepNumber) {
   const currentQuestionNumberText = currentQuestion.querySelector('[nqy-question="current"]');
-  currentQuestionNumberText.innerHTML = parseInt(stepNumber.match(/\d+/)[0]);
+  currentQuestionNumberText ? currentQuestionNumberText.innerHTML = parseInt(stepNumber.match(/\d+/)[0]) : null;
 }
 
 // add script for the circle progress bar
