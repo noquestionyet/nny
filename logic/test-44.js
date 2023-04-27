@@ -418,7 +418,6 @@ function saveTotalAnswers (currentQuestion) {
     currentQuestionStates.forEach((currentQuestionState) => {
       if (currentQuestionState.type === 'radio' && currentQuestionState.checked) {
         const currentQuestionStateAttribute = currentQuestionState.getAttribute('nqy-state');
-        console.log(currentQuestionStateAttribute);
         currentQuestionStateAttribute ? currentQuestionStateBoolean = currentQuestionStateAttribute : currentQuestionStateBoolean = false;
       }
     })
@@ -458,7 +457,6 @@ function showResult () {
   const pointNumber = document.querySelectorAll('[nqy-result="points"]');
   const answerNumber = document.querySelectorAll('[nqy-result="answers"]');
   const pointFinalSum = pointSum();
-  console.log(pointFinalSum)
   if (resultScreens.length === 1) {
     document.querySelectorAll('[nqy-step="final"]').item(0).style.display = 'block';
   } else {
@@ -474,6 +472,7 @@ function showResult () {
     }
   } else if (answerNumber) {
     for (let i = 0; i < answerNumber.length; i++) {
+      console.log(answerNumber[i])
       answerNumber[i].innerHTML = pointFinalSum;
     }
   }
