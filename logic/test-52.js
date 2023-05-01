@@ -51,7 +51,7 @@ quizForms.forEach((quizForm) => {
   turnOffNativeForm(quizForm);
   const questionSteps = quizForm.querySelectorAll('[nqy-step]');
   // find only quiz steps
-  const questionsNumber = 0;
+  let questionsNumber = 0;
   for (let i = 0; i < questionSteps.length; i++) {
     const questionAttribute = questionSteps[i].getAttribute('nqy-step');
     console.log(questionAttribute)
