@@ -1,44 +1,15 @@
 /* eslint-disable semi */
-/* attributes are used
--- required
-1. nqy-step="step-n" - number of step
-2. nqy-action="next" - next button (even if conditional step, every next button should has this!!!)
-3. nqy-action="previous" - previous button
-
-4. nqy-destination="step-n" - show what is the next step
-nqy-destination="final" -show results
-5. nqy-conditional="step-conditional" - if the next step depends on a chosen option
-6. nqy-destination="step-n" - set to the radio buttons in conditional logic (real radio buttons)
-
-nqy-form-active radio button active class
-nqy-input-error - error class
-
-7. nqy-form="form" - main form
-8. nqy-points="40" -amount of points for each answer (add to radio button)
-
-9. nqy-source="text" - reuse the input content, add text-1, text-2 etc
-10. nqy-target="target"
-12. nqy-action="start-over" - reload page
-
---final steps
-12. nqy-step="final" - every screen with the result
-13. nqy-range-from="40" - start of the range to show this result
-14. nqy-range-to="100" - end of the range to show this result
-
----show specific forms
-nqy-formshow = "form-name" - add to the link and form
-*/
 
 // main variables
 let filledState = true;
-const apirUrl = 'https://api.noquestionyet.com/api:84zPS-li';
+const apiUrl = 'https://api.noquestionyet.com/api:84zPS-li';
 const paidPlanId = 'prc_deploy-plan-n4ae053s';
 let userStatus = false;
 
 // checking the subscription status in the db
 function getMemberStatus (currentUserId) {
   let activeStatus = true;
-  const currentMember = fetch(`${apirUrl}/member/${currentUserId}`);
+  const currentMember = fetch(`${apiUrl}/member/${currentUserId}`);
   currentMember.then(response => {
     if (response.ok) {
       return response.json();
@@ -79,10 +50,17 @@ const formShowers = document.querySelectorAll('[nqy-formshow]');
 quizForms.forEach((quizForm) => {
   turnOffNativeForm(quizForm);
   const questionSteps = quizForm.querySelectorAll('[nqy-step]');
+  // find only quiz steps
+  const questionsNumber = 0;
+  for (let i = 0; i < questionSteps.length; i++) {
+    const questionAttribute = questionSteps[i].getAttribute('nqy-step');
+    console.log(questionAttribute)
+    !questionAttribute === 'final' ? questionsNumber++ : null;
+  }
   // show the total amount of questions
   const totalQuestionsNumbers = quizForm.querySelectorAll('[nqy-question="total"]');
   totalQuestionsNumbers.forEach((totalQuestionsNumber) => {
-    totalQuestionsNumber.innerHTML = questionSteps.length - 1; // because there's always final step
+    totalQuestionsNumber.innerHTML = questionsNumber;
   })
   // create progress bars
   createProgress(quizForm);
@@ -300,8 +278,7 @@ function previousQuestion (quizForm) {
   const newStepFlowArray = existingStepFlowArray.splice(-1)
   const newStepFlow = newStepFlowArray.toString();
   sessionStorage.setItem('stepFlow', `${newStepFlow}`);
-  deletePoints();
-  deleteAnswers();
+  deleteResults();
 }
 
 // show current question number
@@ -430,25 +407,23 @@ function saveTotalAnswers (currentQuestion) {
   }
 }
 
-// if we have points results, delete them from sessionStorage
-function deletePoints () {
-  const existingPoints = sessionStorage.getItem('points');
-  if (existingPoints) {
-    const existingPointsArray = existingPoints.split(',');
+// if we have points results/right answers, delete them from sessionStorage
+function deleteResults () {
+  let existingResults = '';
+  let existingName;
+  if (sessionStorage.getItem('points')) {
+    existingResults = sessionStorage.getItem('points');
+    existingName = 'points';
+  }
+  if (sessionStorage.getItem('state')) {
+    existingResults = sessionStorage.getItem('state');
+    existingName = 'state';
+  }
+  if (existingResults !== '') {
+    const existingPointsArray = existingResults.split(',');
     const newPointsArray = existingPointsArray.splice(-1)
     const newPoints = newPointsArray.toString();
-    sessionStorage.setItem('points', `${newPoints}`);
-  }
-}
-
-// if we have right/wrong answer results, delete them from sessionStorage
-function deleteAnswers () {
-  const existingAnswers = sessionStorage.getItem('state');
-  if (existingAnswers) {
-    const existingAnswersArray = existingAnswers.split(',');
-    const newAnswersArray = existingAnswersArray.splice(-1)
-    const newAnswers = newAnswersArray.toString();
-    sessionStorage.setItem('state', `${newAnswers}`);
+    sessionStorage.setItem(existingName, `${newPoints}`);
   }
 }
 
@@ -461,10 +436,14 @@ function showResult () {
   if (resultScreens.length === 1) {
     document.querySelectorAll('[nqy-step="final"]').item(0).style.display = 'block';
   } else {
-    for (let i = 0; i < resultScreens.length; i++) {
-      const minRange = Number(resultScreens[i].getAttribute('nqy-range-from'));
-      const maxRange = Number(resultScreens[i].getAttribute('nqy-range-to'));
-      minRange <= pointFinalSum && pointFinalSum <= maxRange ? resultScreens[i].style.display = 'block' : null;
+    const matchingResultScreen = Array.from(resultScreens).find(resultScreen => {
+      const minRange = Number(resultScreen.getAttribute('nqy-range-from'));
+      const maxRange = Number(resultScreen.getAttribute('nqy-range-to'));
+      return minRange <= pointFinalSum && pointFinalSum <= maxRange;
+    });
+
+    if (matchingResultScreen) {
+      matchingResultScreen.style.display = 'block';
     }
   }
   if (pointNumber.length !== 0) {
@@ -548,33 +527,58 @@ checkboxAll.forEach((checkbox) => {
   })
 })
 
-// custom error toast message display
-function showError (value) {
-  const toastError = document.querySelector('.toast-message');
-  if (!toastError) {
-    const toastMessage = document.createElement('div');
-    toastMessage.style.position = 'fixed';
-    toastMessage.style.bottom = '2%';
-    toastMessage.style.left = '50%';
-    toastMessage.style.marginLeft = '-25%';
-    toastMessage.style.width = '50%';
-    toastMessage.style.backgroundColor = '#CC0000';
-    toastMessage.style.color = '#ffffff';
-    toastMessage.style.padding = '1.5rem';
-    toastMessage.style.textAlign = 'center';
-    toastMessage.innerHTML = value;
-    document.body.appendChild(toastMessage);
-    setTimeout(function () {
-      toastMessage.style.display = 'none';
-    }, 2000);
-  } else {
-    toastError.innerHTML = value;
-    toastError.style.display = 'block';
-    setTimeout(function () {
-      toastError.style.display = 'none';
-    }, 2000)
-  }
+// getting the final data for the db
+function getDbData () {
+  let userName, userEmail, quizName, totalPoints, userAnswers;
+  const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
+  sessionStorage.getItem('points') ? totalPoints = sessionStorage.getItem('points') : totalPoints = 'null';
+  sessionStorage.getItem('all-answers') ? userAnswers = sessionStorage.getItem('all-answers') : userAnswers = 'null';
+  document.querySelector('[nny-quiz="user-name"]') ? userName = document.querySelector('[nny-quiz="user-name"]').value : userName = 'null';
+  document.querySelector('[nny-quiz="user-email"]') ? userEmail = document.querySelector('[nny-quiz="user-email"]').value : userEmail = 'null';
+  document.querySelector('[nny-quiz="quiz-name"]') ? quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML : quizName = 'undefined';
+  sessionStorage.setItem('current-email', userEmail);
+  sendPoints(userName, userEmail, quizName, totalPoints, userAnswers, currentUserId);
 }
+
+if (document.querySelector('[nny-quiz="submit"]')) {
+  document.querySelector('[nny-quiz="submit"]').addEventListener('click', getDbData);
+}
+
+// sending the user results to the db
+function sendPoints (userName, userEmail, quizName, totalPoints, userAnswers, currentUserId) {
+  const finalData = {
+    totalPoints,
+    name: userName,
+    email: userEmail,
+    answers: userAnswers,
+    member_uuid: currentUserId,
+    quiz_name: quizName
+  };
+
+  const url = `${apiUrl}/create_participant`
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(finalData)
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.text();
+      }
+      return response.text().then((text) => {
+        throw new Error(text);
+      })
+    })
+    .catch((error) => {
+      showError(error.message);
+    })
+    .finally(() => {
+      showResult('true');
+    })
+};
 
 // show the leaderboard
 function showLeaderboard () {
@@ -584,7 +588,7 @@ function showLeaderboard () {
   const quizName = document.querySelector('[nny-quiz="quiz-name"]').innerHTML;
   const resultScreen = document.querySelector('[nny-quiz="leaderboard-wrapper"]');
   const url =
-        `${apirUrl}/member_current/${currentUserId}/${quizName}`
+        `${apiUrl}/member_current/${currentUserId}/${quizName}`
   fetch(url, {
     method: 'GET'
   })
@@ -619,18 +623,13 @@ function showLeaderboard () {
       const lastCommaIndex = originalResultColor.lastIndexOf(',');
       originalResultColor = originalResultColor.substring(0, lastCommaIndex);
 
-      let loopTime
-      if (data.length < 11) {
-        loopTime = data.length;
-      } else {
-        loopTime = 10;
-      }
-      let currentParticipantDb;
-      const currentEmailLocalStorage = localStorage.getItem('currentEmail') // ADD EMAIL TO LOCAL STORAGE!!!
+      let loopTime;
+      data.length < 11 ? loopTime = data.length : loopTime = 10;
+      const currentEmailLocalStorage = localStorage.getItem('current-email') // ADD EMAIL TO LOCAL STORAGE!!!
       const currentParticipant = currentEmailLocalStorage;
       for (let i = 0; i < data.length; i++) {
         if (currentParticipant === data[i].email) {
-          currentParticipantDb = data[i];
+          const currentParticipantDb = data[i];
           if (i > loopTime) {
             const newCurrentParent = document.createElement('div');
             newCurrentParent.className = leaderboardClass;
@@ -693,9 +692,47 @@ function showLeaderboard () {
     })
 };
 
+const showLeaderboardBtns = document.querySelectorAll('[nny-quiz="show-leaderboard"]')
+if (showLeaderboardBtns) {
+  for (let i = 0; i < showLeaderboardBtns.length; i++) {
+    showLeaderboardBtns[i].addEventListener('click', showLeaderboard)
+  }
+}
+
+// creating custom toast error message
+function createToastMessage () {
+  const toastError = document.querySelector('.toast-message');
+  if (!toastError) {
+    const toastMessage = document.createElement('div');
+    toastMessage.classList.add('toast-message');
+    toastMessage.style.position = 'fixed';
+    toastMessage.style.bottom = '2%';
+    toastMessage.style.left = '50%';
+    toastMessage.style.marginLeft = '-25%';
+    toastMessage.style.width = '50%';
+    toastMessage.style.backgroundColor = '#CC0000';
+    toastMessage.style.color = '#ffffff';
+    toastMessage.style.padding = '1.5rem';
+    toastMessage.style.textAlign = 'center';
+    toastMessage.style.display = 'none';
+    document.body.appendChild(toastMessage);
+  }
+}
+
+// custom error toast message display
+function showError (value) {
+  const toastError = document.querySelector('.toast-message');
+  toastError.innerHTML = value;
+  toastError.style.display = 'block';
+  setTimeout(function () {
+    toastError.style.display = 'none';
+  }, 2000)
+}
+
 // clear session storage on load
 window.onload = () => {
   const currentUserId = document.querySelector('script[data-quiz-id]').getAttribute('data-quiz-id');
   getMemberStatus(currentUserId);
+  createToastMessage();
   sessionStorage.clear();
 }
